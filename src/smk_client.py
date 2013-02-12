@@ -1,6 +1,8 @@
 import logging
-logging.basicConfig(level=logging.DEBUG)
 import smarkets
+
+logging.basicConfig(level=logging.DEBUG)
+
 username = 'username'
 password = 'password'
 settings = smarkets.SessionSettings(username, password)
