@@ -1,0 +1,9 @@
+Adapter to provide Betfair SOAP API users ability to use Smarkets API
+
+Dependencies:
+	- ZSI
+		http://sourceforge.net/projects/pywebsvcs/files/latest/download?source=files
+		sudo python setup.py build install
+	- smk_python_sdk
+		https://github.com/smarkets/smk_python_sdk
+		sudo python setup.py build install

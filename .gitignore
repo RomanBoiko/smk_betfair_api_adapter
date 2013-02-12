@@ -1,0 +1,6 @@
+*.pyc
+*.piqi
+*.proto
+build/
+dist/
+wsdl/betfair_api/*soapui-project.xml
