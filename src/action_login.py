@@ -2,6 +2,7 @@ from BFGlobalService_types import *
 from xmlrpclib import datetime
 
 ERROR_CODE_OK = "OK"
+ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
 DEFAULT_CURRENCY = "GBP"
 
 
@@ -14,7 +15,11 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     loginResp._header._errorCode = ERROR_CODE_OK
     loginResp._header._timestamp = dateTime
     loginResp._currency = DEFAULT_CURRENCY
-    loginResp._errorCode = ERROR_CODE_OK
+    if request._request._username == "username":
+        loginResp._header._sessionToken = "dummySessionToken"
+        loginResp._errorCode = ERROR_CODE_OK
+    else:
+        loginResp._errorCode = ERROR_INVALID_USERNAME_OR_PASSWORD
     loginResp._validUntil = dateTime
     loginResponse._Result = loginResp
     return loginResponse
