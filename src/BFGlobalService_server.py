@@ -11,12 +11,12 @@ from ZSI.TCcompound import ComplexType, Struct
 from BFGlobalService_types import *
 from ZSI.ServiceContainer import ServiceSOAPBinding
 from xmlrpclib import datetime
+import action_login
 
 # Messages  
 loginIn = GED("http://www.betfair.com/publicapi/v3/BFGlobalService/", "login").pyclass
 
 loginOut = GED("http://www.betfair.com/publicapi/v3/BFGlobalService/", "loginResponse").pyclass
-#LoginResp = GED("http://www.betfair.com/publicapi/types/global/v3/", "LoginResp").pyclass
 
 retrieveLIMBMessageIn = GED("http://www.betfair.com/publicapi/v3/BFGlobalService/", "retrieveLIMBMessage").pyclass
 
@@ -140,18 +140,11 @@ class BFGlobalService(ServiceSOAPBinding):
         ServiceSOAPBinding.__init__(self, post)
 
     def soap_login(self, ps, **kw):
+        print("=========>")
+        print(ps.dom)
         request = ps.Parse(loginIn.typecode)
-        loginResponse = loginOut()
-        loginResp = ns0.LoginResp_Def(self, ps)
-        loginResp._header = ns0.APIResponseHeader_Def(self, ps)
-        loginResp._header._errorCode = ns0.APIErrorEnum_Def("OK")
-        dateTime = list(datetime.datetime.now().timetuple())
-        loginResp._header._timestamp = dateTime
-        loginResp._currency = "GBP"
-        loginResp._errorCode = ns0.LoginErrorEnum_Def("OK")
-        loginResp._validUntil = list(datetime.datetime.now().timetuple())
-        loginResponse._Result = loginResp
-        return request,loginResponse
+        response = action_login.login(self, ps, request, loginOut())
+        return request,response
 
     soapAction['login'] = 'soap_login'
     root[(loginIn.typecode.nspname,loginIn.typecode.pname)] = 'soap_login'

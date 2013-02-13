@@ -6,5 +6,7 @@ clean:
 
 test:
 	mkdir -p build/test
-	nosetests --with-xunit --quiet --xunit-file=build/test/nosetests.xml tests/acceptance_tests.py
+	nosetests --with-xunit --quiet --xunit-file=build/test/nosetests.xml tests/*.py
 
+run:
+	python src/betfair_soap_api_server.py
