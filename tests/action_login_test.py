@@ -4,7 +4,7 @@ from BFGlobalService_types import *
 import action_login
 import BFGlobalService_server
 
-class CallbackTestCase(unittest.TestCase):
+class LoginActionTest(unittest.TestCase):
     webService = BFGlobalService_server.BFGlobalService()
 
     #DUMMY, we shouldn't give input as XML in unit tests

@@ -140,8 +140,6 @@ class BFGlobalService(ServiceSOAPBinding):
         ServiceSOAPBinding.__init__(self, post)
 
     def soap_login(self, ps, **kw):
-        print("=========>")
-        print(ps.dom)
         request = ps.Parse(loginIn.typecode)
         response = action_login.login(self, ps, request, loginOut())
         return request,response

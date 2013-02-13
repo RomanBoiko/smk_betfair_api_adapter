@@ -1,8 +1,5 @@
 from ZSI.ServiceContainer import ServiceContainer, SOAPRequestHandler
 from BFGlobalService_server import *
-#from BFGlobalService_types import *
-
-import os
 
 class MySOAPRequestHandler(SOAPRequestHandler):
 
