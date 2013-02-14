@@ -1,8 +1,9 @@
 import unittest
 
 import httplib
-import BFGlobalService_server
+from xml.dom.minidom import parseString
 
+import BFGlobalService_server
 from BFGlobalService_types import *
 import action_login
 
@@ -10,7 +11,7 @@ HOST="localhost"
 PORT=8080
 BETFAIR_SERVICE = "/BFGlobalService"
 
-class AcceptanceTest(unittest.TestCase):
+class LoginAcceptanceTest(unittest.TestCase):
 
     loginRequest = """<?xml version="1.0" encoding="UTF-8"?>
                     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bfg="http://www.betfair.com/publicapi/v3/BFGlobalService/">
@@ -30,19 +31,15 @@ class AcceptanceTest(unittest.TestCase):
                     </soapenv:Envelope>"""
 
     def test_that_valid_credentials_are_causing_successful_login(self):
-        response = self.getServerReply(self.loginRequest%("password", "login"))
-        parserResponse = ZSI.parse.ParsedSoap(response, None).Parse(BFGlobalService_server.loginOut.typecode)
-
-        self.assertEquals(parserResponse._Result._errorCode, action_login.ERROR_CODE_OK)
-        self.assertGreater(len(parserResponse._Result._header._sessionToken), 0)
+        responseDom = parseString(self.getServerReply(self.loginRequest%("password", "login")))
+        self.assertEquals(textFromElement(responseDom, "errorCode", 1), action_login.ERROR_CODE_OK)
+        self.assertGreater(len(textFromElement(responseDom, "sessionToken", 0)), 0)
+#
 
     def test_that_invalid_credentials_are_causing_login_failure(self):
-        response = self.getServerReply(self.loginRequest%("wrongpassword", "wronglogin"))
-        parserResponse = ZSI.parse.ParsedSoap(response, None).Parse(BFGlobalService_server.loginOut.typecode)
-
-        self.assertEquals(parserResponse._Result._errorCode, action_login.ERROR_INVALID_USERNAME_OR_PASSWORD)
-        self.assertEquals(parserResponse._Result._header._sessionToken, None)
-
+        responseDom = parseString(self.getServerReply(self.loginRequest%("wrongpassword", "wronglogin")))
+        self.assertEquals(textFromElement(responseDom, "errorCode", 1), action_login.ERROR_INVALID_USERNAME_OR_PASSWORD)
+        self.assertEquals(responseDom.getElementsByTagName("sessionToken")[0].firstChild, None)
 
 
 
@@ -59,3 +56,6 @@ class AcceptanceTest(unittest.TestCase):
         response = http_conn.getfile().read() 
         return response
 
+
+def textFromElement(dom, elementName, elementPosition):
+    return dom.getElementsByTagName(elementName)[elementPosition].firstChild.nodeValue
