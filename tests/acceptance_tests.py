@@ -6,9 +6,10 @@ from xml.dom.minidom import parseString
 import BFGlobalService_server
 from BFGlobalService_types import *
 import action_login
+import adapter_context
 
 HOST="localhost"
-PORT=8080
+PORT=int(adapter_context.BETFAIR_API_PORT)
 BETFAIR_SERVICE = "/BFGlobalService"
 
 class LoginAcceptanceTest(unittest.TestCase):
