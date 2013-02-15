@@ -163,7 +163,8 @@ class BFGlobalService(ServiceSOAPBinding):
 
     def soap_logout(self, ps, **kw):
         request = ps.Parse(logoutIn.typecode)
-        return request,logoutOut()
+        response = action_login.logout(self, ps, request, logoutOut())
+        return request,response
 
     soapAction['logout'] = 'soap_logout'
     root[(logoutIn.typecode.nspname,logoutIn.typecode.pname)] = 'soap_logout'
