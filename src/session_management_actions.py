@@ -35,10 +35,7 @@ def logUserOutAndReturnResultOfAction(sessionToken):
     else:
         return False
 
-#-refactor
-#-cover with units
-#-add currency and other personal data
-#+covered with acceptance test
+#+covered with acceptance test as verbose to unit test of markup generation
 def login(soapBinding, typeDefinition, request, loginResponse):
     dateTime = currentDateTime()
 
@@ -58,6 +55,7 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     except SocketDisconnected:
         loginResp._errorCode = ERROR_INVALID_USERNAME_OR_PASSWORD
 
+    loginResp._minorErrorCode = "age.verification.required"
     loginResp._validUntil = dateTime
     loginResponse._Result = loginResp
     return loginResponse

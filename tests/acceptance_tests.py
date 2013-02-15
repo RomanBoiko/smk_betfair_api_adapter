@@ -16,6 +16,43 @@ SESSION_TOKEN_TAG="sessionToken"
 
 class SessionManagementAcceptanceTest(unittest.TestCase):
 
+
+    def test_that_valid_credentials_are_causing_successful_login(self):
+        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
+        
+        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
+        sessionToken = self.sessionTokenFrom(responseDom)
+        self.assertEquals(len(sessionToken), session_management_actions.SESSION_TOKEN_LENGTH)
+
+        self.getLogoutResponseDom(sessionToken)
+
+    def test_that_invalid_credentials_are_causing_login_failure(self):
+        responseDom = self.getLoginResponseDom('wrongLogin_' + str(time.time()), 'wrongPassword')
+        
+        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_INVALID_USERNAME_OR_PASSWORD)
+        self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
+
+    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
+        responseDom = self.getLogoutResponseDom("invalidSessionToken")
+        #THEN
+        self.assertErrorCodeInHeaderIs(responseDom, session_management_actions.ERROR_NO_SESSION)
+        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_API_ERROR)
+
+    def test_that_logout_with_valid_session_token_results_successfuly(self):
+        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
+        validSessionToken = self.sessionTokenFrom(responseDom)
+        responseDom = self.getLogoutResponseDom(validSessionToken)
+        #THEN
+        self.assertErrorCodeInHeaderIs(responseDom, session_management_actions.ERROR_CODE_OK)
+        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
+        
+    def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
+        self.assertEquals(textFromElement(response, ERROR_CODE_TAG, 0), expectedErrorCode)
+    def assertResultErrorCodeIs(self, response, expectedErrorCode):
+        self.assertEquals(textFromElement(response, ERROR_CODE_TAG, 1), expectedErrorCode)
+    def sessionTokenFrom(self, response):
+        return textFromElement(response, SESSION_TOKEN_TAG, 0)
+
     loginRequest = """<bfg:login>
                          <bfg:request>
                             <ipAddress>0</ipAddress>
@@ -31,22 +68,6 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
         loginRequest = soapMessage(self.loginRequest%(username, password))
         return parseString(getServerReply(loginRequest))
 
-    def test_that_valid_credentials_are_causing_successful_login(self):
-        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
-        
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_CODE_OK)
-        sessionToken = textFromElement(responseDom, SESSION_TOKEN_TAG, 0)
-        self.assertEquals(len(sessionToken), session_management_actions.SESSION_TOKEN_LENGTH)
-
-        self.getLogoutResponseDom(sessionToken)
-
-    def test_that_invalid_credentials_are_causing_login_failure(self):
-        responseDom = self.getLoginResponseDom('wrongLogin_' + str(time.time()), 'wrongPassword')
-        
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_INVALID_USERNAME_OR_PASSWORD)
-        self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
-
-
     logoutRequest = """<bfg:logout>
                          <bfg:request>
                             <header>
@@ -59,21 +80,6 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
     def getLogoutResponseDom(self, sessionToken):
         logoutRequest = soapMessage(self.logoutRequest%(sessionToken))
         return parseString(getServerReply(logoutRequest))
-
-
-    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
-        responseDom = self.getLogoutResponseDom("invalidSessionToken")
-
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), session_management_actions.ERROR_NO_SESSION)
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_API_ERROR)
-
-    def test_that_logout_with_valid_session_token_results_successfuly(self):
-        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
-        validSessionToken = textFromElement(responseDom, SESSION_TOKEN_TAG, 0)
-        responseDom = self.getLogoutResponseDom(validSessionToken)
-
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), session_management_actions.ERROR_CODE_OK)
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_CODE_OK)
 
 
 def getServerReply(request):
@@ -94,11 +100,11 @@ def textFromElement(dom, elementName, elementPosition):
     return dom.getElementsByTagName(elementName)[elementPosition].firstChild.nodeValue
 
 SOAP_ENVELOPE = """<?xml version="1.0" encoding="UTF-8"?>
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bfg="http://www.betfair.com/publicapi/v3/BFGlobalService/">
-       <soapenv:Header/>
-       <soapenv:Body>%s</soapenv:Body>
-    </soapenv:Envelope>
-"""
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bfg="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+                       <soapenv:Header/>
+                       <soapenv:Body>%s</soapenv:Body>
+                    </soapenv:Envelope>
+                """
 
 def soapMessage(body):
     return SOAP_ENVELOPE%(body)
