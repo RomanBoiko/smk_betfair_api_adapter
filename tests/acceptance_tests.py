@@ -16,7 +16,7 @@ BETFAIR_SERVICE = "/BFGlobalService"
 ERROR_CODE_TAG="errorCode"
 SESSION_TOKEN_TAG="sessionToken"
 
-class LoginAcceptanceTest(unittest.TestCase):
+class SessionManagementAcceptanceTest(unittest.TestCase):
 
     loginRequest = """<bfg:login>
                          <bfg:request>
@@ -29,25 +29,26 @@ class LoginAcceptanceTest(unittest.TestCase):
                          </bfg:request>
                       </bfg:login>"""
 
+    def getLoginResponseDom(self, username, password):
+        loginRequest = soapMessage(self.loginRequest%(username, password))
+        return parseString(getServerReply(loginRequest))
+
     def test_that_valid_credentials_are_causing_successful_login(self):
-        loginRequest = soapMessage(self.loginRequest%(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN))
-        
-        responseDom = parseString(getServerReply(loginRequest))
+        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
         
         self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_CODE_OK)
-        self.assertEquals(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), session_management_actions.SESSION_TOKEN_LENGTH)
+        sessionToken = textFromElement(responseDom, SESSION_TOKEN_TAG, 0)
+        self.assertEquals(len(sessionToken), session_management_actions.SESSION_TOKEN_LENGTH)
 
+        self.getLogoutResponseDom(sessionToken)
 
     def test_that_invalid_credentials_are_causing_login_failure(self):
-        loginRequest = soapMessage(self.loginRequest%('wrongLogin_' + str(time.time()), 'wrongPassword'))
-
-        responseDom = parseString(getServerReply(loginRequest))
+        responseDom = self.getLoginResponseDom('wrongLogin_' + str(time.time()), 'wrongPassword')
         
         self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_INVALID_USERNAME_OR_PASSWORD)
         self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
-        
-    
-class LogoutAcceptanceTest(unittest.TestCase):
+
+
     logoutRequest = """<bfg:logout>
                          <bfg:request>
                             <header>
@@ -57,14 +58,24 @@ class LogoutAcceptanceTest(unittest.TestCase):
                          </bfg:request>
                       </bfg:logout>"""
 
-    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
-        logoutRequest = soapMessage(self.logoutRequest%("invalidSessionToken"))
+    def getLogoutResponseDom(self, sessionToken):
+        logoutRequest = soapMessage(self.logoutRequest%(sessionToken))
+        return parseString(getServerReply(logoutRequest))
 
-        responseDom = parseString(getServerReply(logoutRequest))
+
+    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
+        responseDom = self.getLogoutResponseDom("invalidSessionToken")
 
         self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), session_management_actions.ERROR_NO_SESSION)
         self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_API_ERROR)
 
+    def test_that_logout_with_valid_session_token_results_successfuly(self):
+        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
+        validSessionToken = textFromElement(responseDom, SESSION_TOKEN_TAG, 0)
+        responseDom = self.getLogoutResponseDom(validSessionToken)
+
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), session_management_actions.ERROR_CODE_OK)
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_CODE_OK)
 
 
 def getServerReply(request):
