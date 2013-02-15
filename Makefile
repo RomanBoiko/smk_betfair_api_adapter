@@ -9,7 +9,7 @@ start:
 
 run_test:
 	mkdir -p build/test
-	nosetests --with-xunit --quiet --xunit-file=build/test/nosetests.xml tests/*.py
+	nosetests --with-xunit --quiet --nocapture --xunit-file=build/test/nosetests.xml tests/*.py
 
 stop:
 	ps aux | grep [b]etfair_soap_api_server | awk '{print $$2}' | xargs kill

@@ -7,10 +7,14 @@ import BFGlobalService_server
 from BFGlobalService_types import *
 import action_login
 import adapter_context
+import time
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
 BETFAIR_SERVICE = "/BFGlobalService"
+
+ERROR_CODE_TAG="errorCode"
+SESSION_TOKEN_TAG="sessionToken"
 
 class LoginAcceptanceTest(unittest.TestCase):
 
@@ -32,15 +36,14 @@ class LoginAcceptanceTest(unittest.TestCase):
                     </soapenv:Envelope>"""
 
     def test_that_valid_credentials_are_causing_successful_login(self):
-        responseDom = parseString(self.getServerReply(self.loginRequest%("password", "login")))
-        self.assertEquals(textFromElement(responseDom, "errorCode", 1), action_login.ERROR_CODE_OK)
-        self.assertGreater(len(textFromElement(responseDom, "sessionToken", 0)), 0)
-#
+        responseDom = parseString(self.getServerReply(self.loginRequest%(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)))
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_CODE_OK)
+        self.assertGreater(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), 0)
 
     def test_that_invalid_credentials_are_causing_login_failure(self):
-        responseDom = parseString(self.getServerReply(self.loginRequest%("wrongpassword", "wronglogin")))
-        self.assertEquals(textFromElement(responseDom, "errorCode", 1), action_login.ERROR_INVALID_USERNAME_OR_PASSWORD)
-        self.assertEquals(responseDom.getElementsByTagName("sessionToken")[0].firstChild, None)
+        responseDom = parseString(self.getServerReply(self.loginRequest%('wrongLogin_' + str(time.time()), 'wrongPassword')))
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_INVALID_USERNAME_OR_PASSWORD)
+        self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
 
 
 
