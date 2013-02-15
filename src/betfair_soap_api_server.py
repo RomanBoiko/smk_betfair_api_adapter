@@ -1,5 +1,6 @@
 from ZSI.ServiceContainer import ServiceContainer, SOAPRequestHandler
-from BFGlobalService_server import *
+from betfair.BFGlobalService_server import *
+import adapter_context
 
 class MySOAPRequestHandler(SOAPRequestHandler):
 
@@ -17,4 +18,4 @@ def BetfairApiServer(port=80, services=(), RequestHandlerClass=SOAPRequestHandle
         sc.setNode(service, path)
     sc.serve_forever()
     
-BetfairApiServer(port=8080, services=[BFGlobalService()], RequestHandlerClass=MySOAPRequestHandler)
+BetfairApiServer(port=int(adapter_context.BETFAIR_API_PORT), services=[BFGlobalService()], RequestHandlerClass=MySOAPRequestHandler)

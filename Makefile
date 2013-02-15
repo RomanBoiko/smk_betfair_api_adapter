@@ -1,8 +1,8 @@
 all: clean
 
 clean:
+	rm -Rf build
 	find . -name "*.pyc" | xargs rm
-	rm -R build
 
 start:
 	python src/betfair_soap_api_server.py  &> server.log &

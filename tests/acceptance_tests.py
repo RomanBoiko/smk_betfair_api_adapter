@@ -3,8 +3,6 @@ import unittest
 import httplib
 from xml.dom.minidom import parseString
 
-import BFGlobalService_server
-from BFGlobalService_types import *
 import session_management_actions
 import adapter_context
 import time

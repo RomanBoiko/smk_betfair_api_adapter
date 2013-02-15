@@ -1,4 +1,4 @@
-from BFGlobalService_types import *
+from betfair.BFGlobalService_types import *
 from xmlrpclib import datetime
 import smk_api
 from smarkets.exceptions import SocketDisconnected

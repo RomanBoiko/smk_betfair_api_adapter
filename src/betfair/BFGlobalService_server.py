@@ -147,6 +147,27 @@ class BFGlobalService(ServiceSOAPBinding):
     soapAction['login'] = 'soap_login'
     root[(loginIn.typecode.nspname,loginIn.typecode.pname)] = 'soap_login'
 
+    def soap_logout(self, ps, **kw):
+        request = ps.Parse(logoutIn.typecode)
+        response = session_management_actions.logout(self, ps, request, logoutOut())
+        return request,response
+
+    soapAction['logout'] = 'soap_logout'
+    root[(logoutIn.typecode.nspname,logoutIn.typecode.pname)] = 'soap_logout'
+    
+
+
+#############################
+#    NOT IMPLEMENTED YET    #
+#############################
+
+    def soap_keepAlive(self, ps, **kw):
+        request = ps.Parse(keepAliveIn.typecode)
+        return request,keepAliveOut()
+
+    soapAction['keepAlive'] = 'soap_keepAlive'
+    root[(keepAliveIn.typecode.nspname,keepAliveIn.typecode.pname)] = 'soap_keepAlive'
+
     def soap_retrieveLIMBMessage(self, ps, **kw):
         request = ps.Parse(retrieveLIMBMessageIn.typecode)
         return request,retrieveLIMBMessageOut()
@@ -160,21 +181,6 @@ class BFGlobalService(ServiceSOAPBinding):
 
     soapAction['submitLIMBMessage'] = 'soap_submitLIMBMessage'
     root[(submitLIMBMessageIn.typecode.nspname,submitLIMBMessageIn.typecode.pname)] = 'soap_submitLIMBMessage'
-
-    def soap_logout(self, ps, **kw):
-        request = ps.Parse(logoutIn.typecode)
-        response = session_management_actions.logout(self, ps, request, logoutOut())
-        return request,response
-
-    soapAction['logout'] = 'soap_logout'
-    root[(logoutIn.typecode.nspname,logoutIn.typecode.pname)] = 'soap_logout'
-
-    def soap_keepAlive(self, ps, **kw):
-        request = ps.Parse(keepAliveIn.typecode)
-        return request,keepAliveOut()
-
-    soapAction['keepAlive'] = 'soap_keepAlive'
-    root[(keepAliveIn.typecode.nspname,keepAliveIn.typecode.pname)] = 'soap_keepAlive'
 
     def soap_getEvents(self, ps, **kw):
         request = ps.Parse(getEventsIn.typecode)
@@ -302,6 +308,27 @@ class BFGlobalService(ServiceSOAPBinding):
     soapAction['modifyProfile'] = 'soap_modifyProfile'
     root[(modifyProfileIn.typecode.nspname,modifyProfileIn.typecode.pname)] = 'soap_modifyProfile'
 
+
+    def soap_withdrawByBankTransfer(self, ps, **kw):
+        request = ps.Parse(withdrawByBankTransferIn.typecode)
+        return request,withdrawByBankTransferOut()
+
+    soapAction['withdrawByBankTransfer'] = 'soap_withdrawByBankTransfer'
+    root[(withdrawByBankTransferIn.typecode.nspname,withdrawByBankTransferIn.typecode.pname)] = 'soap_withdrawByBankTransfer'
+
+
+    def soap_transferFunds(self, ps, **kw):
+        request = ps.Parse(transferFundsIn.typecode)
+        return request,transferFundsOut()
+
+    soapAction['transferFunds'] = 'soap_transferFunds'
+    root[(transferFundsIn.typecode.nspname,transferFundsIn.typecode.pname)] = 'soap_transferFunds'
+
+
+####################################
+#    UNLIKELY NEED TO BE IMPLEMENTED
+####################################
+
     def soap_createAccount(self, ps, **kw):
         request = ps.Parse(createAccountIn.typecode)
         return request,createAccountOut()
@@ -323,24 +350,9 @@ class BFGlobalService(ServiceSOAPBinding):
     soapAction['modifyPassword'] = 'soap_modifyPassword'
     root[(modifyPasswordIn.typecode.nspname,modifyPasswordIn.typecode.pname)] = 'soap_modifyPassword'
 
-    def soap_withdrawByBankTransfer(self, ps, **kw):
-        request = ps.Parse(withdrawByBankTransferIn.typecode)
-        return request,withdrawByBankTransferOut()
-
-    soapAction['withdrawByBankTransfer'] = 'soap_withdrawByBankTransfer'
-    root[(withdrawByBankTransferIn.typecode.nspname,withdrawByBankTransferIn.typecode.pname)] = 'soap_withdrawByBankTransfer'
-
     def soap_setChatName(self, ps, **kw):
         request = ps.Parse(setChatNameIn.typecode)
         return request,setChatNameOut()
 
     soapAction['setChatName'] = 'soap_setChatName'
     root[(setChatNameIn.typecode.nspname,setChatNameIn.typecode.pname)] = 'soap_setChatName'
-
-    def soap_transferFunds(self, ps, **kw):
-        request = ps.Parse(transferFundsIn.typecode)
-        return request,transferFundsOut()
-
-    soapAction['transferFunds'] = 'soap_transferFunds'
-    root[(transferFundsIn.typecode.nspname,transferFundsIn.typecode.pname)] = 'soap_transferFunds'
-
