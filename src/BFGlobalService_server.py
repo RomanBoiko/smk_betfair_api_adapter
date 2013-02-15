@@ -11,7 +11,7 @@ from ZSI.TCcompound import ComplexType, Struct
 from BFGlobalService_types import *
 from ZSI.ServiceContainer import ServiceSOAPBinding
 from xmlrpclib import datetime
-import action_login
+import session_management_actions
 
 # Messages  
 loginIn = GED("http://www.betfair.com/publicapi/v3/BFGlobalService/", "login").pyclass
@@ -141,7 +141,7 @@ class BFGlobalService(ServiceSOAPBinding):
 
     def soap_login(self, ps, **kw):
         request = ps.Parse(loginIn.typecode)
-        response = action_login.login(self, ps, request, loginOut())
+        response = session_management_actions.login(self, ps, request, loginOut())
         return request,response
 
     soapAction['login'] = 'soap_login'
@@ -163,7 +163,7 @@ class BFGlobalService(ServiceSOAPBinding):
 
     def soap_logout(self, ps, **kw):
         request = ps.Parse(logoutIn.typecode)
-        response = action_login.logout(self, ps, request, logoutOut())
+        response = session_management_actions.logout(self, ps, request, logoutOut())
         return request,response
 
     soapAction['logout'] = 'soap_logout'

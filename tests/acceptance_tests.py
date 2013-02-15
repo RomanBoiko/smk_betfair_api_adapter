@@ -5,7 +5,7 @@ from xml.dom.minidom import parseString
 
 import BFGlobalService_server
 from BFGlobalService_types import *
-import action_login
+import session_management_actions
 import adapter_context
 import time
 
@@ -34,8 +34,8 @@ class LoginAcceptanceTest(unittest.TestCase):
         
         responseDom = parseString(getServerReply(loginRequest))
         
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_CODE_OK)
-        self.assertEquals(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), action_login.SESSION_TOKEN_LENGTH)
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_CODE_OK)
+        self.assertEquals(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), session_management_actions.SESSION_TOKEN_LENGTH)
 
 
     def test_that_invalid_credentials_are_causing_login_failure(self):
@@ -43,7 +43,7 @@ class LoginAcceptanceTest(unittest.TestCase):
 
         responseDom = parseString(getServerReply(loginRequest))
         
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_INVALID_USERNAME_OR_PASSWORD)
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_INVALID_USERNAME_OR_PASSWORD)
         self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
         
     
@@ -62,8 +62,8 @@ class LogoutAcceptanceTest(unittest.TestCase):
 
         responseDom = parseString(getServerReply(logoutRequest))
 
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), action_login.ERROR_NO_SESSION)
-        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_API_ERROR)
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 0), session_management_actions.ERROR_NO_SESSION)
+        self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), session_management_actions.ERROR_API_ERROR)
 
 
 
