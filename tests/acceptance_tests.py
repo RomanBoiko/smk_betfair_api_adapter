@@ -38,7 +38,7 @@ class LoginAcceptanceTest(unittest.TestCase):
     def test_that_valid_credentials_are_causing_successful_login(self):
         responseDom = parseString(self.getServerReply(self.loginRequest%(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)))
         self.assertEquals(textFromElement(responseDom, ERROR_CODE_TAG, 1), action_login.ERROR_CODE_OK)
-        self.assertGreater(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), 0)
+        self.assertEquals(len(textFromElement(responseDom, SESSION_TOKEN_TAG, 0)), action_login.SESSION_TOKEN_LENGTH)
 
     def test_that_invalid_credentials_are_causing_login_failure(self):
         responseDom = parseString(self.getServerReply(self.loginRequest%('wrongLogin_' + str(time.time()), 'wrongPassword')))
