@@ -15,6 +15,26 @@ SESSION_TOKEN_LENGTH=32
 
 AUTHENTICATED_USERS_CACHE={}
 
+def currentDateTime():
+    return list(datetime.datetime.now().timetuple())
+
+def newSessionId():
+    return uuid.uuid4().hex
+
+def authenticateUserAndReturnHisSessionToken(username, password):
+    client = smk_api.login(username, password)
+    sessionToken = newSessionId()
+    AUTHENTICATED_USERS_CACHE[sessionToken] = client
+    return sessionToken
+
+def logUserOutAndReturnResultOfAction(sessionToken):
+    if sessionToken in AUTHENTICATED_USERS_CACHE :
+        smk_api.logout(AUTHENTICATED_USERS_CACHE[sessionToken])
+        del AUTHENTICATED_USERS_CACHE[sessionToken]
+        return True
+    else:
+        return False
+
 #-refactor
 #-cover with units
 #-add currency and other personal data
@@ -30,23 +50,18 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     
     username = request._request._username
     password = request._request._password
+
     try:
-        client = smk_api.login(username, password)
-        sessionToken = newSessionId()
-        AUTHENTICATED_USERS_CACHE[sessionToken] = client
+        sessionToken = authenticateUserAndReturnHisSessionToken(username, password)
         loginResp._header._sessionToken = sessionToken
         loginResp._errorCode = ERROR_CODE_OK
     except SocketDisconnected:
         loginResp._errorCode = ERROR_INVALID_USERNAME_OR_PASSWORD
+
     loginResp._validUntil = dateTime
     loginResponse._Result = loginResp
     return loginResponse
 
-def currentDateTime():
-    return list(datetime.datetime.now().timetuple())
-
-def newSessionId():
-    return uuid.uuid4().hex
 
 def logout(soapBinding, typeDefinition, request, logoutResponse):
     logoutResp = ns0.LogoutResp_Def(soapBinding, typeDefinition)
@@ -55,10 +70,9 @@ def logout(soapBinding, typeDefinition, request, logoutResponse):
     logoutResp._header._sessionToken = None
     
     sessionToken = request._request._header._sessionToken
-
-    if sessionToken in AUTHENTICATED_USERS_CACHE :
-        smk_api.logout(AUTHENTICATED_USERS_CACHE[sessionToken])
-        del AUTHENTICATED_USERS_CACHE[sessionToken]
+    logoutActionResult = logUserOutAndReturnResultOfAction(sessionToken)
+    
+    if logoutActionResult :
         logoutResp._header._errorCode = ERROR_CODE_OK
         logoutResp._errorCode = ERROR_CODE_OK
     else:
