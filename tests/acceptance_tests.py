@@ -19,7 +19,7 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
 
 
     def test_that_valid_credentials_are_causing_successful_login(self):
-        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
+        responseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
         
         self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
         sessionToken = self.sessionTokenFrom(responseDom)
@@ -40,7 +40,7 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
         self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_API_ERROR)
 
     def test_that_logout_with_valid_session_token_results_successfuly(self):
-        responseDom = self.getLoginResponseDom(adapter_context.SMK_PASSWORD, adapter_context.SMK_LOGIN)
+        responseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
         validSessionToken = self.sessionTokenFrom(responseDom)
         responseDom = self.getLogoutResponseDom(validSessionToken)
         #THEN

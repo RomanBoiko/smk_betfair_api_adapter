@@ -11,11 +11,11 @@ Dependencies:
 
 Running:
 	- set next environment variables:
-		SMK_LOGIN - mandatory
-		SMK_PASSWORD - mandatory
-		SMK_API_HOST - defaults to smarkets API sandbox host
-		SMK_API_PORT - defaults to smarkets API sandbox port
-		BETFAIR_API_PORT - defaults to 8080
+		TEST_SMK_LOGIN    - mandatory
+		TEST_SMK_PASSWORD - mandatory
+		SMK_API_HOST      - defaults to smarkets API sandbox host
+		SMK_API_PORT      - defaults to smarkets API sandbox port
+		BETFAIR_API_PORT  - defaults to 8080
 	- run "make test" to ensure everything works fine
 	- run "make start" to start the adapter
 	- run "make stop" to stop the adapter
