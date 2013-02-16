@@ -40,12 +40,12 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
         self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_API_ERROR)
 
     def test_that_logout_with_valid_session_token_results_successfuly(self):
-        responseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
-        validSessionToken = self.sessionTokenFrom(responseDom)
-        responseDom = self.getLogoutResponseDom(validSessionToken)
+        loginResponseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
+        validSessionToken = self.sessionTokenFrom(loginResponseDom)
+        logoutResponseDom = self.getLogoutResponseDom(validSessionToken)
         #THEN
-        self.assertErrorCodeInHeaderIs(responseDom, session_management_actions.ERROR_CODE_OK)
-        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
+        self.assertErrorCodeInHeaderIs(logoutResponseDom, session_management_actions.ERROR_CODE_OK)
+        self.assertResultErrorCodeIs(logoutResponseDom, session_management_actions.ERROR_CODE_OK)
         
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
         self.assertEquals(textFromElement(response, ERROR_CODE_TAG, 0), expectedErrorCode)
