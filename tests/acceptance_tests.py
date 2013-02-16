@@ -6,6 +6,7 @@ from xml.dom.minidom import parseString
 import session_management_actions
 import adapter_context
 import time
+from session_management_actions import SessionStorage
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -22,7 +23,7 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
         
         self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
         sessionToken = self.sessionTokenFrom(responseDom)
-        self.assertEquals(len(sessionToken), session_management_actions.SESSION_TOKEN_LENGTH)
+        self.assertEquals(len(sessionToken), SessionStorage.SESSION_TOKEN_LENGTH)
 
         self.getLogoutResponseDom(sessionToken)
 

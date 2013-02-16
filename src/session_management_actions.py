@@ -3,6 +3,7 @@ from xmlrpclib import datetime
 import smk_api
 from smarkets.exceptions import SocketDisconnected
 import uuid
+import logging
 
 ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
@@ -11,29 +12,42 @@ ERROR_API_ERROR = "API_ERROR"
 
 DEFAULT_CURRENCY = "GBP"
 
-SESSION_TOKEN_LENGTH=32
+class SessionStorage(object):
+    "Encapsulates client authentication actions and active clients storage"
+    SESSION_TOKEN_LENGTH=32
+    LOGGER = logging.getLogger('smarkets.session.storage')
+    INSTANCE = None
+    def __new__(cls, *args, **kwargs):
+        if not cls.INSTANCE:
+            cls.INSTANCE = super(SessionStorage, cls).__new__(
+                                cls, *args, **kwargs)
+        return cls.INSTANCE
 
-AUTHENTICATED_USERS_CACHE={}
+    def __init__(self):
+        self.authenticatedClients = {}
+        self.LOGGER.info("empty Smarkets SessionStorage started ")
+
+    def newSessionId(self):
+        return uuid.uuid4().hex
+    
+    def authenticateUserAndReturnHisSessionToken(self, username, password):
+        client = smk_api.login(username, password)
+        sessionToken = self.newSessionId()
+        self.authenticatedClients[sessionToken] = client
+        return sessionToken
+    
+    def logUserOutAndReturnResultOfAction(self, sessionToken):
+        if sessionToken in self.authenticatedClients :
+            smk_api.logout(self.authenticatedClients[sessionToken])
+            del self.authenticatedClients[sessionToken]
+            return True
+        else:
+            return False
+
+SESSION_STORAGE = SessionStorage()
 
 def currentDateTime():
     return list(datetime.datetime.now().timetuple())
-
-def newSessionId():
-    return uuid.uuid4().hex
-
-def authenticateUserAndReturnHisSessionToken(username, password):
-    client = smk_api.login(username, password)
-    sessionToken = newSessionId()
-    AUTHENTICATED_USERS_CACHE[sessionToken] = client
-    return sessionToken
-
-def logUserOutAndReturnResultOfAction(sessionToken):
-    if sessionToken in AUTHENTICATED_USERS_CACHE :
-        smk_api.logout(AUTHENTICATED_USERS_CACHE[sessionToken])
-        del AUTHENTICATED_USERS_CACHE[sessionToken]
-        return True
-    else:
-        return False
 
 #+covered with acceptance test as verbose to unit test of markup generation
 def login(soapBinding, typeDefinition, request, loginResponse):
@@ -49,7 +63,7 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     password = request._request._password
 
     try:
-        sessionToken = authenticateUserAndReturnHisSessionToken(username, password)
+        sessionToken = SESSION_STORAGE.authenticateUserAndReturnHisSessionToken(username, password)
         loginResp._header._sessionToken = sessionToken
         loginResp._errorCode = ERROR_CODE_OK
     except SocketDisconnected:
@@ -68,7 +82,7 @@ def logout(soapBinding, typeDefinition, request, logoutResponse):
     logoutResp._header._sessionToken = None
     
     sessionToken = request._request._header._sessionToken
-    logoutActionResult = logUserOutAndReturnResultOfAction(sessionToken)
+    logoutActionResult = SESSION_STORAGE.logUserOutAndReturnResultOfAction(sessionToken)
     
     if logoutActionResult :
         logoutResp._header._errorCode = ERROR_CODE_OK
