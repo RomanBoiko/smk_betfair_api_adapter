@@ -1,4 +1,7 @@
 import os
+import logging
+
+logging.basicConfig(level=logging.DEBUG)#, filename="server.log", filemode="w"
 
 TEST_SMK_LOGIN    = os.getenv("TEST_SMK_LOGIN")
 TEST_SMK_PASSWORD = os.getenv("TEST_SMK_PASSWORD")
