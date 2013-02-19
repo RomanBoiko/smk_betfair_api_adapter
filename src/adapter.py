@@ -1,12 +1,15 @@
 from ZSI.ServiceContainer import ServiceContainer, SOAPRequestHandler
-from betfair.BFGlobalService_server import *
+from betfair.BFGlobalService_server import BFGlobalService
 import adapter_context
+import logging
 
-class MySOAPRequestHandler(SOAPRequestHandler):
+LOGGER = logging.getLogger('[adapter]')
+
+class WsdlSOAPRequestHandler(SOAPRequestHandler):
 
     def do_GET(self):
         wsdlfile = "./wsdl/BFGlobalService.wsdl"
-        print ">>>>> using wsdl file", wsdlfile
+        LOGGER.info("Responding with wsdl %s on http request" % wsdlfile)
         wsdl = open(wsdlfile).read()
         self.send_xml(wsdl)
         
@@ -18,4 +21,5 @@ def BetfairApiServer(port=80, services=(), RequestHandlerClass=SOAPRequestHandle
         sc.setNode(service, path)
     sc.serve_forever()
     
-BetfairApiServer(port=int(adapter_context.BETFAIR_API_PORT), services=[BFGlobalService()], RequestHandlerClass=MySOAPRequestHandler)
+LOGGER.info("Starting SMK_BETFAIR adapter on port %s" % adapter_context.BETFAIR_API_PORT)
+BetfairApiServer(port=int(adapter_context.BETFAIR_API_PORT), services=[BFGlobalService()], RequestHandlerClass=WsdlSOAPRequestHandler)

@@ -1,9 +1,7 @@
 from betfair.BFGlobalService_types import *
 from xmlrpclib import datetime
-import smk_api
 from smarkets.exceptions import SocketDisconnected
-import uuid
-import logging
+from business_layer import BusinessUnit
 
 ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
@@ -12,39 +10,7 @@ ERROR_API_ERROR = "API_ERROR"
 
 DEFAULT_CURRENCY = "GBP"
 
-class SessionStorage(object):
-    "Encapsulates client authentication actions and active clients storage"
-    SESSION_TOKEN_LENGTH=32
-    LOGGER = logging.getLogger('smarkets.session.storage')
-    INSTANCE = None
-    def __new__(cls, *args, **kwargs):
-        if not cls.INSTANCE:
-            cls.INSTANCE = super(SessionStorage, cls).__new__(
-                                cls, *args, **kwargs)
-        return cls.INSTANCE
-
-    def __init__(self):
-        self.authenticatedClients = {}
-        self.LOGGER.info("empty Smarkets SessionStorage started ")
-
-    def newSessionId(self):
-        return uuid.uuid4().hex
-    
-    def authenticateUserAndReturnHisSessionToken(self, username, password):
-        client = smk_api.login(username, password)
-        sessionToken = self.newSessionId()
-        self.authenticatedClients[sessionToken] = client
-        return sessionToken
-    
-    def logUserOutAndReturnResultOfAction(self, sessionToken):
-        if sessionToken in self.authenticatedClients :
-            smk_api.logout(self.authenticatedClients[sessionToken])
-            del self.authenticatedClients[sessionToken]
-            return True
-        else:
-            return False
-
-SESSION_STORAGE = SessionStorage()
+BUSINESS_UNIT = BusinessUnit()
 
 def currentDateTime():
     return list(datetime.datetime.now().timetuple())
@@ -63,7 +29,7 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     password = request._request._password
 
     try:
-        sessionToken = SESSION_STORAGE.authenticateUserAndReturnHisSessionToken(username, password)
+        sessionToken = BUSINESS_UNIT.authenticateUserAndReturnHisSessionToken(username, password)
         loginResp._header._sessionToken = sessionToken
         loginResp._errorCode = ERROR_CODE_OK
     except SocketDisconnected:
@@ -82,7 +48,7 @@ def logout(soapBinding, typeDefinition, request, logoutResponse):
     logoutResp._header._sessionToken = None
     
     sessionToken = request._request._header._sessionToken
-    logoutActionResult = SESSION_STORAGE.logUserOutAndReturnResultOfAction(sessionToken)
+    logoutActionResult = BUSINESS_UNIT.logUserOutAndReturnResultOfAction(sessionToken)
     
     if logoutActionResult :
         logoutResp._header._errorCode = ERROR_CODE_OK

@@ -3,10 +3,10 @@ import unittest
 import httplib
 from xml.dom.minidom import parseString
 
-import session_management_actions
+import betfair_api
 import adapter_context
 import time
-from session_management_actions import SessionStorage
+from business_layer import SessionStorage
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -21,7 +21,7 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
     def test_that_valid_credentials_are_causing_successful_login(self):
         responseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
         
-        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_CODE_OK)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         sessionToken = self.sessionTokenFrom(responseDom)
         self.assertEquals(len(sessionToken), SessionStorage.SESSION_TOKEN_LENGTH)
 
@@ -30,22 +30,22 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
     def test_that_invalid_credentials_are_causing_login_failure(self):
         responseDom = self.getLoginResponseDom('wrongLogin_' + str(time.time()), 'wrongPassword')
         
-        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_INVALID_USERNAME_OR_PASSWORD)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_INVALID_USERNAME_OR_PASSWORD)
         self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
 
     def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
         responseDom = self.getLogoutResponseDom("invalidSessionToken")
         #THEN
-        self.assertErrorCodeInHeaderIs(responseDom, session_management_actions.ERROR_NO_SESSION)
-        self.assertResultErrorCodeIs(responseDom, session_management_actions.ERROR_API_ERROR)
+        self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_NO_SESSION)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_API_ERROR)
 
     def test_that_logout_with_valid_session_token_results_successfuly(self):
         loginResponseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
         validSessionToken = self.sessionTokenFrom(loginResponseDom)
         logoutResponseDom = self.getLogoutResponseDom(validSessionToken)
         #THEN
-        self.assertErrorCodeInHeaderIs(logoutResponseDom, session_management_actions.ERROR_CODE_OK)
-        self.assertResultErrorCodeIs(logoutResponseDom, session_management_actions.ERROR_CODE_OK)
+        self.assertErrorCodeInHeaderIs(logoutResponseDom, betfair_api.ERROR_CODE_OK)
+        self.assertResultErrorCodeIs(logoutResponseDom, betfair_api.ERROR_CODE_OK)
         
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
         self.assertEquals(textFromElement(response, ERROR_CODE_TAG, 0), expectedErrorCode)
