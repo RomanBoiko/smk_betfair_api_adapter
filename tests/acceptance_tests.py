@@ -81,7 +81,22 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
     def getLogoutResponseDom(self, sessionToken):
         logoutRequest = soapMessage(self.logoutRequest%(sessionToken))
         return parseString(getServerReply(logoutRequest))
+    
+    getAllEventsRequest = """<bfg:getAllEventTypes>
+         <bfg:request>
+            <header>
+               <clientStamp>0</clientStamp>
+               <sessionToken>%s</sessionToken>
+            </header>
+            <locale>UK</locale>
+         </bfg:request>
+      </bfg:getAllEventTypes>"""
 
+    def test_that_fixed_dummy_list_of_event_types_is_returned(self):
+        request = soapMessage(self.getAllEventsRequest)
+        responseDom = parseString(getServerReply(request))
+        self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
+        self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_CODE_OK)
 
 def getServerReply(request):
     http_conn = httplib.HTTP(HOST, PORT)

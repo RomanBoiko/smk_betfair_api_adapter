@@ -59,3 +59,23 @@ def logout(soapBinding, typeDefinition, request, logoutResponse):
 
     logoutResponse._Result = logoutResp
     return logoutResponse
+
+def getAllEventTypes(soapBinding, typeDefinition, request, response):
+    resp = ns0.GetEventTypesResp_Def(soapBinding, typeDefinition)
+    resp._header = ns0.APIResponseHeader_Def(soapBinding, typeDefinition)
+    resp._header._errorCode = ERROR_CODE_OK
+    resp._header._timestamp = currentDateTime()
+#   todo: to validate token
+    resp._header._sessionToken = request._request._header._sessionToken
+    resp._errorCode = ERROR_CODE_OK
+    
+    resp._eventTypeItems = ns0.ArrayOfEventType_Def(soapBinding, typeDefinition)
+    footballEventType  = ns0.EventType_Def(soapBinding, typeDefinition)
+    footballEventType._id = 1
+    footballEventType._name = "Football"
+    footballEventType._nextMarketId = 0
+    footballEventType._exchangeId = 0
+
+    resp._eventTypeItems._EventType = [footballEventType] 
+    response._Result = resp
+    return response

@@ -154,7 +154,14 @@ class BFGlobalService(ServiceSOAPBinding):
 
     soapAction['logout'] = 'soap_logout'
     root[(logoutIn.typecode.nspname,logoutIn.typecode.pname)] = 'soap_logout'
-    
+
+    def soap_getAllEventTypes(self, ps, **kw):
+        request = ps.Parse(getAllEventTypesIn.typecode)
+        response = betfair_api.getAllEventTypes(self, ps, request, getAllEventTypesOut())
+        return request,response
+
+    soapAction['getAllEventTypes'] = 'soap_getAllEventTypes'
+    root[(getAllEventTypesIn.typecode.nspname,getAllEventTypesIn.typecode.pname)] = 'soap_getAllEventTypes'
 
 
 #############################
@@ -195,13 +202,6 @@ class BFGlobalService(ServiceSOAPBinding):
 
     soapAction['getActiveEventTypes'] = 'soap_getActiveEventTypes'
     root[(getActiveEventTypesIn.typecode.nspname,getActiveEventTypesIn.typecode.pname)] = 'soap_getActiveEventTypes'
-
-    def soap_getAllEventTypes(self, ps, **kw):
-        request = ps.Parse(getAllEventTypesIn.typecode)
-        return request,getAllEventTypesOut()
-
-    soapAction['getAllEventTypes'] = 'soap_getAllEventTypes'
-    root[(getAllEventTypesIn.typecode.nspname,getAllEventTypesIn.typecode.pname)] = 'soap_getAllEventTypes'
 
     def soap_getSubscriptionInfo(self, ps, **kw):
         request = ps.Parse(getSubscriptionInfoIn.typecode)
