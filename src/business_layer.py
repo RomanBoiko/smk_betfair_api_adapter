@@ -22,6 +22,12 @@ class SessionStorage(object):
         sessionToken = self.newSessionId()
         self.authenticatedClients[sessionToken] = client
         return sessionToken
+
+    def getClientIfTokenIsValid(self, sessionToken):
+        if sessionToken in self.authenticatedClients :
+            return self.authenticatedClients[sessionToken]
+        else :
+            return None
     
     def logUserOutAndReturnResultOfAction(self, sessionToken):
         if sessionToken in self.authenticatedClients :
@@ -38,5 +44,6 @@ class BusinessUnit(object):
         self.sessionStorage = SessionStorage()
         self.authenticateUserAndReturnHisSessionToken = self.sessionStorage.authenticateUserAndReturnHisSessionToken
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
+        self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
         self.LOGGER.info("BusinessUnit started ")
 
