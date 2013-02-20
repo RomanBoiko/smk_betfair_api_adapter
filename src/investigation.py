@@ -1,4 +1,5 @@
 import smk_api
+from smk_api import EventsBroker,SmkDate
 import adapter_context
 import smarkets
 from google.protobuf import text_format
@@ -9,7 +10,9 @@ import sys
 LOGGER = logging.getLogger('[investigation]')
 
 def global_callback(message_name, message):
-    LOGGER.error("------------------> [global] Received a %s: %s" % (message_name, text_format.MessageToString(message)))
+    LOGGER.error("------------------> [global] Received a %s: %s" % 
+                 (message_name,
+                  text_format.MessageToString(message)))
 def logger_callback(message):
     LOGGER.error("################### Received: %s" % (text_format.MessageToString(message)))
 
@@ -34,17 +37,27 @@ def accountState(client):
     client.flush()
     client.read()
 
-#replace from http://vagrant-dev.corp.smarkets.com:37089/api/events/current-affairs/1.pb
-doWithHttpService("http://api-sandbox.smarkets.com:37089/api/events/politics/1.pb")
-doWithHttpService("http://api-sandbox.smarkets.com:37089/api/events/current-affairs/1.pb")
 
 client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-client.add_global_handler(global_callback)
+#client.add_global_handler(global_callback)
 
 try:
-    doWithClient(client, smarkets.events.Politics())
-    doWithClient(client, smarkets.events.CurrentAffairs())
-    accountState(client)
+#    smarkets.events.Politics())
+#    smarkets.events.CurrentAffairs())
+    eventsBroker = EventsBroker()
+    eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
+#    LOGGER.warn("==>"+str(eventsMessage.with_markets[0]))
+    for parent in eventsMessage.parents:
+#        LOGGER.warn("==>GRAND_PARENT: "+str(parent))
+        LOGGER.warn("==>GRAND_PARENT: id=%s, name=%s"%(str(parent.event.low), parent.name))
+    for event in eventsMessage.with_markets:
+        LOGGER.warn("==>EVENT_PARENT: id=%s, name=%s"%(str(event.event.low), event.name))
+        for markets in event.markets:
+            str(1)
+#            LOGGER.warn("==> id=%s, name=%s"%(str(markets.market.low), markets.name))
+#    parents(smarkets.seto.piqi_pb2.EventInfo), with_markets(smarkets.seto.piqi_pb2.EventInfo)
+#    
+#    accountState(client)
 except:
     LOGGER.error("**********error occured")
     LOGGER.error("Unexpected error: %s", sys.exc_info())

@@ -1,0 +1,20 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:n2="http://www.betfair.com/publicapi/types/global/v3/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <n:getEventsResponse xmlns:n="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+         <n:Result xsi:type="n2:GetEventsResp">
+            <header xsi:type="n2:APIResponseHeader">
+               <errorCode xsi:type="n2:APIErrorEnum">OK</errorCode>
+               <minorErrorCode xsi:nil="1"/>
+               <sessionToken xsi:type="xsd:string">TJHQhmU1KNcxLIjJg9DMMRLQ30+9k9ZySS23PtPxjGs=</sessionToken>
+               <timestamp xsi:type="xsd:dateTime">2013-02-20T19:59:39.718Z</timestamp>
+            </header>
+            <errorCode xsi:type="n2:GetEventsErrorEnum">INVALID_EVENT_ID</errorCode>
+            <eventItems xsi:nil="1"/>
+            <eventParentId xsi:type="xsd:int">0</eventParentId>
+            <marketItems xsi:nil="1"/>
+            <couponLinks xsi:nil="1"/>
+            <minorErrorCode xsi:nil="1"/>
+         </n:Result>
+      </n:getEventsResponse>
+   </soap:Body>
+</soap:Envelope>

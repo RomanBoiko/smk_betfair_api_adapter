@@ -2,6 +2,10 @@ from betfair.BFGlobalService_types import *
 from xmlrpclib import datetime
 from smarkets.exceptions import SocketDisconnected
 from business_layer import BusinessUnit
+from smk_api import EventsBroker, SmkDate
+import smk_api
+import adapter_context
+import smarkets
 
 ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
@@ -71,11 +75,44 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     
     resp._eventTypeItems = ns0.ArrayOfEventType_Def(soapBinding, typeDefinition)
     footballEventType  = ns0.EventType_Def(soapBinding, typeDefinition)
-    footballEventType._id = 1
+    footballEventType._id = 121005
     footballEventType._name = "Football"
     footballEventType._nextMarketId = 0
     footballEventType._exchangeId = 0
 
     resp._eventTypeItems._EventType = [footballEventType] 
+    response._Result = resp
+    return response
+
+def event(eventId, eventName, eventParentId, soapBinding, typeDefinition):
+    event = ns0.BFEvent_Def(soapBinding, typeDefinition)
+    event._eventId = eventId
+    event._eventName = eventName
+    event._eventTypeId = eventParentId
+    event._menuLevel = 0#don't know what to use
+    event._orderIndex = 0#don't know what to use
+    event._startTime = currentDateTime()#use constant 0001-01-01T00:00:00.000Z instead
+    event._timezone = "Greenwich Mean Time"#constant
+    return event
+
+def getEvents(soapBinding, typeDefinition, request, response):
+    resp = ns0.GetEventsResp_Def(soapBinding, typeDefinition)
+    resp._header = ns0.APIResponseHeader_Def(soapBinding, typeDefinition)
+    resp._header._errorCode = ERROR_CODE_OK
+    resp._header._timestamp = currentDateTime()
+    #   todo: to validate token
+    resp._header._sessionToken = request._request._header._sessionToken
+    resp._errorCode = ERROR_CODE_OK
+    resp._eventParentId = request._request._eventParentId
+    
+    resp._eventItems = ns0.ArrayOfBFEvent_Def(soapBinding, typeDefinition)
+    resp._eventItems._BFEvent = []
+    client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
+    eventsBroker = EventsBroker()
+    eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
+    for parent in eventsMessage.parents:
+        resp._eventItems._BFEvent.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
+    smk_api.logout(client)
+
     response._Result = resp
     return response

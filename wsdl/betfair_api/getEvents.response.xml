@@ -1,0 +1,633 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:n2="http://www.betfair.com/publicapi/types/global/v3/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <n:getEventsResponse xmlns:n="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+         <n:Result xsi:type="n2:GetEventsResp">
+            <header xsi:type="n2:APIResponseHeader">
+               <errorCode xsi:type="n2:APIErrorEnum">OK</errorCode>
+               <minorErrorCode xsi:nil="1"/>
+               <sessionToken xsi:type="xsd:string">TJHQhmU1KNcxLIjJg9DMMRLQ30+9k9ZySS23PtPxjGs=</sessionToken>
+               <timestamp xsi:type="xsd:dateTime">2013-02-20T20:01:29.825Z</timestamp>
+            </header>
+            <errorCode xsi:type="n2:GetEventsErrorEnum">OK</errorCode>
+            <eventItems xsi:type="n2:ArrayOfBFEvent">
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">467610</eventId>
+                  <eventName xsi:type="xsd:string">Mexican Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2251400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">272252</eventId>
+                  <eventName xsi:type="xsd:string">Turkish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2751200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">549333</eventId>
+                  <eventName xsi:type="xsd:string">Icelandic Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2078100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26843164</eventId>
+                  <eventName xsi:type="xsd:string">Moroccan Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2303900</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">259328</eventId>
+                  <eventName xsi:type="xsd:string">Swiss Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2717500</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">4610</eventId>
+                  <eventName xsi:type="xsd:string">UEFA Europa League</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">782400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26716549</eventId>
+                  <eventName xsi:type="xsd:string">Australian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">931900</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">695516</eventId>
+                  <eventName xsi:type="xsd:string">Hungarian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2075000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">266830</eventId>
+                  <eventName xsi:type="xsd:string">French Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1734400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26595795</eventId>
+                  <eventName xsi:type="xsd:string">Egyptian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1391300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">292087</eventId>
+                  <eventName xsi:type="xsd:string">Greek Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2032300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26693288</eventId>
+                  <eventName xsi:type="xsd:string">U20 CONCACAF Championship</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2830100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">689998</eventId>
+                  <eventName xsi:type="xsd:string">Slovenian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2549800</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">2695886</eventId>
+                  <eventName xsi:type="xsd:string">Scottish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2464500</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26454210</eventId>
+                  <eventName xsi:type="xsd:string">AFC Cup</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">885400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26654145</eventId>
+                  <eventName xsi:type="xsd:string">Peruvian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2321000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26670415</eventId>
+                  <eventName xsi:type="xsd:string">Paraguayan Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2317200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26735411</eventId>
+                  <eventName xsi:type="xsd:string">World Cup 2014</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2900200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">269458</eventId>
+                  <eventName xsi:type="xsd:string">Portuguese Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2360400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">677243</eventId>
+                  <eventName xsi:type="xsd:string">Croatian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1254100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26952112</eventId>
+                  <eventName xsi:type="xsd:string">Euro 2016</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1722000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26653245</eventId>
+                  <eventName xsi:type="xsd:string">Qatari Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2429600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26654159</eventId>
+                  <eventName xsi:type="xsd:string">Ecuadorian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1389200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26672881</eventId>
+                  <eventName xsi:type="xsd:string">Uruguayan Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2869300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26415493</eventId>
+                  <eventName xsi:type="xsd:string">UAE Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2849000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26745612</eventId>
+                  <eventName xsi:type="xsd:string">Israeli Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2098900</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">260828</eventId>
+                  <eventName xsi:type="xsd:string">Austrian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">948500</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">504594</eventId>
+                  <eventName xsi:type="xsd:string">Czech Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1264600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26619721</eventId>
+                  <eventName xsi:type="xsd:string">Japanese Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2243500</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26647704</eventId>
+                  <eventName xsi:type="xsd:string">Chilean Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1116600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">12007415</eventId>
+                  <eventName xsi:type="xsd:string">Friendlies</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1840300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">504597</eventId>
+                  <eventName xsi:type="xsd:string">South African Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2551000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">257600</eventId>
+                  <eventName xsi:type="xsd:string">Spanish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2556800</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26794456</eventId>
+                  <eventName xsi:type="xsd:string">NextGen Series</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2310000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">257608</eventId>
+                  <eventName xsi:type="xsd:string">German Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1876000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26676679</eventId>
+                  <eventName xsi:type="xsd:string">Bahrain Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">987400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">78601</eventId>
+                  <eventName xsi:type="xsd:string">UEFA Champions League</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">701200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">97381</eventId>
+                  <eventName xsi:type="xsd:string">Specials</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2714900</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">466801</eventId>
+                  <eventName xsi:type="xsd:string">Copa Libertadores</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1170000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">415475</eventId>
+                  <eventName xsi:type="xsd:string">Irish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2097600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26671358</eventId>
+                  <eventName xsi:type="xsd:string">Saudi Arabian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2461000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">10142539</eventId>
+                  <eventName xsi:type="xsd:string">Serbian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2538800</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">876120</eventId>
+                  <eventName xsi:type="xsd:string">N Irish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2306700</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">241360</eventId>
+                  <eventName xsi:type="xsd:string">Italian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2116200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">485006</eventId>
+                  <eventName xsi:type="xsd:string">Finnish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1723000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">268452</eventId>
+                  <eventName xsi:type="xsd:string">Argentinian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">888100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26673955</eventId>
+                  <eventName xsi:type="xsd:string">Singaporean Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2539200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">6004851</eventId>
+                  <eventName xsi:type="xsd:string">Romanian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2433900</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">15783124</eventId>
+                  <eventName xsi:type="xsd:string">AFC Champions League</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">865700</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">268451</eventId>
+                  <eventName xsi:type="xsd:string">Brazilian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1047200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26965826</eventId>
+                  <eventName xsi:type="xsd:string">CAF Super Cup</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1111200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">258597</eventId>
+                  <eventName xsi:type="xsd:string">English Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1404300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">3391230</eventId>
+                  <eventName xsi:type="xsd:string">Bulgarian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1109800</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">27065998</eventId>
+                  <eventName xsi:type="xsd:string">Coupons</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">698600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26657675</eventId>
+                  <eventName xsi:type="xsd:string">Hong Kong Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2067600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">436677</eventId>
+                  <eventName xsi:type="xsd:string">Welsh Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2874100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26461353</eventId>
+                  <eventName xsi:type="xsd:string">Indian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2094300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">12945053</eventId>
+                  <eventName xsi:type="xsd:string">Womens Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2879000</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">684215</eventId>
+                  <eventName xsi:type="xsd:string">Slovakian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2549200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26649080</eventId>
+                  <eventName xsi:type="xsd:string">Colombian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1151500</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26671322</eventId>
+                  <eventName xsi:type="xsd:string">Malaysian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2247100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">26870340</eventId>
+                  <eventName xsi:type="xsd:string">Costa Rican Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1247100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">10186483</eventId>
+                  <eventName xsi:type="xsd:string">Ukrainian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2868400</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">268422</eventId>
+                  <eventName xsi:type="xsd:string">Belgian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">993100</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">239215</eventId>
+                  <eventName xsi:type="xsd:string">Danish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1289600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">682395</eventId>
+                  <eventName xsi:type="xsd:string">Russian Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2460300</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">687962</eventId>
+                  <eventName xsi:type="xsd:string">Polish Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">2329200</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+               <n2:BFEvent xsi:type="n2:BFEvent">
+                  <eventId xsi:type="xsd:int">268418</eventId>
+                  <eventName xsi:type="xsd:string">Dutch Soccer</eventName>
+                  <eventTypeId xsi:type="xsd:int">1</eventTypeId>
+                  <menuLevel xsi:type="xsd:int">2</menuLevel>
+                  <orderIndex xsi:type="xsd:int">1294600</orderIndex>
+                  <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+                  <timezone xsi:type="xsd:string">Greenwich Mean Time</timezone>
+               </n2:BFEvent>
+            </eventItems>
+            <eventParentId xsi:type="xsd:int">1</eventParentId>
+            <marketItems xsi:type="n2:ArrayOfMarketSummary"/>
+            <couponLinks xsi:type="n2:ArrayOfCouponLinks"/>
+            <minorErrorCode xsi:nil="1"/>
+         </n:Result>
+      </n:getEventsResponse>
+   </soap:Body>
+</soap:Envelope>

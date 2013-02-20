@@ -163,6 +163,15 @@ class BFGlobalService(ServiceSOAPBinding):
     soapAction['getAllEventTypes'] = 'soap_getAllEventTypes'
     root[(getAllEventTypesIn.typecode.nspname,getAllEventTypesIn.typecode.pname)] = 'soap_getAllEventTypes'
 
+    def soap_getEvents(self, ps, **kw):
+        request = ps.Parse(getEventsIn.typecode)
+        response = betfair_api.getEvents(self, ps, request, getEventsOut())
+        return request, response
+
+    soapAction['getEvents'] = 'soap_getEvents'
+    root[(getEventsIn.typecode.nspname,getEventsIn.typecode.pname)] = 'soap_getEvents'
+
+
 
 #############################
 #    NOT IMPLEMENTED YET    #
@@ -188,13 +197,6 @@ class BFGlobalService(ServiceSOAPBinding):
 
     soapAction['submitLIMBMessage'] = 'soap_submitLIMBMessage'
     root[(submitLIMBMessageIn.typecode.nspname,submitLIMBMessageIn.typecode.pname)] = 'soap_submitLIMBMessage'
-
-    def soap_getEvents(self, ps, **kw):
-        request = ps.Parse(getEventsIn.typecode)
-        return request,getEventsOut()
-
-    soapAction['getEvents'] = 'soap_getEvents'
-    root[(getEventsIn.typecode.nspname,getEventsIn.typecode.pname)] = 'soap_getEvents'
 
     def soap_getActiveEventTypes(self, ps, **kw):
         request = ps.Parse(getActiveEventTypesIn.typecode)

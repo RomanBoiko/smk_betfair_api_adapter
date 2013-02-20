@@ -7,6 +7,7 @@ import betfair_api
 import adapter_context
 import time
 from business_layer import SessionStorage
+import logging
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -82,21 +83,41 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
         logoutRequest = soapMessage(self.logoutRequest%(sessionToken))
         return parseString(getServerReply(logoutRequest))
     
-    getAllEventsRequest = """<bfg:getAllEventTypes>
+    getAllEventTypesRequest = """<bfg:getAllEventTypes>
          <bfg:request>
             <header>
                <clientStamp>0</clientStamp>
                <sessionToken>%s</sessionToken>
             </header>
-            <locale>UK</locale>
+            <locale>en_UK</locale>
          </bfg:request>
       </bfg:getAllEventTypes>"""
 
     def test_that_fixed_dummy_list_of_event_types_is_returned(self):
-        request = soapMessage(self.getAllEventsRequest)
+        request = soapMessage(self.getAllEventTypesRequest)
         responseDom = parseString(getServerReply(request))
         self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
+        self.assertEqual(textFromElement(responseDom, "id", 0), "121005")
         self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_CODE_OK)
+    
+    getEventsRequest = """<bfg:getEvents>
+         <bfg:request>
+            <header>
+               <clientStamp>0</clientStamp>
+               <sessionToken>%s</sessionToken>
+            </header>
+            <eventParentId>%s</eventParentId>
+            <locale>en_UK</locale>
+         </bfg:request>
+      </bfg:getEvents>"""
+      
+    def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
+        footballEventTypeId = "121005"
+        request = soapMessage(self.getEventsRequest%("dummySessionToken", footballEventTypeId))
+        responseDom = parseString(getServerReply(request))
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
+        self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
 
 def getServerReply(request):
     http_conn = httplib.HTTP(HOST, PORT)
