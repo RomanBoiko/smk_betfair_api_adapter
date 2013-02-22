@@ -1,6 +1,7 @@
 import smk_api
 import uuid
 import logging
+import smarkets
 
 DEFAULT_CURRENCY = "GBP"
 
@@ -46,4 +47,9 @@ class BusinessUnit(object):
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
         self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
         self.LOGGER.info("BusinessUnit started ")
+        
+    def getTodaysFootballEvents(self, sessionToken):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        eventsBroker = smk_api.EventsBroker()
+        return eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
 

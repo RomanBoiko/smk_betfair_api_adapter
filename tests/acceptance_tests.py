@@ -155,7 +155,9 @@ def getLogoutResponseDom(sessionToken):
 
 def getLoginResponseDom(username, password):
     loginRequest = soapMessage(loginRequestTemplate%(username, password))
-    return parseString(getServerReply(loginRequest))
+    response = getServerReply(loginRequest)
+    print "-------> login response: "+response
+    return parseString(response)
 
 def textFromElement(dom, elementName, elementPosition):
     return dom.getElementsByTagName(elementName)[elementPosition].firstChild.nodeValue
