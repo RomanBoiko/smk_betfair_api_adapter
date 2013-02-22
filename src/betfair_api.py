@@ -4,6 +4,7 @@ from smarkets.exceptions import SocketDisconnected
 
 from betfair.BFGlobalService_types import *
 from business_layer import BusinessUnit
+import business_layer
 
 ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
@@ -81,7 +82,7 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._eventTypeItems = ns0.ArrayOfEventType_Def(soapBinding, typeDefinition)
         footballEventType  = ns0.EventType_Def(soapBinding, typeDefinition)
-        footballEventType._id = 121005
+        footballEventType._id = business_layer.FOOTBALL_EVENT_TYPE_ID
         footballEventType._name = "Football"
         footballEventType._nextMarketId = 0
         footballEventType._exchangeId = 0
@@ -101,21 +102,35 @@ def event(eventId, eventName, eventParentId, soapBinding, typeDefinition):
     event._timezone = "Greenwich Mean Time"#constant
     return event
 
+class Events(object):
+    def __init__(self):
+        self.parents = []
+        self.parentChildren={}
+
 def getEvents(soapBinding, typeDefinition, request, response):
     resp = ns0.GetEventsResp_Def(soapBinding, typeDefinition)
 
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     resp._errorCode = ERROR_CODE_OK
-    resp._eventParentId = request._request._eventParentId
+    eventParentId = request._request._eventParentId
+    resp._eventParentId = eventParentId
     if sessionToken:
         resp._eventItems = ns0.ArrayOfBFEvent_Def(soapBinding, typeDefinition)
         resp._eventItems._BFEvent = []
         
         eventsMessage = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
-
+        events = Events()
         for parent in eventsMessage.parents:
-            resp._eventItems._BFEvent.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
+            events.parents.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
+            events.parentChildren[str(parent.event.low)]=[]
+        for sportEvent in eventsMessage.with_markets:
+            events.parentChildren[str(sportEvent.parent.low)].append(event(sportEvent.event.low, sportEvent.name, str(sportEvent.parent.low), soapBinding, typeDefinition))
+        
+        if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
+            resp._eventItems._BFEvent = events.parents
+        else :
+            print "do nothing for now, must display events or markets"
     else :
         resp._errorCode = ERROR_API_ERROR
     response._Result = resp

@@ -5,6 +5,7 @@ from xml.dom.minidom import parseString
 
 import adapter_context
 import betfair_api
+import business_layer
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -116,16 +117,16 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         request = soapMessage(getAllEventTypesRequestTemplate%EventsRetrievingTest.validSessionToken)
         responseDom = parseString(getServerReply(request))
         self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
-        self.assertEqual(textFromElement(responseDom, "id", 0), "121005")
+        self.assertEqual(textFromElement(responseDom, "id", 0), str(business_layer.FOOTBALL_EVENT_TYPE_ID))
         self.assertErrorCodesAreOk(responseDom)
     
       
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
-        footballEventTypeId = "121005"
+        footballEventTypeId = str(business_layer.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, footballEventTypeId))
         responseXml = getServerReply(request)
         responseDom = parseString(responseXml)
-        
+
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
 

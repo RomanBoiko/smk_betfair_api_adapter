@@ -6,6 +6,7 @@ import smarkets
 import smk_api
 
 DEFAULT_CURRENCY = "GBP"
+FOOTBALL_EVENT_TYPE_ID = 121005
 
 
 class SessionStorage(object):

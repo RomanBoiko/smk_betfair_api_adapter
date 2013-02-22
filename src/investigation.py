@@ -49,13 +49,14 @@ try:
     eventsBroker = EventsBroker()
     eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
 #    LOGGER.warn("==>"+str(eventsMessage.with_markets[0]))
-    for parent in eventsMessage.parents:
+#    for parent in eventsMessage.parents:
 #        LOGGER.warn("==>GRAND_PARENT: "+str(parent))
-        LOGGER.warn("==>GRAND_PARENT: id=%s, name=%s"%(str(parent.event.low), parent.name))
+#        LOGGER.warn("==>GRAND_PARENT: id=%s, name=%s"%(str(parent.event.low), parent.name))
     for event in eventsMessage.with_markets:
-        LOGGER.warn("==>EVENT_PARENT: id=%s, name=%s"%(str(event.event.low), event.name))
-        for markets in event.markets:
-            str(1)
+        LOGGER.warn("=========>EVENT id=%s, parent=%s, name=%s: %s"%(str(event.event.low), str(event.parent.low), event.name, event))
+        break
+#        for markets in event.markets:
+#            str(1)
 #            LOGGER.warn("==> id=%s, name=%s"%(str(markets.market.low), markets.name))
 #    parents(smarkets.seto.piqi_pb2.EventInfo), with_markets(smarkets.seto.piqi_pb2.EventInfo)
 #    
