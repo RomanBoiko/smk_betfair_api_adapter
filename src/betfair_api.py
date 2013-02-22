@@ -113,6 +113,8 @@ def getEvents(soapBinding, typeDefinition, request, response):
         eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
         for parent in eventsMessage.parents:
             resp._eventItems._BFEvent.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
-
+    else:
+        resp._header._errorCode = ERROR_NO_SESSION
+        resp._errorCode = ERROR_API_ERROR
     response._Result = resp
     return response

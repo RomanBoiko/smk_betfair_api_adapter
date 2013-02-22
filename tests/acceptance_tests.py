@@ -7,7 +7,6 @@ import betfair_api
 import adapter_context
 import time
 from business_layer import SessionStorage
-import logging
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -16,8 +15,8 @@ BETFAIR_SERVICE = "/BFGlobalService"
 ERROR_CODE_TAG="errorCode"
 SESSION_TOKEN_TAG="sessionToken"
 
-class SessionManagementAcceptanceTest(unittest.TestCase):
 
+class SessionManagementAcceptanceTest(unittest.TestCase):
 
     def test_that_valid_credentials_are_causing_successful_login(self):
         responseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
@@ -112,10 +111,18 @@ class SessionManagementAcceptanceTest(unittest.TestCase):
       </bfg:getEvents>"""
       
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
+        loginResponseDom = self.getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
+        validSessionToken = self.sessionTokenFrom(loginResponseDom)
         footballEventTypeId = "121005"
-        request = soapMessage(self.getEventsRequest%("dummySessionToken", footballEventTypeId))
-        responseDom = parseString(getServerReply(request))
+        request = soapMessage(self.getEventsRequest%(validSessionToken, footballEventTypeId))
+        responseXml = getServerReply(request)
+        responseDom = parseString(responseXml)
+
+        self.getLogoutResponseDom(validSessionToken)
+        
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
+
         self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
 
