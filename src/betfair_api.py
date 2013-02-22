@@ -107,12 +107,12 @@ def getEvents(soapBinding, typeDefinition, request, response):
     
     resp._eventItems = ns0.ArrayOfBFEvent_Def(soapBinding, typeDefinition)
     resp._eventItems._BFEvent = []
-    client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-    eventsBroker = EventsBroker()
-    eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
-    for parent in eventsMessage.parents:
-        resp._eventItems._BFEvent.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
-    smk_api.logout(client)
+    client = BUSINESS_UNIT.getClientIfTokenIsValid(resp._header._sessionToken)
+    if client :
+        eventsBroker = EventsBroker()
+        eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
+        for parent in eventsMessage.parents:
+            resp._eventItems._BFEvent.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
 
     response._Result = resp
     return response
