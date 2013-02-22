@@ -1,9 +1,11 @@
 import unittest
-import smk_api
 import time
-import adapter_context
 
 from smarkets.exceptions import SocketDisconnected
+
+import adapter_context
+import smk_api
+
 
 class SmkApiTest(unittest.TestCase):
 

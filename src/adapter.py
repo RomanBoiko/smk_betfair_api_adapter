@@ -1,7 +1,9 @@
-from ZSI.ServiceContainer import ServiceContainer, SOAPRequestHandler
-from betfair.BFGlobalService_server import BFGlobalService
-import adapter_context
 import logging
+from ZSI.ServiceContainer import ServiceContainer, SOAPRequestHandler
+
+from betfair.BFGlobalService_server import BFGlobalService
+
+import adapter_context
 
 LOGGER = logging.getLogger('[adapter]')
 

@@ -1,7 +1,8 @@
-import unittest
-import smk_api
 import time
+import unittest
+
 import adapter_context
+import smk_api
 
 from smarkets.exceptions import SocketDisconnected
 from business_layer import SessionStorage

@@ -1,11 +1,10 @@
-import unittest
-
 import httplib
+import time
+import unittest
 from xml.dom.minidom import parseString
 
-import betfair_api
 import adapter_context
-import time
+import betfair_api
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -132,10 +131,9 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
 
         self.assertErrorCodesAreOk(responseDom)
 
-
-
-
-
+###############################################
+# Common utils to operate with Betfair SOAP API
+###############################################
 def getServerReply(request):
     http_conn = httplib.HTTP(HOST, PORT)
     http_conn.putrequest('POST', BETFAIR_SERVICE)
@@ -156,7 +154,6 @@ def getLogoutResponseDom(sessionToken):
 def getLoginResponseDom(username, password):
     loginRequest = soapMessage(loginRequestTemplate%(username, password))
     response = getServerReply(loginRequest)
-    print "-------> login response: "+response
     return parseString(response)
 
 def textFromElement(dom, elementName, elementPosition):

@@ -1,7 +1,9 @@
-import smk_api
 import uuid
 import logging
+
 import smarkets
+
+import smk_api
 
 DEFAULT_CURRENCY = "GBP"
 

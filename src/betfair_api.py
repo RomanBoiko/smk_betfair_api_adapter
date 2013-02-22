@@ -1,6 +1,8 @@
-from betfair.BFGlobalService_types import *
 from xmlrpclib import datetime
+
 from smarkets.exceptions import SocketDisconnected
+
+from betfair.BFGlobalService_types import *
 from business_layer import BusinessUnit
 
 ERROR_CODE_OK = "OK"

@@ -1,8 +1,11 @@
-import smarkets
-import adapter_context
-from google.protobuf import text_format
-import smarkets.seto.piqi_pb2 as seto
 import logging
+
+from google.protobuf import text_format
+
+import smarkets
+import smarkets.seto.piqi_pb2 as seto
+
+import adapter_context
 
 LOGGER = logging.getLogger('[smk.api]')
 

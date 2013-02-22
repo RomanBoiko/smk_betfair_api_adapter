@@ -1,5 +1,6 @@
-from adapter_context import *
 import unittest
+
+from adapter_context import *
 
 class AdapterContextTest(unittest.TestCase):
 

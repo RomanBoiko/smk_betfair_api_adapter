@@ -1,11 +1,13 @@
+import logging
+import sys
+from google.protobuf import text_format
+
+import smarkets
+import smarkets.seto.piqi_pb2 as seto
+
 import smk_api
 from smk_api import EventsBroker,SmkDate
 import adapter_context
-import smarkets
-from google.protobuf import text_format
-import logging
-import smarkets.seto.piqi_pb2 as seto
-import sys
 
 LOGGER = logging.getLogger('[investigation]')
 
