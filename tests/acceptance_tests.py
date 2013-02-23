@@ -124,13 +124,22 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
         footballEventTypeId = str(business_layer.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, footballEventTypeId))
-        responseXml = getServerReply(request)
-        responseDom = parseString(responseXml)
+        responseDom = parseString(getServerReply(request))
 
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
 
         self.assertErrorCodesAreOk(responseDom)
+
+        parentEventId = textFromElement(responseDom, "eventId", 0)
+        self.check_that_event_children_can_be_retreived_by_getEvents_request(parentEventId, footballEventTypeId)
+
+    def check_that_event_children_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
+        request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, parentEventId))
+        responseXml = getServerReply(request)
+        responseDom = parseString(responseXml)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
 ###############################################
 # Common utils to operate with Betfair SOAP API

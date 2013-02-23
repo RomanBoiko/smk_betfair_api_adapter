@@ -91,11 +91,11 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-def event(eventId, eventName, eventParentId, soapBinding, typeDefinition):
+def event(eventId, eventName, eventTypeId, soapBinding, typeDefinition):
     event = ns0.BFEvent_Def(soapBinding, typeDefinition)
     event._eventId = eventId
     event._eventName = eventName
-    event._eventTypeId = eventParentId
+    event._eventTypeId = eventTypeId
     event._menuLevel = 0#don't know what to use
     event._orderIndex = 0#don't know what to use
     event._startTime = currentDateTime()#use constant 0001-01-01T00:00:00.000Z instead
@@ -125,10 +125,12 @@ def getEvents(soapBinding, typeDefinition, request, response):
             events.parents.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
             events.parentChildren[str(parent.event.low)]=[]
         for sportEvent in eventsMessage.with_markets:
-            events.parentChildren[str(sportEvent.parent.low)].append(event(sportEvent.event.low, sportEvent.name, str(sportEvent.parent.low), soapBinding, typeDefinition))
+            events.parentChildren[str(sportEvent.parent.low)].append(event(sportEvent.event.low, sportEvent.name, business_layer.FOOTBALL_EVENT_TYPE_ID, soapBinding, typeDefinition))
         
         if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
             resp._eventItems._BFEvent = events.parents
+        elif str(eventParentId) in events.parentChildren:
+            resp._eventItems._BFEvent = events.parentChildren[str(eventParentId)]
         else :
             print "do nothing for now, must display events or markets"
     else :
