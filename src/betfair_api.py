@@ -91,22 +91,35 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-def event(eventId, eventName, eventTypeId, soapBinding, typeDefinition):
+class Market(object):
+    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
+        self.marketId = marketId
+        self.marketName = marketName
+        self.marketTypeId = marketTypeId
+        self.marketParentEventId = marketParentEventId
+
+class Event(object):
+    def __init__(self, eventId, eventName, eventTypeId):
+        self.eventId = eventId
+        self.eventName = eventName
+        self.eventTypeId = eventTypeId
+
+def event(eventDTO, soapBinding, typeDefinition):
     event = ns0.BFEvent_Def(soapBinding, typeDefinition)
-    event._eventId = eventId
-    event._eventName = eventName
-    event._eventTypeId = eventTypeId
+    event._eventId = eventDTO.eventId
+    event._eventName = eventDTO.eventName
+    event._eventTypeId = eventDTO.eventTypeId
     event._menuLevel = 0#don't know what to use
     event._orderIndex = 0#don't know what to use
     event._startTime = currentDateTime()#use constant 0001-01-01T00:00:00.000Z instead
     event._timezone = "Greenwich Mean Time"#constant
     return event
 
-def market(marketId, marketName, marketTypeId, marketParentEvent, soapBinding, typeDefinition):
+def market(marketDTO, soapBinding, typeDefinition):
     market = ns0.MarketSummary_Def(soapBinding, typeDefinition)
-    market._eventTypeId = marketTypeId
-    market._marketId = marketId
-    market._marketName = marketName
+    market._eventTypeId = marketDTO.marketTypeId
+    market._marketId = marketDTO.marketId
+    market._marketName = marketDTO.marketName
     market._marketType = "A"#<marketType xsi:type="n2:MarketTypeEnum">A</marketType>
     market._marketTypeVariant = "ADL"#<marketTypeVariant xsi:type="n2:MarketTypeVariantEnum">ADL</marketTypeVariant>
     market._menuLevel = 6 # <menuLevel xsi:type="xsd:int">6</menuLevel>
@@ -115,7 +128,7 @@ def market(marketId, marketName, marketTypeId, marketParentEvent, soapBinding, t
     market._timezone = "GMT" # <timezone xsi:type="xsd:string">GMT</timezone>
     market._betDelay = 0 # <betDelay xsi:type="xsd:int">0</betDelay>
     market._numberOfWinners = 0 # <numberOfWinners xsi:type="xsd:int">0</numberOfWinners>
-    market._eventParentId = marketParentEvent # <eventParentId xsi:type="xsd:int">26962212</eventParentId>
+    market._eventParentId = marketDTO.marketParentEventId # <eventParentId xsi:type="xsd:int">26962212</eventParentId>
     market._exchangeId = 1 # <exchangeId xsi:type="xsd:int">1</exchangeId>
     return market
 
@@ -124,6 +137,7 @@ class Events(object):
         self.parents = []
         self.parentToEvent={}
         self.eventToMarket={}
+        
 
 def getEvents(soapBinding, typeDefinition, request, response):
     resp = ns0.GetEventsResp_Def(soapBinding, typeDefinition)
@@ -142,14 +156,16 @@ def getEvents(soapBinding, typeDefinition, request, response):
         eventsMessage = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
         events = Events()
         for parent in eventsMessage.parents:
-            events.parents.append(event(parent.event.low, parent.name, request._request._eventParentId, soapBinding, typeDefinition))
+            eventDTO = Event(parent.event.low, parent.name, request._request._eventParentId)
+            events.parents.append(event(eventDTO, soapBinding, typeDefinition))
             events.parentToEvent[str(parent.event.low)]=[]
         for sportEvent in eventsMessage.with_markets:
-            events.parentToEvent[str(sportEvent.parent.low)].append(event(sportEvent.event.low, sportEvent.name, business_layer.FOOTBALL_EVENT_TYPE_ID, soapBinding, typeDefinition))
+            eventDTO = Event(sportEvent.event.low, sportEvent.name, business_layer.FOOTBALL_EVENT_TYPE_ID)
+            events.parentToEvent[str(sportEvent.parent.low)].append(event(eventDTO, soapBinding, typeDefinition))
             events.eventToMarket[str(sportEvent.event.low)] = []
             for marketItem in sportEvent.markets :
-                marketObject = market(marketItem.market.low, marketItem.name, business_layer.FOOTBALL_EVENT_TYPE_ID, sportEvent.event.low, soapBinding, typeDefinition)
-                events.eventToMarket[str(sportEvent.event.low)].append(marketObject)
+                marketDTO = Market(marketItem.market.low, marketItem.name, business_layer.FOOTBALL_EVENT_TYPE_ID, sportEvent.event.low)
+                events.eventToMarket[str(sportEvent.event.low)].append(market(marketDTO, soapBinding, typeDefinition))
 
         if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
             resp._eventItems._BFEvent = events.parents

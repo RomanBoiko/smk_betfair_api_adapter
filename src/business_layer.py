@@ -50,9 +50,12 @@ class BusinessUnit(object):
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
         self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
         self.LOGGER.info("BusinessUnit started ")
+        self.eventsMessage = None
         
     def getTodaysFootballEvents(self, sessionToken):
-        client = self.getClientIfTokenIsValid(sessionToken)
-        eventsBroker = smk_api.EventsBroker()
-        return eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
+        if self.eventsMessage is None :
+            client = self.getClientIfTokenIsValid(sessionToken)
+            eventsBroker = smk_api.EventsBroker()
+            self.eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
+        return self.eventsMessage
 
