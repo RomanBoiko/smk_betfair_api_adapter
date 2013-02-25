@@ -124,7 +124,8 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
         footballEventTypeId = str(business_layer.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, footballEventTypeId))
-        responseDom = parseString(getServerReply(request))
+        responseXml = getServerReply(request)
+        responseDom = parseString(responseXml)
 
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
@@ -139,6 +140,16 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         responseXml = getServerReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+        firstEventId = textFromElement(responseDom, "eventId", 0)
+        self.check_that_markets_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
+
+    def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
+        request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, parentEventId))
+        responseXml = getServerReply(request)
+        responseDom = parseString(responseXml)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
 ###############################################
