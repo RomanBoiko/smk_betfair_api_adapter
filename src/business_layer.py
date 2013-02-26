@@ -1,5 +1,6 @@
 import uuid
 import logging
+import datetime
 
 import smarkets
 
@@ -75,7 +76,7 @@ class BusinessUnit(object):
         if self.events is None :
             client = self.getClientIfTokenIsValid(sessionToken)
             eventsBroker = smk_api.EventsBroker()
-            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
+            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 2, 20)))
             self.events = self.loadEvents(eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction)
         return self.events
 

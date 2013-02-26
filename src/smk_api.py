@@ -24,12 +24,6 @@ def login(username, password):
 def logout(client):
     client.logout()
 
-class SmkDate(object):
-    def __init__(self, year=2013, month=2, day=20):
-        self.year=year
-        self.month=month
-        self.day=day
-
 class EventsBroker():
     LOGGER = logging.getLogger('[events.broker]')
 
