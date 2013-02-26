@@ -9,6 +9,25 @@ DEFAULT_CURRENCY = "GBP"
 FOOTBALL_EVENT_TYPE_ID = 121005
 
 
+class Events(object):
+    def __init__(self):
+        self.parents = []
+        self.parentToEvent={}
+        self.eventToMarket={}
+
+class Event(object):
+    def __init__(self, eventId, eventName, eventTypeId):
+        self.eventId = eventId
+        self.eventName = eventName
+        self.eventTypeId = eventTypeId
+
+class Market(object):
+    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
+        self.marketId = marketId
+        self.marketName = marketName
+        self.marketTypeId = marketTypeId
+        self.marketParentEventId = marketParentEventId
+
 class SessionStorage(object):
     "Encapsulates client authentication actions and active clients storage"
     SESSION_TOKEN_LENGTH=32
@@ -50,12 +69,27 @@ class BusinessUnit(object):
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
         self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
         self.LOGGER.info("BusinessUnit started ")
-        self.eventsMessage = None
+        self.events = None
         
-    def getTodaysFootballEvents(self, sessionToken):
-        if self.eventsMessage is None :
+    def getTodaysFootballEvents(self, sessionToken, eventParentId, eventConvertionFunction, marketConvertionFunction):
+        if self.events is None :
             client = self.getClientIfTokenIsValid(sessionToken)
             eventsBroker = smk_api.EventsBroker()
-            self.eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
-        return self.eventsMessage
+            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(smk_api.SmkDate()))
+            self.events = self.loadEvents(eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction)
+        return self.events
 
+    def loadEvents(self, eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction):
+        events = Events()
+        for parent in eventsMessage.parents:
+            eventDTO = Event(parent.event.low, parent.name, eventParentId)
+            events.parents.append(eventConvertionFunction(eventDTO))
+            events.parentToEvent[str(parent.event.low)]=[]
+        for sportEvent in eventsMessage.with_markets:
+            eventDTO = Event(sportEvent.event.low, sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
+            events.parentToEvent[str(sportEvent.parent.low)].append(eventConvertionFunction(eventDTO))
+            events.eventToMarket[str(sportEvent.event.low)] = []
+            for marketItem in sportEvent.markets :
+                marketDTO = Market(marketItem.market.low, marketItem.name, FOOTBALL_EVENT_TYPE_ID, sportEvent.event.low)
+                events.eventToMarket[str(sportEvent.event.low)].append(marketConvertionFunction(marketDTO))
+        return events

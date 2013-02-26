@@ -91,19 +91,6 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-class Market(object):
-    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
-        self.marketId = marketId
-        self.marketName = marketName
-        self.marketTypeId = marketTypeId
-        self.marketParentEventId = marketParentEventId
-
-class Event(object):
-    def __init__(self, eventId, eventName, eventTypeId):
-        self.eventId = eventId
-        self.eventName = eventName
-        self.eventTypeId = eventTypeId
-
 def event(eventDTO, soapBinding, typeDefinition):
     event = ns0.BFEvent_Def(soapBinding, typeDefinition)
     event._eventId = eventDTO.eventId
@@ -132,12 +119,6 @@ def market(marketDTO, soapBinding, typeDefinition):
     market._exchangeId = 1 # <exchangeId xsi:type="xsd:int">1</exchangeId>
     return market
 
-class Events(object):
-    def __init__(self):
-        self.parents = []
-        self.parentToEvent={}
-        self.eventToMarket={}
-        
 
 def getEvents(soapBinding, typeDefinition, request, response):
     resp = ns0.GetEventsResp_Def(soapBinding, typeDefinition)
@@ -153,19 +134,11 @@ def getEvents(soapBinding, typeDefinition, request, response):
         resp._marketItems = ns0.ArrayOfMarketSummary_Def(soapBinding, typeDefinition)
         resp._marketItems._MarketSummary = []
         
-        eventsMessage = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
-        events = Events()
-        for parent in eventsMessage.parents:
-            eventDTO = Event(parent.event.low, parent.name, request._request._eventParentId)
-            events.parents.append(event(eventDTO, soapBinding, typeDefinition))
-            events.parentToEvent[str(parent.event.low)]=[]
-        for sportEvent in eventsMessage.with_markets:
-            eventDTO = Event(sportEvent.event.low, sportEvent.name, business_layer.FOOTBALL_EVENT_TYPE_ID)
-            events.parentToEvent[str(sportEvent.parent.low)].append(event(eventDTO, soapBinding, typeDefinition))
-            events.eventToMarket[str(sportEvent.event.low)] = []
-            for marketItem in sportEvent.markets :
-                marketDTO = Market(marketItem.market.low, marketItem.name, business_layer.FOOTBALL_EVENT_TYPE_ID, sportEvent.event.low)
-                events.eventToMarket[str(sportEvent.event.low)].append(market(marketDTO, soapBinding, typeDefinition))
+        events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken, 
+                                                       eventParentId,
+                                                       lambda eventDTO: event(eventDTO, soapBinding, typeDefinition),
+                                                       lambda marketDTO: market(marketDTO, soapBinding, typeDefinition)
+                                                    )
 
         if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
             resp._eventItems._BFEvent = events.parents
@@ -174,7 +147,8 @@ def getEvents(soapBinding, typeDefinition, request, response):
         elif str(eventParentId) in events.eventToMarket :
             resp._marketItems._MarketSummary = events.eventToMarket[str(eventParentId)]
         else:
-            print "must raise an exception - invalid parent id"
+#            must raise an exception - invalid parent id
+            resp._errorCode = ERROR_API_ERROR
     else :
         resp._errorCode = ERROR_API_ERROR
     response._Result = resp
