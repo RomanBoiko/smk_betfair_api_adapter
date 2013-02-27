@@ -32,7 +32,9 @@ try:
 #    eventsMessage = eventsBroker.getEvents(client, smarkets.events.SportOther())
 
     print "==============================>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-    print "===> Data=%s"%smk_api.AccountStateBroker().getAccountState(client).cash
+#    print "===> Data=%s"%smk_api.AccountStateBroker(client).getAccountState().cash
+#    print "===> Data=%s"%smk_api.BetsForAccountBroker(client).getBetsForAccount()
+    print "===> Data=%s"%smk_api.BetsPlacingBroker(client).placeBet(24402, 50724, 20000, 2500)
 
 
 

@@ -23,27 +23,6 @@ def login(username, password):
     
 def logout(client):
     client.logout()
-    
-#unused, add cases to process successful and problematic response
-def placeBet(client, marketId, contractId, quantity, price):
-#    seto.order_rejected
-    order = smarkets.Order()
-    order.quantity = quantity#pounds*10000
-    order.price = price#procents*100
-    order.side = smarkets.Order.BUY
-    order.market = client.str_to_uuid128(str(marketId))
-    order.contract = client.str_to_uuid128(str(contractId))
-    
-    client.order(order)
-    client.flush()
-    client.read()
-    
-#unused, add cases to process successful response  
-def getBetsForAccount(client):
-#    seto.orders_for_account
-    client.request_orders_for_account()
-    client.flush()
-    client.read()
 
 class EventsBroker():
     LOGGER = logging.getLogger('[events.broker]')
@@ -75,6 +54,27 @@ class EventsBroker():
         client.del_handler('seto.http_found', callback)
         return self.eventsMessage
 
+class SmkBroker():
+    LOGGER = logging.getLogger('[smk.broker]')
+
+    def __init__(self, client):
+        self.client = client
+        self.smkResponsePayload = None
+
+    def dataHandlingCallback(self, message):
+        self.smkResponsePayload = message
+        self.LOGGER.debug("smk data received")
+        
+    def getSmkResponse(self, clientAction, expectedResponseType):
+        callback = lambda message: self.dataHandlingCallback(message)
+        self.client.add_handler(expectedResponseType, callback)
+        clientAction()
+        self.client.flush()
+        self.client.read()
+        self.client.del_handler(expectedResponseType, callback)
+        self.LOGGER.debug("smk data transfered for %s"%expectedResponseType)
+        return self.smkResponsePayload
+        
 class AccountState(object):
     def __init__(self, accountStateMessage):
         self.id=accountStateMessage.account_state.account.low
@@ -83,21 +83,24 @@ class AccountState(object):
         self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
         self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
 
-class AccountStateBroker():
-    LOGGER = logging.getLogger('[account.state.broker]')
+#unused
+class AccountStateBroker(SmkBroker):
+    def getAccountState(self):
+        return AccountState(self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state'))
 
-    def __init__(self):
-        self.accountStateMessage = None
+#unused, add processing of successful response payload  
+class BetsForAccountBroker(SmkBroker):
+    def getBetsForAccount(self):
+        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account')
 
-    def httpDataFetchingCallback(self, message):
-        self.LOGGER.debug("Received account state message: %s" % (text_format.MessageToString(message)))
-        self.accountStateMessage = message
-        
-    def getAccountState(self, client):
-        callback = lambda x: self.httpDataFetchingCallback(x)
-        client.add_handler('seto.account_state', callback)
-        client.request_account_state()
-        client.flush()
-        client.read()
-        client.del_handler('seto.account_state', callback)
-        return AccountState(self.accountStateMessage)
+#unused, add processing of successful and problematic response payload  
+class BetsPlacingBroker(SmkBroker):
+    def placeBet(self, marketId, contractId, quantity, price):
+        order = smarkets.Order()
+        order.quantity = quantity#pounds*10000
+        order.price = price#procents*100
+        order.side = smarkets.Order.BUY
+        order.market = self.client.str_to_uuid128(str(marketId))
+        order.contract = self.client.str_to_uuid128(str(contractId))
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_rejected')#add successful case
+    
