@@ -6,8 +6,9 @@ import smarkets
 import smarkets.seto.piqi_pb2 as seto
 
 import smk_api
-from smk_api import EventsBroker,SmkDate
+from smk_api import EventsBroker
 import adapter_context
+import datetime
 
 LOGGER = logging.getLogger('[investigation]')
 
@@ -19,56 +20,28 @@ def logger_callback(message):
     LOGGER.error("################### Received: %s" % (text_format.MessageToString(message)))
 
 
-def doWithClient(client, eventRequest):
-    LOGGER.info("=============>%s events request"%eventRequest)
-    client.request_events(eventRequest)
-    client.flush()
-    client.read()
-
-def doWithHttpService(serviceUrl):
-    LOGGER.info("=============>%s response"%serviceUrl)
-    content_type, result = smarkets.urls.fetch(serviceUrl)
-    if content_type == 'application/x-protobuf':
-        incoming_payload = seto.Events()
-        incoming_payload.ParseFromString(result)
-        print "===>%s" % text_format.MessageToString(incoming_payload)
-
-def accountState(client):
-    client.add_handler('seto.account_state', logger_callback)
-    client.request_account_state()
-    client.flush()
-    client.read()
-
-
 client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-#client.add_global_handler(global_callback)
+client.add_global_handler(global_callback)
 
 try:
-#    smarkets.events.Politics())
-#    smarkets.events.CurrentAffairs())
-    eventsBroker = EventsBroker()
-    eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(SmkDate()))
-#    LOGGER.warn("==>"+str(eventsMessage.with_markets[0]))
-#    for parent in eventsMessage.parents:
-#        LOGGER.warn("==>GRAND_PARENT: "+str(parent))
-#        LOGGER.warn("==>GRAND_PARENT: id=%s, name=%s"%(str(parent.event.low), parent.name))
-    for event in eventsMessage.with_markets:
-        LOGGER.warn("=========>EVENT id=%s, parent=%s, name=%s: %s"%(str(event.event.low), str(event.parent.low), event.name, event))
-        for markets in event.markets:
-            str(1)
-            LOGGER.warn("==> id=%s, name=%s"%(str(markets.market.low), markets.name))
-            if len(markets.contracts)>1 :
-                LOGGER.warn("oooo> markets=%s"%(markets)) 
-#        break
-#    parents(smarkets.seto.piqi_pb2.EventInfo), with_markets(smarkets.seto.piqi_pb2.EventInfo)
-#    
-#    accountState(client)
+#    eventsBroker = EventsBroker()
+#    eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 2, 28)))
+#    eventsMessage = eventsBroker.getEvents(client, smarkets.events.HorseRacingByDate(datetime.date(2013, 2, 28)))
+#    eventsMessage = eventsBroker.getEvents(client, smarkets.events.TennisByDate(datetime.date(2013, 2, 21)))
+#    eventsMessage = eventsBroker.getEvents(client, smarkets.events.Politics())
+#    eventsMessage = eventsBroker.getEvents(client, smarkets.events.SportOther())
+
+    print "==============================>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+    print "===> Data=%s"%smk_api.AccountStateBroker().getAccountState(client).cash
+
+
+
 except:
     LOGGER.error("**********error occured")
     LOGGER.error("Unexpected error: %s", sys.exc_info())
 finally:
     smk_api.logout(client)
-    
+
     
 #markets {
 #  market {

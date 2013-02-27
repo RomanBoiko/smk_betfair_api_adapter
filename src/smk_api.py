@@ -23,6 +23,27 @@ def login(username, password):
     
 def logout(client):
     client.logout()
+    
+#unused, add cases to process successful and problematic response
+def placeBet(client, marketId, contractId, quantity, price):
+#    seto.order_rejected
+    order = smarkets.Order()
+    order.quantity = quantity#pounds*10000
+    order.price = price#procents*100
+    order.side = smarkets.Order.BUY
+    order.market = client.str_to_uuid128(str(marketId))
+    order.contract = client.str_to_uuid128(str(contractId))
+    
+    client.order(order)
+    client.flush()
+    client.read()
+    
+#unused, add cases to process successful response  
+def getBetsForAccount(client):
+#    seto.orders_for_account
+    client.request_orders_for_account()
+    client.flush()
+    client.read()
 
 class EventsBroker():
     LOGGER = logging.getLogger('[events.broker]')
@@ -53,3 +74,30 @@ class EventsBroker():
         client.read()
         client.del_handler('seto.http_found', callback)
         return self.eventsMessage
+
+class AccountState(object):
+    def __init__(self, accountStateMessage):
+        self.id=accountStateMessage.account_state.account.low
+        self.currency=accountStateMessage.account_state.currency
+        self.cash=accountStateMessage.account_state.cash.value
+        self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
+        self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
+
+class AccountStateBroker():
+    LOGGER = logging.getLogger('[account.state.broker]')
+
+    def __init__(self):
+        self.accountStateMessage = None
+
+    def httpDataFetchingCallback(self, message):
+        self.LOGGER.debug("Received account state message: %s" % (text_format.MessageToString(message)))
+        self.accountStateMessage = message
+        
+    def getAccountState(self, client):
+        callback = lambda x: self.httpDataFetchingCallback(x)
+        client.add_handler('seto.account_state', callback)
+        client.request_account_state()
+        client.flush()
+        client.read()
+        client.del_handler('seto.account_state', callback)
+        return AccountState(self.accountStateMessage)
