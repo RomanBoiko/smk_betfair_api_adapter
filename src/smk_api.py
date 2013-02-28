@@ -54,6 +54,14 @@ class EventsBroker():
         client.del_handler('seto.http_found', callback)
         return self.eventsMessage
 
+class AccountState(object):
+    def __init__(self, accountStateMessage):
+        self.id=accountStateMessage.account_state.account.low
+        self.currency=accountStateMessage.account_state.currency
+        self.cash=accountStateMessage.account_state.cash.value
+        self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
+        self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
+
 class SmkBroker():
     LOGGER = logging.getLogger('[smk.broker]')
 
@@ -75,32 +83,28 @@ class SmkBroker():
         self.LOGGER.debug("smk data transfered for %s"%expectedResponseType)
         return self.smkResponsePayload
         
-class AccountState(object):
-    def __init__(self, accountStateMessage):
-        self.id=accountStateMessage.account_state.account.low
-        self.currency=accountStateMessage.account_state.currency
-        self.cash=accountStateMessage.account_state.cash.value
-        self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
-        self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
-
-#unused
-class AccountStateBroker(SmkBroker):
+    #unused
     def getAccountState(self):
         return AccountState(self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state'))
 
-#unused, add processing of successful response payload  
-class BetsForAccountBroker(SmkBroker):
+    #unused, add processing of successful response payload  
     def getBetsForAccount(self):
         return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account')
 
-#unused, add processing of successful and problematic response payload  
-class BetsPlacingBroker(SmkBroker):
+    #unused, add processing of successful and problematic response payload  
     def placeBet(self, marketId, contractId, quantity, price):
         order = smarkets.Order()
         order.quantity = quantity#pounds*10000
         order.price = price#procents*100
         order.side = smarkets.Order.BUY
-        order.market = self.client.str_to_uuid128(str(marketId))
-        order.contract = self.client.str_to_uuid128(str(contractId))
-        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_rejected')#add successful case
-    
+        
+        order.market = seto.Uuid128()
+        order.market.low = marketId
+        order.contract = seto.Uuid128()
+        order.contract.low = contractId
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted')#add nonsuccessful case:seto.order_rejected
+
+    def cancelBet(self, orderId):
+        order = seto.Uuid128()
+        order.low = orderId
+        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled')#add nonsuccessful case:seto.order_rejected
