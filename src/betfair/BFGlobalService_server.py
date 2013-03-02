@@ -7,10 +7,8 @@
 ##################################################
 
 from ZSI.schema import GED, GTD
-from ZSI.TCcompound import ComplexType, Struct
 from BFGlobalService_types import *
 from ZSI.ServiceContainer import ServiceSOAPBinding
-from xmlrpclib import datetime
 import betfair_api
 
 # Messages  
