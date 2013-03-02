@@ -1,17 +1,32 @@
+TEST_COMMAND = nosetests --with-xunit --quiet --nocapture --nologcapture --xunit-file=build/test/nosetests.xml
+
+
 all: clean
+
 
 clean:
 	rm -Rf build
 	find . -name "*.pyc" | xargs rm
 
+
 start:
 	python src/adapter.py  &> server.log &
 
-run_test:
-	mkdir -p build/test
-	nosetests --with-xunit --quiet --nocapture --xunit-file=build/test/nosetests.xml tests/*.py
 
 stop:
 	ps aux | grep [a]dapter.py | awk '{print $$2}' | xargs kill
 
-test: start run_test stop
+
+create_test_dir:
+	mkdir -p build/test
+
+
+all_tests: create_test_dir
+	$(TEST_COMMAND) tests/*.py
+
+
+integration_tests: create_test_dir
+	$(TEST_COMMAND) tests/smk_api_test.py
+
+
+test: start all_tests stop
