@@ -138,12 +138,8 @@ def getEvents(soapBinding, typeDefinition, request, response):
         
         events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
 
-        if str(eventParentId) == str(smk_api.FOOTBALL_EVENT_TYPE_ID):
-            resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parents)
-        elif str(eventParentId) in events.parentToEvent:
+        if str(eventParentId) in events.parentToEvent:
             resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parentToEvent[str(eventParentId)])
-        elif str(eventParentId) in events.eventToMarket :
-            resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.eventToMarket[str(eventParentId)])
             #resp._marketItems._MarketSummary for betfair:markets==smk:contracts
         else:
 #            must raise an exception - invalid parent id

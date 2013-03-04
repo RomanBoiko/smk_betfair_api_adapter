@@ -28,9 +28,11 @@ def logout(client):
     
 class Events(object):
     def __init__(self):
-        self.parents = []
         self.parentToEvent={}
-        self.eventToMarket={}
+    def putEvent(self, parentIdInt, event):
+        if str(parentIdInt) not in self.parentToEvent:
+            self.parentToEvent[str(parentIdInt)] = []
+        self.parentToEvent[str(parentIdInt)].append(event)
 
 class Event(object):
     def __init__(self, eventId, eventName, eventTypeId):
@@ -83,17 +85,20 @@ class EventsBroker():
     
     def loadEvents(self, eventsMessage):
         events = Events()
+        footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
+        
         for parent in eventsMessage.parents:
-            eventDTO = Event(self.uuid_to_integer(parent.event), parent.name, FOOTBALL_EVENT_TYPE_ID)
-            events.parents.append(eventDTO)
-            events.parentToEvent[str(self.uuid_to_integer(parent.event))]=[]
+            parentIdInt = self.uuid_to_integer(parent.event)
+            if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
+                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
         for sportEvent in eventsMessage.with_markets:
-            eventDTO = Event(self.uuid_to_integer(sportEvent.event), sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
-            events.parentToEvent[str(self.uuid_to_integer(sportEvent.parent))].append(eventDTO)
-            events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))] = []
+            eventIdInt = self.uuid_to_integer(sportEvent.event)
+            parentIdInt = self.uuid_to_integer(sportEvent.parent)
+            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
+
             for marketItem in sportEvent.markets :
-                marketDTO = Event(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID)
-                events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))].append(marketDTO)
+                marketIdInt = self.uuid_to_integer(marketItem.market)
+                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
         return events
     
     def uuid_to_integer(self, uuid):

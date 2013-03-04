@@ -45,6 +45,6 @@ class SmkApiIntegrationTest(unittest.TestCase):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         eventsBroker = smk_api.EventsBroker(client)
         events = eventsBroker.footballByDate(datetime.date(2013, 3, 5))
-        market = events.eventToMarket.values()[0][0]
-        print "===----====>"+str(market)
+#        market = events.eventToMarket.values()[0][0]
+#        print "===----====>"+str(market)
         smk_api.logout(client)
