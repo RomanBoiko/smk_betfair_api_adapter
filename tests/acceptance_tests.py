@@ -149,8 +149,11 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         responseXml = getServerReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
-        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+        #For Betfair:Market==Smk:Contract
+#        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+#        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
+#        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
 ###############################################
 # Common utils to operate with Betfair SOAP API

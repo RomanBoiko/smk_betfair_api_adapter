@@ -103,6 +103,7 @@ def event(eventDTO, soapBinding, typeDefinition):
     event._timezone = "Greenwich Mean Time"#constant
     return event
 
+#unused
 def market(marketDTO, soapBinding, typeDefinition):
     market = bfg.MarketSummary_Def(soapBinding, typeDefinition)
     market._eventTypeId = marketDTO.marketTypeId
@@ -142,7 +143,8 @@ def getEvents(soapBinding, typeDefinition, request, response):
         elif str(eventParentId) in events.parentToEvent:
             resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parentToEvent[str(eventParentId)])
         elif str(eventParentId) in events.eventToMarket :
-            resp._marketItems._MarketSummary = map(lambda marketDTO: market(marketDTO, soapBinding, typeDefinition), events.eventToMarket[str(eventParentId)])
+            resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.eventToMarket[str(eventParentId)])
+            #resp._marketItems._MarketSummary for betfair:markets==smk:contracts
         else:
 #            must raise an exception - invalid parent id
             resp._errorCode = ERROR_API_ERROR

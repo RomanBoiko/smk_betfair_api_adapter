@@ -40,3 +40,11 @@ class SmkApiIntegrationTest(unittest.TestCase):
         print "===> %s"%str(uuid_to_int(uu.to_hex()))
         print "===> %s"%Smarkets.str_to_uuid128(uu.to_hex())
         
+    
+    def test_bet_placing_workflow(self):
+        client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
+        eventsBroker = smk_api.EventsBroker(client)
+        events = eventsBroker.footballByDate(datetime.date(2013, 3, 5))
+        market = events.eventToMarket.values()[0][0]
+        print "===----====>"+str(market)
+        smk_api.logout(client)

@@ -39,25 +39,6 @@ class SessionStorage(object):
         else:
             return False
 
-class Events(object):
-    def __init__(self):
-        self.parents = []
-        self.parentToEvent={}
-        self.eventToMarket={}
-
-class Event(object):
-    def __init__(self, eventId, eventName, eventTypeId):
-        self.eventId = eventId
-        self.eventName = eventName
-        self.eventTypeId = eventTypeId
-
-class Market(object):
-    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
-        self.marketId = marketId
-        self.marketName = marketName
-        self.marketTypeId = marketTypeId
-        self.marketParentEventId = marketParentEventId
-
 class BusinessUnit(object):
     LOGGER = logging.getLogger('[business.unit]')
     

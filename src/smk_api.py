@@ -38,6 +38,7 @@ class Event(object):
         self.eventName = eventName
         self.eventTypeId = eventTypeId
 
+#unused
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
         self.marketId = marketId
@@ -91,7 +92,7 @@ class EventsBroker():
             events.parentToEvent[str(self.uuid_to_integer(sportEvent.parent))].append(eventDTO)
             events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))] = []
             for marketItem in sportEvent.markets :
-                marketDTO = Market(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID, self.uuid_to_integer(sportEvent.event))
+                marketDTO = Event(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID)
                 events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))].append(marketDTO)
         return events
     
