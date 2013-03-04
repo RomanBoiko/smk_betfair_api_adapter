@@ -1127,7 +1127,7 @@ class ns1:
 # http://www.betfair.com/publicapi/types/global/v3/
 ##############################
 
-class ns0:
+class bfg:
     targetNamespace = "http://www.betfair.com/publicapi/types/global/v3/"
 
     class LoginResp_Def(TypeDefinition):
@@ -1135,23 +1135,23 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "LoginResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.LoginResp_Def.schema
+            ns = bfg.LoginResp_Def.schema
             TClist = [ZSI.TC.String(pname="currency", aname="_currency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","LoginErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="validUntil", aname="_validUntil", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.LoginResp_Def.__bases__:
-                bases = list(ns0.LoginResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.LoginResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.LoginResp_Def.__bases__:
+                bases = list(bfg.LoginResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.LoginResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class APIResponse_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "APIResponse")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.APIResponse_Def.schema
+            ns = bfg.APIResponse_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","APIResponseHeader",lazy=False)(pname="header", aname="_header", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1170,7 +1170,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "APIResponseHeader")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.APIResponseHeader_Def.schema
+            ns = bfg.APIResponseHeader_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","APIErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="sessionToken", aname="_sessionToken", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="timestamp", aname="_timestamp", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1210,7 +1210,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "LoginReq")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.LoginReq_Def.schema
+            ns = bfg.LoginReq_Def.schema
             TClist = [ZSI.TC.String(pname="ipAddress", aname="_ipAddress", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="locationId", aname="_locationId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="productId", aname="_productId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="username", aname="_username", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="vendorSoftwareId", aname="_vendorSoftwareId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1235,34 +1235,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveLIMBMessageReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.RetrieveLIMBMessageReq_Def.schema
+            ns = bfg.RetrieveLIMBMessageReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.RetrieveLIMBMessageReq_Def.__bases__:
-                bases = list(ns0.RetrieveLIMBMessageReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.RetrieveLIMBMessageReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.RetrieveLIMBMessageReq_Def.__bases__:
+                bases = list(bfg.RetrieveLIMBMessageReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.RetrieveLIMBMessageReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class RetrieveLIMBMessageResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveLIMBMessageResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.RetrieveLIMBMessageResp_Def.schema
+            ns = bfg.RetrieveLIMBMessageResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveLIMBMessageErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="totalMessagesCount", aname="_totalMessagesCount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrievePersonalLIMBMessage",lazy=False)(pname="retrievePersonalMessage", aname="_retrievePersonalMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveTCPrivacyPolicyChangeLIMBMessage",lazy=False)(pname="retrieveTCPrivacyPolicyChangeMessage", aname="_retrieveTCPrivacyPolicyChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrievePasswordChangeLIMBMessage",lazy=False)(pname="retrievePasswordChangeMessage", aname="_retrievePasswordChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveBirthDateCheckLIMBMessage",lazy=False)(pname="retrieveBirthDateCheckMessage", aname="_retrieveBirthDateCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveAddressCheckLIMBMessage",lazy=False)(pname="retrieveAddressCheckMessage", aname="_retrieveAddressCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveContactDetailsCheckLIMBMessage",lazy=False)(pname="retrieveContactDetailsCheckMessage", aname="_retrieveContactDetailsCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveChatNameChangeLIMBMessage",lazy=False)(pname="retrieveChatNameChangeMessage", aname="_retrieveChatNameChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfRetrieveCardBillingAddressCheckLIMBMessage",lazy=False)(pname="retrieveCardBillingAddressCheckItems", aname="_retrieveCardBillingAddressCheckItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.RetrieveLIMBMessageResp_Def.__bases__:
-                bases = list(ns0.RetrieveLIMBMessageResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.RetrieveLIMBMessageResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.RetrieveLIMBMessageResp_Def.__bases__:
+                bases = list(bfg.RetrieveLIMBMessageResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.RetrieveLIMBMessageResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class RetrieveLIMBMessageErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -1277,7 +1277,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrievePersonalLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrievePersonalLIMBMessage_Def.schema
+            ns = bfg.RetrievePersonalLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="message", aname="_message", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1299,7 +1299,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveTCPrivacyPolicyChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveTCPrivacyPolicyChangeLIMBMessage_Def.schema
+            ns = bfg.RetrieveTCPrivacyPolicyChangeLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="reasonForChange", aname="_reasonForChange", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1321,7 +1321,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrievePasswordChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrievePasswordChangeLIMBMessage_Def.schema
+            ns = bfg.RetrievePasswordChangeLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1342,7 +1342,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveBirthDateCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveBirthDateCheckLIMBMessage_Def.schema
+            ns = bfg.RetrieveBirthDateCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="birthDate", aname="_birthDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1364,7 +1364,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveAddressCheckLIMBMessage_Def.schema
+            ns = bfg.RetrieveAddressCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="town", aname="_town", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="county", aname="_county", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="zipCode", aname="_zipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="country", aname="_country", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1392,7 +1392,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveContactDetailsCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveContactDetailsCheckLIMBMessage_Def.schema
+            ns = bfg.RetrieveContactDetailsCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="homeTelephone", aname="_homeTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="workTelephone", aname="_workTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="mobileTelephone", aname="_mobileTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="emailAddress", aname="_emailAddress", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1417,7 +1417,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveChatNameChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveChatNameChangeLIMBMessage_Def.schema
+            ns = bfg.RetrieveChatNameChangeLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="chatName", aname="_chatName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1439,7 +1439,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfRetrieveCardBillingAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfRetrieveCardBillingAddressCheckLIMBMessage_Def.schema
+            ns = bfg.ArrayOfRetrieveCardBillingAddressCheckLIMBMessage_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","RetrieveCardBillingAddressCheckLIMBMessage",lazy=False)(pname=(ns,"retrieveCardBillingAddressCheckLIMBMessage"), aname="_retrieveCardBillingAddressCheckLIMBMessage", minOccurs=0, maxOccurs=3, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1458,7 +1458,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "RetrieveCardBillingAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.RetrieveCardBillingAddressCheckLIMBMessage_Def.schema
+            ns = bfg.RetrieveCardBillingAddressCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="enforceDate", aname="_enforceDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="indicator", aname="_indicator", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cardShortNumber", aname="_cardShortNumber", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="town", aname="_town", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="county", aname="_county", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="zipCode", aname="_zipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="country", aname="_country", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1489,23 +1489,23 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitLIMBMessageReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SubmitLIMBMessageReq_Def.schema
+            ns = bfg.SubmitLIMBMessageReq_Def.schema
             TClist = [ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitPersonalLIMBMessage",lazy=False)(pname="submitPersonalMessage", aname="_submitPersonalMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitTCPrivacyPolicyChangeLIMBMessage",lazy=False)(pname="submitTCPrivacyPolicyChangeMessage", aname="_submitTCPrivacyPolicyChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitPasswordChangeLIMBMessage",lazy=False)(pname="submitPasswordChangeMessage", aname="_submitPasswordChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitBirthDateCheckLIMBMessage",lazy=False)(pname="submitBirthDateCheckMessage", aname="_submitBirthDateCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitAddressCheckLIMBMessage",lazy=False)(pname="submitAddressCheckMessage", aname="_submitAddressCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitContactDetailsCheckLIMBMessage",lazy=False)(pname="submitContactDetailsCheckMessage", aname="_submitContactDetailsCheckMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitChatNameChangeLIMBMessage",lazy=False)(pname="submitChatNameChangeMessage", aname="_submitChatNameChangeMessage", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfSubmitCardBillingAddressCheckLIMBMessage",lazy=False)(pname="submitCardBillingAddressCheckItems", aname="_submitCardBillingAddressCheckItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.SubmitLIMBMessageReq_Def.__bases__:
-                bases = list(ns0.SubmitLIMBMessageReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.SubmitLIMBMessageReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.SubmitLIMBMessageReq_Def.__bases__:
+                bases = list(bfg.SubmitLIMBMessageReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.SubmitLIMBMessageReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class SubmitPersonalLIMBMessage_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitPersonalLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitPersonalLIMBMessage_Def.schema
+            ns = bfg.SubmitPersonalLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="acknowledgment", aname="_acknowledgment", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1525,7 +1525,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitTCPrivacyPolicyChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitTCPrivacyPolicyChangeLIMBMessage_Def.schema
+            ns = bfg.SubmitTCPrivacyPolicyChangeLIMBMessage_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","PrivacyPolicyChangeResponseEnum",lazy=False)(pname="tCPrivacyPolicyChangeAcceptance", aname="_tCPrivacyPolicyChangeAcceptance", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1553,7 +1553,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitPasswordChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitPasswordChangeLIMBMessage_Def.schema
+            ns = bfg.SubmitPasswordChangeLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPassword", aname="_newPassword", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPasswordRepeat", aname="_newPasswordRepeat", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1574,7 +1574,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitBirthDateCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitBirthDateCheckLIMBMessage_Def.schema
+            ns = bfg.SubmitBirthDateCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="detailsCorrect", aname="_detailsCorrect", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="correctBirthDate", aname="_correctBirthDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1595,7 +1595,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitAddressCheckLIMBMessage_Def.schema
+            ns = bfg.SubmitAddressCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="detailsCorrect", aname="_detailsCorrect", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress1", aname="_newAddress1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress2", aname="_newAddress2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress3", aname="_newAddress3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newTown", aname="_newTown", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newCounty", aname="_newCounty", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newZipCode", aname="_newZipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newCountry", aname="_newCountry", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1622,7 +1622,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitContactDetailsCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitContactDetailsCheckLIMBMessage_Def.schema
+            ns = bfg.SubmitContactDetailsCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="detailsCorrect", aname="_detailsCorrect", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newHomeTelephone", aname="_newHomeTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newWorkTelephone", aname="_newWorkTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newMobileTelephone", aname="_newMobileTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newEmailAddress", aname="_newEmailAddress", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1646,7 +1646,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitChatNameChangeLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitChatNameChangeLIMBMessage_Def.schema
+            ns = bfg.SubmitChatNameChangeLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newChatName", aname="_newChatName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1666,7 +1666,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfSubmitCardBillingAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfSubmitCardBillingAddressCheckLIMBMessage_Def.schema
+            ns = bfg.ArrayOfSubmitCardBillingAddressCheckLIMBMessage_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitCardBillingAddressCheckLIMBMessage",lazy=False)(pname=(ns,"submitCardBillingAddressCheckLIMBMessage"), aname="_submitCardBillingAddressCheckLIMBMessage", minOccurs=0, maxOccurs=3, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1685,7 +1685,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitCardBillingAddressCheckLIMBMessage")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.SubmitCardBillingAddressCheckLIMBMessage_Def.schema
+            ns = bfg.SubmitCardBillingAddressCheckLIMBMessage_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="messageId", aname="_messageId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="detailsCorrect", aname="_detailsCorrect", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress1", aname="_newAddress1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress2", aname="_newAddress2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newAddress3", aname="_newAddress3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newTown", aname="_newTown", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newCounty", aname="_newCounty", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newZipCode", aname="_newZipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newCountry", aname="_newCountry", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1714,17 +1714,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SubmitLIMBMessageResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SubmitLIMBMessageResp_Def.schema
+            ns = bfg.SubmitLIMBMessageResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","SubmitLIMBMessageErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfLIMBValidationErrorsEnum",lazy=False)(pname="validationErrors", aname="_validationErrors", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.SubmitLIMBMessageResp_Def.__bases__:
-                bases = list(ns0.SubmitLIMBMessageResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.SubmitLIMBMessageResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.SubmitLIMBMessageResp_Def.__bases__:
+                bases = list(bfg.SubmitLIMBMessageResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.SubmitLIMBMessageResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class LIMBValidationErrorsEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -1739,7 +1739,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfLIMBValidationErrorsEnum")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfLIMBValidationErrorsEnum_Def.schema
+            ns = bfg.ArrayOfLIMBValidationErrorsEnum_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","LIMBValidationErrorsEnum",lazy=False)(pname=(ns,"LIMBValidationErrorsEnum"), aname="_LIMBValidationErrorsEnum", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1777,74 +1777,74 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "LogoutResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.LogoutResp_Def.schema
+            ns = bfg.LogoutResp_Def.schema
             TClist = [ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","LogoutErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.LogoutResp_Def.__bases__:
-                bases = list(ns0.LogoutResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.LogoutResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.LogoutResp_Def.__bases__:
+                bases = list(bfg.LogoutResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.LogoutResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class LogoutReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "LogoutReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.LogoutReq_Def.schema
+            ns = bfg.LogoutReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.LogoutReq_Def.__bases__:
-                bases = list(ns0.LogoutReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.LogoutReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.LogoutReq_Def.__bases__:
+                bases = list(bfg.LogoutReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.LogoutReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class KeepAliveResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "KeepAliveResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.KeepAliveResp_Def.schema
+            ns = bfg.KeepAliveResp_Def.schema
             TClist = [ZSI.TC.String(pname="apiVersion", aname="_apiVersion", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.KeepAliveResp_Def.__bases__:
-                bases = list(ns0.KeepAliveResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.KeepAliveResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.KeepAliveResp_Def.__bases__:
+                bases = list(bfg.KeepAliveResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.KeepAliveResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class KeepAliveReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "KeepAliveReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.KeepAliveReq_Def.schema
+            ns = bfg.KeepAliveReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.KeepAliveReq_Def.__bases__:
-                bases = list(ns0.KeepAliveReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.KeepAliveReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.KeepAliveReq_Def.__bases__:
+                bases = list(bfg.KeepAliveReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.KeepAliveReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class APIRequest_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "APIRequest")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.APIRequest_Def.schema
+            ns = bfg.APIRequest_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","APIRequestHeader",lazy=False)(pname="header", aname="_header", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1863,7 +1863,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "APIRequestHeader")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.APIRequestHeader_Def.schema
+            ns = bfg.APIRequestHeader_Def.schema
             TClist = [ZSI.TCnumbers.Ilong(pname="clientStamp", aname="_clientStamp", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="sessionToken", aname="_sessionToken", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1884,17 +1884,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetEventsResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetEventsResp_Def.schema
+            ns = bfg.GetEventsResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","GetEventsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfBFEvent",lazy=False)(pname="eventItems", aname="_eventItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="eventParentId", aname="_eventParentId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfMarketSummary",lazy=False)(pname="marketItems", aname="_marketItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfCouponLinks",lazy=False)(pname="couponLinks", aname="_couponLinks", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetEventsResp_Def.__bases__:
-                bases = list(ns0.GetEventsResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetEventsResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetEventsResp_Def.__bases__:
+                bases = list(bfg.GetEventsResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetEventsResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetEventsErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -1909,7 +1909,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "BFEvent")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.BFEvent_Def.schema
+            ns = bfg.BFEvent_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="eventId", aname="_eventId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="eventName", aname="_eventName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="eventTypeId", aname="_eventTypeId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="menuLevel", aname="_menuLevel", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="orderIndex", aname="_orderIndex", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="startTime", aname="_startTime", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="timezone", aname="_timezone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1934,7 +1934,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfBFEvent")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfBFEvent_Def.schema
+            ns = bfg.ArrayOfBFEvent_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","BFEvent",lazy=False)(pname=(ns,"BFEvent"), aname="_BFEvent", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -1953,7 +1953,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "MarketSummary")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.MarketSummary_Def.schema
+            ns = bfg.MarketSummary_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="eventTypeId", aname="_eventTypeId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="marketId", aname="_marketId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="marketName", aname="_marketName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","MarketTypeEnum",lazy=False)(pname="marketType", aname="_marketType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","MarketTypeVariantEnum",lazy=False)(pname="marketTypeVariant", aname="_marketTypeVariant", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="menuLevel", aname="_menuLevel", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="orderIndex", aname="_orderIndex", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="startTime", aname="_startTime", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="timezone", aname="_timezone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="venue", aname="_venue", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="betDelay", aname="_betDelay", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="numberOfWinners", aname="_numberOfWinners", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="eventParentId", aname="_eventParentId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="exchangeId", aname="_exchangeId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2003,7 +2003,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfMarketSummary")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfMarketSummary_Def.schema
+            ns = bfg.ArrayOfMarketSummary_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","MarketSummary",lazy=False)(pname=(ns,"MarketSummary"), aname="_MarketSummary", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2022,7 +2022,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "CouponLink")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.CouponLink_Def.schema
+            ns = bfg.CouponLink_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="couponId", aname="_couponId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="couponName", aname="_couponName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2042,7 +2042,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfCouponLinks")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfCouponLinks_Def.schema
+            ns = bfg.ArrayOfCouponLinks_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","CouponLink",lazy=False)(pname=(ns,"CouponLink"), aname="_CouponLink", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2062,40 +2062,40 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetEventsReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetEventsReq_Def.schema
+            ns = bfg.GetEventsReq_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="eventParentId", aname="_eventParentId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="locale", aname="_locale", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetEventsReq_Def.__bases__:
-                bases = list(ns0.GetEventsReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetEventsReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetEventsReq_Def.__bases__:
+                bases = list(bfg.GetEventsReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetEventsReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetEventTypesResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetEventTypesResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetEventTypesResp_Def.schema
+            ns = bfg.GetEventTypesResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfEventType",lazy=False)(pname="eventTypeItems", aname="_eventTypeItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GetEventsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetEventTypesResp_Def.__bases__:
-                bases = list(ns0.GetEventTypesResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetEventTypesResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetEventTypesResp_Def.__bases__:
+                bases = list(bfg.GetEventTypesResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetEventTypesResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class EventType_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "EventType")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.EventType_Def.schema
+            ns = bfg.EventType_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="id", aname="_id", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="name", aname="_name", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="nextMarketId", aname="_nextMarketId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="exchangeId", aname="_exchangeId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2117,7 +2117,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfEventType")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfEventType_Def.schema
+            ns = bfg.ArrayOfEventType_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","EventType",lazy=False)(pname=(ns,"EventType"), aname="_EventType", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2137,17 +2137,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetEventTypesReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetEventTypesReq_Def.schema
+            ns = bfg.GetEventTypesReq_Def.schema
             TClist = [ZSI.TC.String(pname="locale", aname="_locale", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetEventTypesReq_Def.__bases__:
-                bases = list(ns0.GetEventTypesReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetEventTypesReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetEventTypesReq_Def.__bases__:
+                bases = list(bfg.GetEventTypesReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetEventTypesReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class MarketStatusEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2162,7 +2162,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "Runner")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.Runner_Def.schema
+            ns = bfg.Runner_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="asianLineId", aname="_asianLineId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="handicap", aname="_handicap", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="name", aname="_name", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="selectionId", aname="_selectionId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2185,23 +2185,23 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetSubscriptionInfoResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetSubscriptionInfoResp_Def.schema
+            ns = bfg.GetSubscriptionInfoResp_Def.schema
             TClist = [ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfSubscription",lazy=False)(pname="subscriptions", aname="_subscriptions", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetSubscriptionInfoResp_Def.__bases__:
-                bases = list(ns0.GetSubscriptionInfoResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetSubscriptionInfoResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetSubscriptionInfoResp_Def.__bases__:
+                bases = list(bfg.GetSubscriptionInfoResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetSubscriptionInfoResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class Subscription_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "Subscription")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.Subscription_Def.schema
+            ns = bfg.Subscription_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="billingAmount", aname="_billingAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="billingDate", aname="_billingDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","BillingPeriodEnum",lazy=False)(pname="billingPeriod", aname="_billingPeriod", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="productId", aname="_productId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="productName", aname="_productName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfServiceCall",lazy=False)(pname="services", aname="_services", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="setupCharge", aname="_setupCharge", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="setupChargeActive", aname="_setupChargeActive", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SubscriptionStatusEnum",lazy=False)(pname="status", aname="_status", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="subscribedDate", aname="_subscribedDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="vatEnabled", aname="_vatEnabled", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2239,7 +2239,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ServiceCall")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ServiceCall_Def.schema
+            ns = bfg.ServiceCall_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="maxUsages", aname="_maxUsages", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Ilong(pname="period", aname="_period", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="periodExpiry", aname="_periodExpiry", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ServiceEnum",lazy=False)(pname="serviceType", aname="_serviceType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="usageCount", aname="_usageCount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2271,7 +2271,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfServiceCall")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfServiceCall_Def.schema
+            ns = bfg.ArrayOfServiceCall_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ServiceCall",lazy=False)(pname=(ns,"ServiceCall"), aname="_ServiceCall", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2299,7 +2299,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfSubscription")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfSubscription_Def.schema
+            ns = bfg.ArrayOfSubscription_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","Subscription",lazy=False)(pname=(ns,"Subscription"), aname="_Subscription", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2319,34 +2319,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetSubscriptionInfoReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetSubscriptionInfoReq_Def.schema
+            ns = bfg.GetSubscriptionInfoReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetSubscriptionInfoReq_Def.__bases__:
-                bases = list(ns0.GetSubscriptionInfoReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetSubscriptionInfoReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetSubscriptionInfoReq_Def.__bases__:
+                bases = list(bfg.GetSubscriptionInfoReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetSubscriptionInfoReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class DepositFromPaymentCardResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "DepositFromPaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.DepositFromPaymentCardResp_Def.schema
+            ns = bfg.DepositFromPaymentCardResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="fee", aname="_fee", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="maxAmount", aname="_maxAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="minAmount", aname="_minAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="netAmount", aname="_netAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="transactionId", aname="_transactionId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.DepositFromPaymentCardResp_Def.__bases__:
-                bases = list(ns0.DepositFromPaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.DepositFromPaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.DepositFromPaymentCardResp_Def.__bases__:
+                bases = list(bfg.DepositFromPaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.DepositFromPaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class PaymentsErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2362,85 +2362,85 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "DepositFromPaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.DepositFromPaymentCardReq_Def.schema
+            ns = bfg.DepositFromPaymentCardReq_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="amount", aname="_amount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cardIdentifier", aname="_cardIdentifier", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cv2", aname="_cv2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.DepositFromPaymentCardReq_Def.__bases__:
-                bases = list(ns0.DepositFromPaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.DepositFromPaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.DepositFromPaymentCardReq_Def.__bases__:
+                bases = list(bfg.DepositFromPaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.DepositFromPaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class AddPaymentCardReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "AddPaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.AddPaymentCardReq_Def.schema
+            ns = bfg.AddPaymentCardReq_Def.schema
             TClist = [ZSI.TC.String(pname="cardNumber", aname="_cardNumber", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","CardTypeEnum",lazy=False)(pname="cardType", aname="_cardType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="startDate", aname="_startDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="expiryDate", aname="_expiryDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="issueNumber", aname="_issueNumber", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingName", aname="_billingName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address4", aname="_address4", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="town", aname="_town", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="county", aname="_county", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="zipCode", aname="_zipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="country", aname="_country", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentCardStatusEnum",lazy=False)(pname="cardStatus", aname="_cardStatus", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.AddPaymentCardReq_Def.__bases__:
-                bases = list(ns0.AddPaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.AddPaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.AddPaymentCardReq_Def.__bases__:
+                bases = list(bfg.AddPaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.AddPaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class DeletePaymentCardReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "DeletePaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.DeletePaymentCardReq_Def.schema
+            ns = bfg.DeletePaymentCardReq_Def.schema
             TClist = [ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.DeletePaymentCardReq_Def.__bases__:
-                bases = list(ns0.DeletePaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.DeletePaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.DeletePaymentCardReq_Def.__bases__:
+                bases = list(bfg.DeletePaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.DeletePaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetPaymentCardReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetPaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetPaymentCardReq_Def.schema
+            ns = bfg.GetPaymentCardReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetPaymentCardReq_Def.__bases__:
-                bases = list(ns0.GetPaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetPaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetPaymentCardReq_Def.__bases__:
+                bases = list(bfg.GetPaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetPaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class UpdatePaymentCardReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "UpdatePaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.UpdatePaymentCardReq_Def.schema
+            ns = bfg.UpdatePaymentCardReq_Def.schema
             TClist = [ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="expiryDate", aname="_expiryDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="startDate", aname="_startDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="issueNumber", aname="_issueNumber", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address4", aname="_address4", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="town", aname="_town", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="county", aname="_county", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="zipCode", aname="_zipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="country", aname="_country", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentCardStatusEnum",lazy=False)(pname="cardStatus", aname="_cardStatus", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.UpdatePaymentCardReq_Def.__bases__:
-                bases = list(ns0.UpdatePaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.UpdatePaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.UpdatePaymentCardReq_Def.__bases__:
+                bases = list(bfg.UpdatePaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.UpdatePaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class CardTypeEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2456,17 +2456,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "AddPaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.AddPaymentCardResp_Def.schema
+            ns = bfg.AddPaymentCardResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","AddPaymentCardErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentCard",lazy=False)(pname="paymentCard", aname="_paymentCard", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.AddPaymentCardResp_Def.__bases__:
-                bases = list(ns0.AddPaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.AddPaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.AddPaymentCardResp_Def.__bases__:
+                bases = list(bfg.AddPaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.AddPaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class AddPaymentCardErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2491,34 +2491,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "DeletePaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.DeletePaymentCardResp_Def.schema
+            ns = bfg.DeletePaymentCardResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","DeletePaymentCardErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingName", aname="_billingName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cardShortNumber", aname="_cardShortNumber", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","CardTypeEnum",lazy=False)(pname="cardType", aname="_cardType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="issuingCountry", aname="_issuingCountry", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="expiryDate", aname="_expiryDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.DeletePaymentCardResp_Def.__bases__:
-                bases = list(ns0.DeletePaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.DeletePaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.DeletePaymentCardResp_Def.__bases__:
+                bases = list(bfg.DeletePaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.DeletePaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class UpdatePaymentCardResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "UpdatePaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.UpdatePaymentCardResp_Def.schema
+            ns = bfg.UpdatePaymentCardResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","UpdatePaymentCardErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingName", aname="_billingName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","CardTypeEnum",lazy=False)(pname="cardType", aname="_cardType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="expiryDate", aname="_expiryDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="startDate", aname="_startDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address4", aname="_address4", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="zipCode", aname="_zipCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="country", aname="_country", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.UpdatePaymentCardResp_Def.__bases__:
-                bases = list(ns0.UpdatePaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.UpdatePaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.UpdatePaymentCardResp_Def.__bases__:
+                bases = list(bfg.UpdatePaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.UpdatePaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class UpdatePaymentCardErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2534,17 +2534,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetPaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetPaymentCardResp_Def.schema
+            ns = bfg.GetPaymentCardResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","GetPaymentCardErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfPaymentCard",lazy=False)(pname="paymentCardItems", aname="_paymentCardItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetPaymentCardResp_Def.__bases__:
-                bases = list(ns0.GetPaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetPaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetPaymentCardResp_Def.__bases__:
+                bases = list(bfg.GetPaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetPaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetPaymentCardErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2559,7 +2559,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "PaymentCard")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.PaymentCard_Def.schema
+            ns = bfg.PaymentCard_Def.schema
             TClist = [ZSI.TC.String(pname="nickName", aname="_nickName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cardShortNumber", aname="_cardShortNumber", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="expiryDate", aname="_expiryDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="startDate", aname="_startDate", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="issueNumber", aname="_issueNumber", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","CardTypeEnum",lazy=False)(pname="cardType", aname="_cardType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="issuingCountryIso3", aname="_issuingCountryIso3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="totalDeposits", aname="_totalDeposits", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="totalWithdrawals", aname="_totalWithdrawals", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="netDeposits", aname="_netDeposits", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="validationStatus", aname="_validationStatus", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingName", aname="_billingName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingAddress1", aname="_billingAddress1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingAddress2", aname="_billingAddress2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingAddress3", aname="_billingAddress3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingAddress4", aname="_billingAddress4", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="town", aname="_town", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="county", aname="_county", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="postcode", aname="_postcode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="billingCountryIso3", aname="_billingCountryIso3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentCardStatusEnum",lazy=False)(pname="cardStatus", aname="_cardStatus", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2607,7 +2607,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfPaymentCard")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfPaymentCard_Def.schema
+            ns = bfg.ArrayOfPaymentCard_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentCard",lazy=False)(pname=(ns,"PaymentCard"), aname="_PaymentCard", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2627,68 +2627,68 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "WithdrawToPaymentCardResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.WithdrawToPaymentCardResp_Def.schema
+            ns = bfg.WithdrawToPaymentCardResp_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="amountWithdrawn", aname="_amountWithdrawn", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="maxAmount", aname="_maxAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.WithdrawToPaymentCardResp_Def.__bases__:
-                bases = list(ns0.WithdrawToPaymentCardResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.WithdrawToPaymentCardResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.WithdrawToPaymentCardResp_Def.__bases__:
+                bases = list(bfg.WithdrawToPaymentCardResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.WithdrawToPaymentCardResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class WithdrawToPaymentCardReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "WithdrawToPaymentCardReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.WithdrawToPaymentCardReq_Def.schema
+            ns = bfg.WithdrawToPaymentCardReq_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="amount", aname="_amount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="cardIdentifier", aname="_cardIdentifier", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.WithdrawToPaymentCardReq_Def.__bases__:
-                bases = list(ns0.WithdrawToPaymentCardReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.WithdrawToPaymentCardReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.WithdrawToPaymentCardReq_Def.__bases__:
+                bases = list(bfg.WithdrawToPaymentCardReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.WithdrawToPaymentCardReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class WithdrawByBankTransferReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "WithdrawByBankTransferReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.WithdrawByBankTransferReq_Def.schema
+            ns = bfg.WithdrawByBankTransferReq_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","WithdrawByBankTransferModeEnum",lazy=False)(pname="mode", aname="_mode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="amount", aname="_amount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","BankAccountDetails",lazy=False)(pname="bankAccountDetails", aname="_bankAccountDetails", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="expressTransfer", aname="_expressTransfer", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.WithdrawByBankTransferReq_Def.__bases__:
-                bases = list(ns0.WithdrawByBankTransferReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.WithdrawByBankTransferReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.WithdrawByBankTransferReq_Def.__bases__:
+                bases = list(bfg.WithdrawByBankTransferReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.WithdrawByBankTransferReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class WithdrawByBankTransferResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "WithdrawByBankTransferResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.WithdrawByBankTransferResp_Def.schema
+            ns = bfg.WithdrawByBankTransferResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","PaymentsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="amountWithdrawn", aname="_amountWithdrawn", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="minAmount", aname="_minAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="maxAmount", aname="_maxAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="amountAvailable", aname="_amountAvailable", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="transferFee", aname="_transferFee", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="expressTransferFee", aname="_expressTransferFee", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="expressTransferAvailable", aname="_expressTransferAvailable", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","BankAccountDetails",lazy=False)(pname="lastBankAccountDetails", aname="_lastBankAccountDetails", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfBankAccountDetailsField",lazy=False)(pname="requiredBankAccountDetailsFields", aname="_requiredBankAccountDetailsFields", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="transactionId", aname="_transactionId", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.WithdrawByBankTransferResp_Def.__bases__:
-                bases = list(ns0.WithdrawByBankTransferResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.WithdrawByBankTransferResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.WithdrawByBankTransferResp_Def.__bases__:
+                bases = list(bfg.WithdrawByBankTransferResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.WithdrawByBankTransferResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class WithdrawByBankTransferModeEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2703,7 +2703,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfBankAccountDetailsField")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfBankAccountDetailsField_Def.schema
+            ns = bfg.ArrayOfBankAccountDetailsField_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","BankAccountDetailsField",lazy=False)(pname=(ns,"BankAccountDetailsField"), aname="_BankAccountDetailsField", minOccurs=1, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2723,17 +2723,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "BankAccountDetailsField")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.BankAccountDetailsField_Def.schema
+            ns = bfg.BankAccountDetailsField_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","BankAccountDetailsFieldEnum",lazy=False)(pname="type", aname="_type", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.AbstractField_Def not in ns0.BankAccountDetailsField_Def.__bases__:
-                bases = list(ns0.BankAccountDetailsField_Def.__bases__)
-                bases.insert(0, ns0.AbstractField_Def)
-                ns0.BankAccountDetailsField_Def.__bases__ = tuple(bases)
+            if bfg.AbstractField_Def not in bfg.BankAccountDetailsField_Def.__bases__:
+                bases = list(bfg.BankAccountDetailsField_Def.__bases__)
+                bases.insert(0, bfg.AbstractField_Def)
+                bfg.BankAccountDetailsField_Def.__bases__ = tuple(bases)
 
-            ns0.AbstractField_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.AbstractField_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class BankAccountDetailsFieldEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2748,7 +2748,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "AbstractField")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.AbstractField_Def.schema
+            ns = bfg.AbstractField_Def.schema
             TClist = [ZSI.TC.Boolean(pname="required", aname="_required", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="readOnly", aname="_readOnly", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="size", aname="_size", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="minLength", aname="_minLength", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="maxLength", aname="_maxLength", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="regExp", aname="_regExp", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2772,7 +2772,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "BasicBankAccountDetails")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.BasicBankAccountDetails_Def.schema
+            ns = bfg.BasicBankAccountDetails_Def.schema
             TClist = [ZSI.TC.String(pname="bankName", aname="_bankName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="accountHoldingBranch", aname="_accountHoldingBranch", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="bankGiroCreditNumber", aname="_bankGiroCreditNumber", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="accountNumber", aname="_accountNumber", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="sortCode", aname="_sortCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="bankCode", aname="_bankCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="blzCode", aname="_blzCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="bankBsb", aname="_bankBsb", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="branchCode", aname="_branchCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="bankLocationIso3", aname="_bankLocationIso3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2801,17 +2801,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "BankAccountDetails")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.BankAccountDetails_Def.schema
+            ns = bfg.BankAccountDetails_Def.schema
             TClist = [ZSI.TC.String(pname="payee", aname="_payee", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","BankAccountTypeEnum",lazy=False)(pname="accountType", aname="_accountType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="bankKey", aname="_bankKey", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="routing", aname="_routing", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="abiCab", aname="_abiCab", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.BasicBankAccountDetails_Def not in ns0.BankAccountDetails_Def.__bases__:
-                bases = list(ns0.BankAccountDetails_Def.__bases__)
-                bases.insert(0, ns0.BasicBankAccountDetails_Def)
-                ns0.BankAccountDetails_Def.__bases__ = tuple(bases)
+            if bfg.BasicBankAccountDetails_Def not in bfg.BankAccountDetails_Def.__bases__:
+                bases = list(bfg.BankAccountDetails_Def.__bases__)
+                bases.insert(0, bfg.BasicBankAccountDetails_Def)
+                bfg.BankAccountDetails_Def.__bases__ = tuple(bases)
 
-            ns0.BasicBankAccountDetails_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.BasicBankAccountDetails_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class BankAccountTypeEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2827,34 +2827,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "TransferFundsReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.TransferFundsReq_Def.schema
+            ns = bfg.TransferFundsReq_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="sourceWalletId", aname="_sourceWalletId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="targetWalletId", aname="_targetWalletId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="amount", aname="_amount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.TransferFundsReq_Def.__bases__:
-                bases = list(ns0.TransferFundsReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.TransferFundsReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.TransferFundsReq_Def.__bases__:
+                bases = list(bfg.TransferFundsReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.TransferFundsReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class TransferFundsResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "TransferFundsResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.TransferFundsResp_Def.schema
+            ns = bfg.TransferFundsResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","TransferFundsErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="monthlyDepositTotal", aname="_monthlyDepositTotal", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.TransferFundsResp_Def.__bases__:
-                bases = list(ns0.TransferFundsResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.TransferFundsResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.TransferFundsResp_Def.__bases__:
+                bases = list(bfg.TransferFundsResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.TransferFundsResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class TransferFundsErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2870,34 +2870,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SelfExcludeReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SelfExcludeReq_Def.schema
+            ns = bfg.SelfExcludeReq_Def.schema
             TClist = [ZSI.TC.Boolean(pname="selfExclude", aname="_selfExclude", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.SelfExcludeReq_Def.__bases__:
-                bases = list(ns0.SelfExcludeReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.SelfExcludeReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.SelfExcludeReq_Def.__bases__:
+                bases = list(bfg.SelfExcludeReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.SelfExcludeReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class SelfExcludeResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SelfExcludeResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SelfExcludeResp_Def.schema
+            ns = bfg.SelfExcludeResp_Def.schema
             TClist = [ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SelfExcludeErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.SelfExcludeResp_Def.__bases__:
-                bases = list(ns0.SelfExcludeResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.SelfExcludeResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.SelfExcludeResp_Def.__bases__:
+                bases = list(bfg.SelfExcludeResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.SelfExcludeResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class SelfExcludeErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2913,17 +2913,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ConvertCurrencyResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ConvertCurrencyResp_Def.schema
+            ns = bfg.ConvertCurrencyResp_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="convertedAmount", aname="_convertedAmount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ConvertCurrencyErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ConvertCurrencyResp_Def.__bases__:
-                bases = list(ns0.ConvertCurrencyResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ConvertCurrencyResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ConvertCurrencyResp_Def.__bases__:
+                bases = list(bfg.ConvertCurrencyResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ConvertCurrencyResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ConvertCurrencyErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -2939,40 +2939,40 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ConvertCurrencyReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ConvertCurrencyReq_Def.schema
+            ns = bfg.ConvertCurrencyReq_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="amount", aname="_amount", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="fromCurrency", aname="_fromCurrency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="toCurrency", aname="_toCurrency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ConvertCurrencyReq_Def.__bases__:
-                bases = list(ns0.ConvertCurrencyReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ConvertCurrencyReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ConvertCurrencyReq_Def.__bases__:
+                bases = list(bfg.ConvertCurrencyReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ConvertCurrencyReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetCurrenciesResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetCurrenciesResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetCurrenciesResp_Def.schema
+            ns = bfg.GetCurrenciesResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfCurrency",lazy=False)(pname="currencyItems", aname="_currencyItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetCurrenciesResp_Def.__bases__:
-                bases = list(ns0.GetCurrenciesResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetCurrenciesResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetCurrenciesResp_Def.__bases__:
+                bases = list(bfg.GetCurrenciesResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetCurrenciesResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class Currency_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "Currency")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.Currency_Def.schema
+            ns = bfg.Currency_Def.schema
             TClist = [ZSI.TC.String(pname="currencyCode", aname="_currencyCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="rateGBP", aname="_rateGBP", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -2992,7 +2992,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfCurrency")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfCurrency_Def.schema
+            ns = bfg.ArrayOfCurrency_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","Currency",lazy=False)(pname=(ns,"Currency"), aname="_Currency", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -3012,57 +3012,57 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetCurrenciesReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetCurrenciesReq_Def.schema
+            ns = bfg.GetCurrenciesReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetCurrenciesReq_Def.__bases__:
-                bases = list(ns0.GetCurrenciesReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetCurrenciesReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetCurrenciesReq_Def.__bases__:
+                bases = list(bfg.GetCurrenciesReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetCurrenciesReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class GetCurrenciesV2Resp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetCurrenciesV2Resp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetCurrenciesV2Resp_Def.schema
+            ns = bfg.GetCurrenciesV2Resp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfCurrencyV2",lazy=False)(pname="currencyItems", aname="_currencyItems", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.GetCurrenciesV2Resp_Def.__bases__:
-                bases = list(ns0.GetCurrenciesV2Resp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.GetCurrenciesV2Resp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.GetCurrenciesV2Resp_Def.__bases__:
+                bases = list(bfg.GetCurrenciesV2Resp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.GetCurrenciesV2Resp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class CurrencyV2_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "CurrencyV2")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.CurrencyV2_Def.schema
+            ns = bfg.CurrencyV2_Def.schema
             TClist = [ZSI.TCnumbers.FPdouble(pname="minimumStake", aname="_minimumStake", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="minimumRangeStake", aname="_minimumRangeStake", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="minimumBSPLayLiability", aname="_minimumBSPLayLiability", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.Currency_Def not in ns0.CurrencyV2_Def.__bases__:
-                bases = list(ns0.CurrencyV2_Def.__bases__)
-                bases.insert(0, ns0.Currency_Def)
-                ns0.CurrencyV2_Def.__bases__ = tuple(bases)
+            if bfg.Currency_Def not in bfg.CurrencyV2_Def.__bases__:
+                bases = list(bfg.CurrencyV2_Def.__bases__)
+                bases.insert(0, bfg.Currency_Def)
+                bfg.CurrencyV2_Def.__bases__ = tuple(bases)
 
-            ns0.Currency_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.Currency_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ArrayOfCurrencyV2_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfCurrencyV2")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfCurrencyV2_Def.schema
+            ns = bfg.ArrayOfCurrencyV2_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","CurrencyV2",lazy=False)(pname=(ns,"CurrencyV2"), aname="_CurrencyV2", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -3082,51 +3082,51 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "GetCurrenciesV2Req")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.GetCurrenciesV2Req_Def.schema
+            ns = bfg.GetCurrenciesV2Req_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.GetCurrenciesV2Req_Def.__bases__:
-                bases = list(ns0.GetCurrenciesV2Req_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.GetCurrenciesV2Req_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.GetCurrenciesV2Req_Def.__bases__:
+                bases = list(bfg.GetCurrenciesV2Req_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.GetCurrenciesV2Req_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewReferAndEarnReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewReferAndEarnReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewReferAndEarnReq_Def.schema
+            ns = bfg.ViewReferAndEarnReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ViewReferAndEarnReq_Def.__bases__:
-                bases = list(ns0.ViewReferAndEarnReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ViewReferAndEarnReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ViewReferAndEarnReq_Def.__bases__:
+                bases = list(bfg.ViewReferAndEarnReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ViewReferAndEarnReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewReferAndEarnResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewReferAndEarnResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewReferAndEarnResp_Def.schema
+            ns = bfg.ViewReferAndEarnResp_Def.schema
             TClist = [ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ViewReferAndEarnErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="referAndEarnCode", aname="_referAndEarnCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ViewReferAndEarnResp_Def.__bases__:
-                bases = list(ns0.ViewReferAndEarnResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ViewReferAndEarnResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ViewReferAndEarnResp_Def.__bases__:
+                bases = list(bfg.ViewReferAndEarnResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ViewReferAndEarnResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewReferAndEarnErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3142,34 +3142,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewProfileReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewProfileReq_Def.schema
+            ns = bfg.ViewProfileReq_Def.schema
             TClist = []
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ViewProfileReq_Def.__bases__:
-                bases = list(ns0.ViewProfileReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ViewProfileReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ViewProfileReq_Def.__bases__:
+                bases = list(bfg.ViewProfileReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ViewProfileReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewProfileResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewProfileResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewProfileResp_Def.schema
+            ns = bfg.ViewProfileResp_Def.schema
             TClist = [ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ViewProfileErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","TitleEnum",lazy=False)(pname="title", aname="_title", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="firstName", aname="_firstName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="surname", aname="_surname", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="userName", aname="_userName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="forumName", aname="_forumName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="townCity", aname="_townCity", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countyState", aname="_countyState", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="postCode", aname="_postCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countryOfResidence", aname="_countryOfResidence", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="homeTelephone", aname="_homeTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="workTelephone", aname="_workTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="mobileTelephone", aname="_mobileTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="emailAddress", aname="_emailAddress", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="timeZone", aname="_timeZone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="currency", aname="_currency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="gamcareLimit", aname="_gamcareLimit", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="gamcareFrequency", aname="_gamcareFrequency", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="gamcareLossLimit", aname="_gamcareLossLimit", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="gamcareLossLimitFrequency", aname="_gamcareLossLimitFrequency", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="gamcareUpdateDate", aname="_gamcareUpdateDate", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ViewProfileResp_Def.__bases__:
-                bases = list(ns0.ViewProfileResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ViewProfileResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ViewProfileResp_Def.__bases__:
+                bases = list(bfg.ViewProfileResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ViewProfileResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewProfileV2ReqVersionEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3185,34 +3185,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewProfileV2Req")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewProfileV2Req_Def.schema
+            ns = bfg.ViewProfileV2Req_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ViewProfileV2ReqVersionEnum",lazy=False)(pname="requestVersion", aname="_requestVersion", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ViewProfileV2Req_Def.__bases__:
-                bases = list(ns0.ViewProfileV2Req_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ViewProfileV2Req_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ViewProfileV2Req_Def.__bases__:
+                bases = list(bfg.ViewProfileV2Req_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ViewProfileV2Req_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewProfileV2Resp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ViewProfileV2Resp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ViewProfileV2Resp_Def.schema
+            ns = bfg.ViewProfileV2Resp_Def.schema
             TClist = [ZSI.TC.String(pname="tAN", aname="_tAN", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="referAndEarnCode", aname="_referAndEarnCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="earthportID", aname="_earthportID", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","KYCStatusEnum",lazy=False)(pname="kYCStatus", aname="_kYCStatus", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nationalIdentifier", aname="_nationalIdentifier", minOccurs=0, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.ViewProfileResp_Def not in ns0.ViewProfileV2Resp_Def.__bases__:
-                bases = list(ns0.ViewProfileV2Resp_Def.__bases__)
-                bases.insert(0, ns0.ViewProfileResp_Def)
-                ns0.ViewProfileV2Resp_Def.__bases__ = tuple(bases)
+            if bfg.ViewProfileResp_Def not in bfg.ViewProfileV2Resp_Def.__bases__:
+                bases = list(bfg.ViewProfileV2Resp_Def.__bases__)
+                bases.insert(0, bfg.ViewProfileResp_Def)
+                bfg.ViewProfileV2Resp_Def.__bases__ = tuple(bases)
 
-            ns0.ViewProfileResp_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.ViewProfileResp_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ViewProfileErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3228,34 +3228,34 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ModifyProfileReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ModifyProfileReq_Def.schema
+            ns = bfg.ModifyProfileReq_Def.schema
             TClist = [ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="townCity", aname="_townCity", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countyState", aname="_countyState", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="postCode", aname="_postCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countryOfResidence", aname="_countryOfResidence", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="homeTelephone", aname="_homeTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="workTelephone", aname="_workTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="mobileTelephone", aname="_mobileTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="emailAddress", aname="_emailAddress", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="timeZone", aname="_timeZone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="depositLimit", aname="_depositLimit", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="depositLimitFrequency", aname="_depositLimitFrequency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="lossLimit", aname="_lossLimit", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="lossLimitFrequency", aname="_lossLimitFrequency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nationalIdentifier", aname="_nationalIdentifier", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ModifyProfileReq_Def.__bases__:
-                bases = list(ns0.ModifyProfileReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ModifyProfileReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ModifyProfileReq_Def.__bases__:
+                bases = list(bfg.ModifyProfileReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ModifyProfileReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ModifyProfileResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ModifyProfileResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ModifyProfileResp_Def.schema
+            ns = bfg.ModifyProfileResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ModifyProfileErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfValidationErrorsEnum",lazy=False)(pname="validationErrors", aname="_validationErrors", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ModifyProfileResp_Def.__bases__:
-                bases = list(ns0.ModifyProfileResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ModifyProfileResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ModifyProfileResp_Def.__bases__:
+                bases = list(bfg.ModifyProfileResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ModifyProfileResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ModifyProfileErrorEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3271,17 +3271,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "CreateAccountResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.CreateAccountResp_Def.schema
+            ns = bfg.CreateAccountResp_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="accountId", aname="_accountId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","AccountStatusEnum",lazy=False)(pname="accountStatus", aname="_accountStatus", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","CreateAccountErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="tan", aname="_tan", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="userId", aname="_userId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","ArrayOfValidationErrorsEnum",lazy=False)(pname="validationErrors", aname="_validationErrors", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.CreateAccountResp_Def.__bases__:
-                bases = list(ns0.CreateAccountResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.CreateAccountResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.CreateAccountResp_Def.__bases__:
+                bases = list(bfg.CreateAccountResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.CreateAccountResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class AccountStatusEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3314,7 +3314,7 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ArrayOfValidationErrorsEnum")
         def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
-            ns = ns0.ArrayOfValidationErrorsEnum_Def.schema
+            ns = bfg.ArrayOfValidationErrorsEnum_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ValidationErrorsEnum",lazy=False)(pname=(ns,"ValidationErrorsEnum"), aname="_ValidationErrorsEnum", minOccurs=0, maxOccurs="unbounded", nillable=True, typed=False, encoded=kw.get("encoded"))]
             self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
@@ -3334,17 +3334,17 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "CreateAccountReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.CreateAccountReq_Def.schema
+            ns = bfg.CreateAccountReq_Def.schema
             TClist = [ZSI.TCnumbers.Iint(pname="acceptedPrivicyPolicyVersion", aname="_acceptedPrivicyPolicyVersion", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="acceptedTermsAndConditionsVersion", aname="_acceptedTermsAndConditionsVersion", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","AccountTypeEnum",lazy=False)(pname="accountType", aname="_accountType", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address1", aname="_address1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address2", aname="_address2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="address3", aname="_address3", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="answer1", aname="_answer1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="answer2", aname="_answer2", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="browser", aname="_browser", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countryOfResidence", aname="_countryOfResidence", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countyState", aname="_countyState", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="currency", aname="_currency", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCtimes.gDateTime(pname="dateOfBirth", aname="_dateOfBirth", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="depositLimit", aname="_depositLimit", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="depositLimitFrequency", aname="_depositLimitFrequency", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="emailAddress", aname="_emailAddress", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="firstName", aname="_firstName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GenderEnum",lazy=False)(pname="gender", aname="_gender", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="homeTelephone", aname="_homeTelephone", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="informProductsServices", aname="_informProductsServices", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="informSpecialOffers", aname="_informSpecialOffers", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="ipAddress", aname="_ipAddress", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="locale", aname="_locale", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.FPdouble(pname="lossLimit", aname="_lossLimit", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","GamcareLimitFreqEnum",lazy=False)(pname="lossLimitFrequency", aname="_lossLimitFrequency", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.Boolean(pname="manualAddress", aname="_manualAddress", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="mobileTelephone", aname="_mobileTelephone", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="partnerId", aname="_partnerId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="postCode", aname="_postCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="preferredName", aname="_preferredName", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="productId", aname="_productId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SecurityQuestion1Enum",lazy=False)(pname="question1", aname="_question1", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","SecurityQuestion2Enum",lazy=False)(pname="question2", aname="_question2", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="referrerCode", aname="_referrerCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","RegionEnum",lazy=False)(pname="region", aname="_region", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="subPartnerId", aname="_subPartnerId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TCnumbers.Iint(pname="superPartnerId", aname="_superPartnerId", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="surname", aname="_surname", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="timeZone", aname="_timeZone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), GTD("http://www.betfair.com/publicapi/types/global/v3/","TitleEnum",lazy=False)(pname="title", aname="_title", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="townCity", aname="_townCity", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="username", aname="_username", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="workTelephone", aname="_workTelephone", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="nationalIdentifier", aname="_nationalIdentifier", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.CreateAccountReq_Def.__bases__:
-                bases = list(ns0.CreateAccountReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.CreateAccountReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.CreateAccountReq_Def.__bases__:
+                bases = list(bfg.CreateAccountReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.CreateAccountReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class AccountTypeEnum_Def(ZSI.TC.String, TypeDefinition):
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
@@ -3450,101 +3450,101 @@ class ns0:
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ForgotPasswordReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ForgotPasswordReq_Def.schema
+            ns = bfg.ForgotPasswordReq_Def.schema
             TClist = [ZSI.TC.String(pname="username", aname="_username", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="emailAddress", aname="_emailAddress", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="countryOfResidence", aname="_countryOfResidence", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="forgottenPasswordAnswer1", aname="_forgottenPasswordAnswer1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="forgottenPasswordAnswer2", aname="_forgottenPasswordAnswer2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPassword", aname="_newPassword", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPasswordRepeat", aname="_newPasswordRepeat", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ForgotPasswordReq_Def.__bases__:
-                bases = list(ns0.ForgotPasswordReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ForgotPasswordReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ForgotPasswordReq_Def.__bases__:
+                bases = list(bfg.ForgotPasswordReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ForgotPasswordReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ForgotPasswordResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ForgotPasswordResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ForgotPasswordResp_Def.schema
+            ns = bfg.ForgotPasswordResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ForgotPasswordErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="question1", aname="_question1", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="question2", aname="_question2", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ForgotPasswordResp_Def.__bases__:
-                bases = list(ns0.ForgotPasswordResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ForgotPasswordResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ForgotPasswordResp_Def.__bases__:
+                bases = list(bfg.ForgotPasswordResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ForgotPasswordResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ModifyPasswordReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ModifyPasswordReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ModifyPasswordReq_Def.schema
+            ns = bfg.ModifyPasswordReq_Def.schema
             TClist = [ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPassword", aname="_newPassword", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="newPasswordRepeat", aname="_newPasswordRepeat", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.ModifyPasswordReq_Def.__bases__:
-                bases = list(ns0.ModifyPasswordReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.ModifyPasswordReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.ModifyPasswordReq_Def.__bases__:
+                bases = list(bfg.ModifyPasswordReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.ModifyPasswordReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class ModifyPasswordResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "ModifyPasswordResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.ModifyPasswordResp_Def.schema
+            ns = bfg.ModifyPasswordResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","ModifyPasswordErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.ModifyPasswordResp_Def.__bases__:
-                bases = list(ns0.ModifyPasswordResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.ModifyPasswordResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.ModifyPasswordResp_Def.__bases__:
+                bases = list(bfg.ModifyPasswordResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.ModifyPasswordResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class SetChatNameReq_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SetChatNameReq")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SetChatNameReq_Def.schema
+            ns = bfg.SetChatNameReq_Def.schema
             TClist = [ZSI.TC.String(pname="password", aname="_password", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="chatName", aname="_chatName", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIRequest_Def not in ns0.SetChatNameReq_Def.__bases__:
-                bases = list(ns0.SetChatNameReq_Def.__bases__)
-                bases.insert(0, ns0.APIRequest_Def)
-                ns0.SetChatNameReq_Def.__bases__ = tuple(bases)
+            if bfg.APIRequest_Def not in bfg.SetChatNameReq_Def.__bases__:
+                bases = list(bfg.SetChatNameReq_Def.__bases__)
+                bases.insert(0, bfg.APIRequest_Def)
+                bfg.SetChatNameReq_Def.__bases__ = tuple(bases)
 
-            ns0.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIRequest_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
     class SetChatNameResp_Def(TypeDefinition):
         #complexType/complexContent extension
         schema = "http://www.betfair.com/publicapi/types/global/v3/"
         type = (schema, "SetChatNameResp")
         def __init__(self, pname, ofwhat=(), extend=False, restrict=False, attributes=None, **kw):
-            ns = ns0.SetChatNameResp_Def.schema
+            ns = bfg.SetChatNameResp_Def.schema
             TClist = [GTD("http://www.betfair.com/publicapi/types/global/v3/","SetChatNameErrorEnum",lazy=False)(pname="errorCode", aname="_errorCode", minOccurs=1, maxOccurs=1, nillable=False, typed=False, encoded=kw.get("encoded")), ZSI.TC.String(pname="minorErrorCode", aname="_minorErrorCode", minOccurs=1, maxOccurs=1, nillable=True, typed=False, encoded=kw.get("encoded"))]
             attributes = self.attribute_typecode_dict = attributes or {}
             if extend: TClist += ofwhat
             if restrict: TClist = ofwhat
-            if ns0.APIResponse_Def not in ns0.SetChatNameResp_Def.__bases__:
-                bases = list(ns0.SetChatNameResp_Def.__bases__)
-                bases.insert(0, ns0.APIResponse_Def)
-                ns0.SetChatNameResp_Def.__bases__ = tuple(bases)
+            if bfg.APIResponse_Def not in bfg.SetChatNameResp_Def.__bases__:
+                bases = list(bfg.SetChatNameResp_Def.__bases__)
+                bases.insert(0, bfg.APIResponse_Def)
+                bfg.SetChatNameResp_Def.__bases__ = tuple(bases)
 
-            ns0.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
+            bfg.APIResponse_Def.__init__(self, pname, ofwhat=TClist, extend=True, attributes=attributes, **kw)
 
-# end class ns0 (tns: http://www.betfair.com/publicapi/types/global/v3/)
+# end class bfg (tns: http://www.betfair.com/publicapi/types/global/v3/)

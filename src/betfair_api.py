@@ -2,7 +2,7 @@ from xmlrpclib import datetime
 
 from smarkets.exceptions import SocketDisconnected
 
-from betfair.BFGlobalService_types import *
+from betfair.BFGlobalService_types import bfg
 
 from business_layer import BusinessUnit
 import smk_api
@@ -20,7 +20,7 @@ def currentDateTime():
     return list(datetime.datetime.now().timetuple())
 
 def createHeader(response, errorCode, sessionToken, soapBinding, typeDefinition):
-    response._header = ns0.APIResponseHeader_Def(soapBinding, typeDefinition)
+    response._header = bfg.APIResponseHeader_Def(soapBinding, typeDefinition)
     response._header._timestamp = currentDateTime()
     response._header._sessionToken = sessionToken
     response._header._errorCode = errorCode
@@ -38,7 +38,7 @@ def addHeaderToResponseAndValidateSession(request, response, soapBinding, typeDe
 
 #+covered with acceptance test as verbose to unit test of markup generation
 def login(soapBinding, typeDefinition, request, loginResponse):
-    loginResp = ns0.LoginResp_Def(soapBinding, typeDefinition)
+    loginResp = bfg.LoginResp_Def(soapBinding, typeDefinition)
     
     username = request._request._username
     password = request._request._password
@@ -60,7 +60,7 @@ def login(soapBinding, typeDefinition, request, loginResponse):
 
 
 def logout(soapBinding, typeDefinition, request, logoutResponse):
-    logoutResp = ns0.LogoutResp_Def(soapBinding, typeDefinition)
+    logoutResp = bfg.LogoutResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, logoutResp, soapBinding, typeDefinition)
     
     logoutActionResult = BUSINESS_UNIT.logUserOutAndReturnResultOfAction(sessionToken)
@@ -74,15 +74,15 @@ def logout(soapBinding, typeDefinition, request, logoutResponse):
     return logoutResponse
 
 def getAllEventTypes(soapBinding, typeDefinition, request, response):
-    resp = ns0.GetEventTypesResp_Def(soapBinding, typeDefinition)
+    resp = bfg.GetEventTypesResp_Def(soapBinding, typeDefinition)
     
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     resp._errorCode = ERROR_CODE_OK
     
     if sessionToken:
-        resp._eventTypeItems = ns0.ArrayOfEventType_Def(soapBinding, typeDefinition)
-        footballEventType  = ns0.EventType_Def(soapBinding, typeDefinition)
+        resp._eventTypeItems = bfg.ArrayOfEventType_Def(soapBinding, typeDefinition)
+        footballEventType  = bfg.EventType_Def(soapBinding, typeDefinition)
         footballEventType._id = smk_api.FOOTBALL_EVENT_TYPE_ID
         footballEventType._name = "Football"
         footballEventType._nextMarketId = 0
@@ -93,7 +93,7 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     return response
 
 def event(eventDTO, soapBinding, typeDefinition):
-    event = ns0.BFEvent_Def(soapBinding, typeDefinition)
+    event = bfg.BFEvent_Def(soapBinding, typeDefinition)
     event._eventId = eventDTO.eventId
     event._eventName = eventDTO.eventName
     event._eventTypeId = eventDTO.eventTypeId
@@ -104,7 +104,7 @@ def event(eventDTO, soapBinding, typeDefinition):
     return event
 
 def market(marketDTO, soapBinding, typeDefinition):
-    market = ns0.MarketSummary_Def(soapBinding, typeDefinition)
+    market = bfg.MarketSummary_Def(soapBinding, typeDefinition)
     market._eventTypeId = marketDTO.marketTypeId
     market._marketId = marketDTO.marketId
     market._marketName = marketDTO.marketName
@@ -122,7 +122,7 @@ def market(marketDTO, soapBinding, typeDefinition):
 
 
 def getEvents(soapBinding, typeDefinition, request, response):
-    resp = ns0.GetEventsResp_Def(soapBinding, typeDefinition)
+    resp = bfg.GetEventsResp_Def(soapBinding, typeDefinition)
 
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
@@ -130,9 +130,9 @@ def getEvents(soapBinding, typeDefinition, request, response):
     eventParentId = request._request._eventParentId
     resp._eventParentId = eventParentId
     if sessionToken:
-        resp._eventItems = ns0.ArrayOfBFEvent_Def(soapBinding, typeDefinition)
+        resp._eventItems = bfg.ArrayOfBFEvent_Def(soapBinding, typeDefinition)
         resp._eventItems._BFEvent = []
-        resp._marketItems = ns0.ArrayOfMarketSummary_Def(soapBinding, typeDefinition)
+        resp._marketItems = bfg.ArrayOfMarketSummary_Def(soapBinding, typeDefinition)
         resp._marketItems._MarketSummary = []
         
         events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
