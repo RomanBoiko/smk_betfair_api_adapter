@@ -24,7 +24,7 @@ QUANTITY = 220000
 PRICE = 2400
 
 try:
-    smk_api.EventsBroker().getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 3, 1)))
+    smk_api.EventsBroker().getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 3, 5)))
     smk_api.SmkBroker(client).placeBet(24402, 50724, QUANTITY, PRICE)
     smk_api.SmkBroker(client).placeBet(276267, 380942, QUANTITY, PRICE)
     #            seto.order_accepted: type: PAYLOAD_ORDER_ACCEPTED

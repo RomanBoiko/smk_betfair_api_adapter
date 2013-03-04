@@ -3,6 +3,7 @@ import logging
 import datetime
 
 import smarkets
+from smarkets.uuid import Uuid, uuid_to_int
 
 import smk_api
 
@@ -76,21 +77,25 @@ class BusinessUnit(object):
         if self.events is None :
             client = self.getClientIfTokenIsValid(sessionToken)
             eventsBroker = smk_api.EventsBroker()
-            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 2, 20)))
+            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 3, 5)))
             self.events = self.loadEvents(eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction)
         return self.events
 
     def loadEvents(self, eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction):
         events = Events()
         for parent in eventsMessage.parents:
-            eventDTO = Event(parent.event.low, parent.name, eventParentId)
+            eventDTO = Event(self.uuid_to_integer(parent.event), parent.name, eventParentId)
             events.parents.append(eventConvertionFunction(eventDTO))
-            events.parentToEvent[str(parent.event.low)]=[]
+            events.parentToEvent[str(self.uuid_to_integer(parent.event))]=[]
         for sportEvent in eventsMessage.with_markets:
-            eventDTO = Event(sportEvent.event.low, sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
-            events.parentToEvent[str(sportEvent.parent.low)].append(eventConvertionFunction(eventDTO))
-            events.eventToMarket[str(sportEvent.event.low)] = []
+            eventDTO = Event(self.uuid_to_integer(sportEvent.event), sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
+            events.parentToEvent[str(self.uuid_to_integer(sportEvent.parent))].append(eventConvertionFunction(eventDTO))
+            events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))] = []
             for marketItem in sportEvent.markets :
-                marketDTO = Market(marketItem.market.low, marketItem.name, FOOTBALL_EVENT_TYPE_ID, sportEvent.event.low)
-                events.eventToMarket[str(sportEvent.event.low)].append(marketConvertionFunction(marketDTO))
+                marketDTO = Market(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID, self.uuid_to_integer(sportEvent.event))
+                events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))].append(marketConvertionFunction(marketDTO))
         return events
+    
+    def uuid_to_integer(self, uuid):
+        uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
+        return uuid_to_int(uu.to_hex())
