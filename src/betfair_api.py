@@ -3,8 +3,9 @@ from xmlrpclib import datetime
 from smarkets.exceptions import SocketDisconnected
 
 from betfair.BFGlobalService_types import *
+
 from business_layer import BusinessUnit
-import business_layer
+import smk_api
 
 ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
@@ -82,7 +83,7 @@ def getAllEventTypes(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._eventTypeItems = ns0.ArrayOfEventType_Def(soapBinding, typeDefinition)
         footballEventType  = ns0.EventType_Def(soapBinding, typeDefinition)
-        footballEventType._id = business_layer.FOOTBALL_EVENT_TYPE_ID
+        footballEventType._id = smk_api.FOOTBALL_EVENT_TYPE_ID
         footballEventType._name = "Football"
         footballEventType._nextMarketId = 0
         footballEventType._exchangeId = 0
@@ -136,7 +137,7 @@ def getEvents(soapBinding, typeDefinition, request, response):
         
         events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
 
-        if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
+        if str(eventParentId) == str(smk_api.FOOTBALL_EVENT_TYPE_ID):
             resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parents)
         elif str(eventParentId) in events.parentToEvent:
             resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parentToEvent[str(eventParentId)])

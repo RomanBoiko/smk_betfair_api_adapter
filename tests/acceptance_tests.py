@@ -5,7 +5,7 @@ from xml.dom.minidom import parseString
 
 import adapter_context
 import betfair_api
-import business_layer
+import smk_api
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
@@ -117,12 +117,12 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         request = soapMessage(getAllEventTypesRequestTemplate%EventsRetrievingTest.validSessionToken)
         responseDom = parseString(getServerReply(request))
         self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
-        self.assertEqual(textFromElement(responseDom, "id", 0), str(business_layer.FOOTBALL_EVENT_TYPE_ID))
+        self.assertEqual(textFromElement(responseDom, "id", 0), str(smk_api.FOOTBALL_EVENT_TYPE_ID))
         self.assertErrorCodesAreOk(responseDom)
     
       
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
-        footballEventTypeId = str(business_layer.FOOTBALL_EVENT_TYPE_ID)
+        footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, footballEventTypeId))
         responseXml = getServerReply(request)
         responseDom = parseString(responseXml)

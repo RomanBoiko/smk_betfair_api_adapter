@@ -5,7 +5,6 @@ import datetime
 import smk_api
 
 DEFAULT_CURRENCY = "GBP"
-FOOTBALL_EVENT_TYPE_ID = smk_api.FOOTBALL_EVENT_TYPE_ID
 
 
 class SessionStorage(object):
