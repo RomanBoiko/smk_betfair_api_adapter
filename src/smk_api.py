@@ -4,10 +4,12 @@ from google.protobuf import text_format
 
 import smarkets
 import smarkets.seto.piqi_pb2 as seto
+from smarkets.uuid import Uuid, uuid_to_int
 
 import adapter_context
 
 LOGGER = logging.getLogger('[smk.api]')
+FOOTBALL_EVENT_TYPE_ID = 121005
 
 def login(username, password):
     settings = smarkets.SessionSettings(username, password)
@@ -23,12 +25,32 @@ def login(username, password):
     
 def logout(client):
     client.logout()
+    
+class Events(object):
+    def __init__(self):
+        self.parents = []
+        self.parentToEvent={}
+        self.eventToMarket={}
+
+class Event(object):
+    def __init__(self, eventId, eventName, eventTypeId):
+        self.eventId = eventId
+        self.eventName = eventName
+        self.eventTypeId = eventTypeId
+
+class Market(object):
+    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
+        self.marketId = marketId
+        self.marketName = marketName
+        self.marketTypeId = marketTypeId
+        self.marketParentEventId = marketParentEventId
 
 class EventsBroker():
     LOGGER = logging.getLogger('[events.broker]')
 
-    def __init__(self):
+    def __init__(self, client):
         self.eventsMessage = None
+        self.client = client
         
     def doWithHttpService(self, serviceUrl):
         content_type, result = smarkets.urls.fetch(serviceUrl)
@@ -45,14 +67,37 @@ class EventsBroker():
         self.LOGGER.debug("URL to be used for events load: %s" % normalizedUrl)
         self.doWithHttpService(normalizedUrl)
         
-    def getEvents(self, client, eventRequest):
+    def getEvents(self, eventRequest):
         callback = lambda x: self.httpDataFetchingCallback(x)
-        client.add_handler('seto.http_found', callback)
-        client.request_events(eventRequest)
-        client.flush()
-        client.read()
-        client.del_handler('seto.http_found', callback)
+        self.client.add_handler('seto.http_found', callback)
+        self.client.request_events(eventRequest)
+        self.client.flush()
+        self.client.read()
+        self.client.del_handler('seto.http_found', callback)
         return self.eventsMessage
+    
+    def footballByDate(self, eventsDate):
+        eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
+        return self.loadEvents(eventsMessage)
+    
+    def loadEvents(self, eventsMessage):
+        events = Events()
+        for parent in eventsMessage.parents:
+            eventDTO = Event(self.uuid_to_integer(parent.event), parent.name, FOOTBALL_EVENT_TYPE_ID)
+            events.parents.append(eventDTO)
+            events.parentToEvent[str(self.uuid_to_integer(parent.event))]=[]
+        for sportEvent in eventsMessage.with_markets:
+            eventDTO = Event(self.uuid_to_integer(sportEvent.event), sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
+            events.parentToEvent[str(self.uuid_to_integer(sportEvent.parent))].append(eventDTO)
+            events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))] = []
+            for marketItem in sportEvent.markets :
+                marketDTO = Market(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID, self.uuid_to_integer(sportEvent.event))
+                events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))].append(marketDTO)
+        return events
+    
+    def uuid_to_integer(self, uuid):
+        uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
+        return uuid_to_int(uu.to_hex())
 
 class AccountState(object):
     def __init__(self, accountStateMessage):

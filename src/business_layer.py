@@ -2,33 +2,11 @@ import uuid
 import logging
 import datetime
 
-import smarkets
-from smarkets.uuid import Uuid, uuid_to_int
-
 import smk_api
 
 DEFAULT_CURRENCY = "GBP"
-FOOTBALL_EVENT_TYPE_ID = 121005
+FOOTBALL_EVENT_TYPE_ID = smk_api.FOOTBALL_EVENT_TYPE_ID
 
-
-class Events(object):
-    def __init__(self):
-        self.parents = []
-        self.parentToEvent={}
-        self.eventToMarket={}
-
-class Event(object):
-    def __init__(self, eventId, eventName, eventTypeId):
-        self.eventId = eventId
-        self.eventName = eventName
-        self.eventTypeId = eventTypeId
-
-class Market(object):
-    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
-        self.marketId = marketId
-        self.marketName = marketName
-        self.marketTypeId = marketTypeId
-        self.marketParentEventId = marketParentEventId
 
 class SessionStorage(object):
     "Encapsulates client authentication actions and active clients storage"
@@ -62,6 +40,25 @@ class SessionStorage(object):
         else:
             return False
 
+class Events(object):
+    def __init__(self):
+        self.parents = []
+        self.parentToEvent={}
+        self.eventToMarket={}
+
+class Event(object):
+    def __init__(self, eventId, eventName, eventTypeId):
+        self.eventId = eventId
+        self.eventName = eventName
+        self.eventTypeId = eventTypeId
+
+class Market(object):
+    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
+        self.marketId = marketId
+        self.marketName = marketName
+        self.marketTypeId = marketTypeId
+        self.marketParentEventId = marketParentEventId
+
 class BusinessUnit(object):
     LOGGER = logging.getLogger('[business.unit]')
     
@@ -73,29 +70,9 @@ class BusinessUnit(object):
         self.LOGGER.info("BusinessUnit started ")
         self.events = None
         
-    def getTodaysFootballEvents(self, sessionToken, eventParentId, eventConvertionFunction, marketConvertionFunction):
+    def getTodaysFootballEvents(self, sessionToken):
         if self.events is None :
             client = self.getClientIfTokenIsValid(sessionToken)
-            eventsBroker = smk_api.EventsBroker()
-            eventsMessage = eventsBroker.getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 3, 5)))
-            self.events = self.loadEvents(eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction)
+            eventsBroker = smk_api.EventsBroker(client)
+            self.events = eventsBroker.footballByDate(datetime.date(2013, 3, 5))
         return self.events
-
-    def loadEvents(self, eventsMessage, eventParentId, eventConvertionFunction, marketConvertionFunction):
-        events = Events()
-        for parent in eventsMessage.parents:
-            eventDTO = Event(self.uuid_to_integer(parent.event), parent.name, eventParentId)
-            events.parents.append(eventConvertionFunction(eventDTO))
-            events.parentToEvent[str(self.uuid_to_integer(parent.event))]=[]
-        for sportEvent in eventsMessage.with_markets:
-            eventDTO = Event(self.uuid_to_integer(sportEvent.event), sportEvent.name, FOOTBALL_EVENT_TYPE_ID)
-            events.parentToEvent[str(self.uuid_to_integer(sportEvent.parent))].append(eventConvertionFunction(eventDTO))
-            events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))] = []
-            for marketItem in sportEvent.markets :
-                marketDTO = Market(self.uuid_to_integer(marketItem.market), marketItem.name, FOOTBALL_EVENT_TYPE_ID, self.uuid_to_integer(sportEvent.event))
-                events.eventToMarket[str(self.uuid_to_integer(sportEvent.event))].append(marketConvertionFunction(marketDTO))
-        return events
-    
-    def uuid_to_integer(self, uuid):
-        uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
-        return uuid_to_int(uu.to_hex())

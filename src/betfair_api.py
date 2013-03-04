@@ -134,18 +134,14 @@ def getEvents(soapBinding, typeDefinition, request, response):
         resp._marketItems = ns0.ArrayOfMarketSummary_Def(soapBinding, typeDefinition)
         resp._marketItems._MarketSummary = []
         
-        events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken, 
-                                                       eventParentId,
-                                                       lambda eventDTO: event(eventDTO, soapBinding, typeDefinition),
-                                                       lambda marketDTO: market(marketDTO, soapBinding, typeDefinition)
-                                                    )
+        events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
 
         if str(eventParentId) == str(business_layer.FOOTBALL_EVENT_TYPE_ID):
-            resp._eventItems._BFEvent = events.parents
+            resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parents)
         elif str(eventParentId) in events.parentToEvent:
-            resp._eventItems._BFEvent = events.parentToEvent[str(eventParentId)]
+            resp._eventItems._BFEvent = map(lambda eventDTO: event(eventDTO, soapBinding, typeDefinition), events.parentToEvent[str(eventParentId)])
         elif str(eventParentId) in events.eventToMarket :
-            resp._marketItems._MarketSummary = events.eventToMarket[str(eventParentId)]
+            resp._marketItems._MarketSummary = map(lambda marketDTO: market(marketDTO, soapBinding, typeDefinition), events.eventToMarket[str(eventParentId)])
         else:
 #            must raise an exception - invalid parent id
             resp._errorCode = ERROR_API_ERROR
