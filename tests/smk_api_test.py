@@ -16,27 +16,26 @@ import smarkets.seto.piqi_pb2 as seto
 ORIGINAL_LOW = 282382
 ORIGINAL_HIGH = 234
 
+TEST_TAG = 'Account'
+
 class SmkApiUnitTest(unittest.TestCase):
-
-    def test_that_uuid_arithmetic_with_low_works_as_expected(self):
-        uid = Uuid.from_int((0, ORIGINAL_LOW), 'Account')
-        self.assertEqual(ORIGINAL_LOW, uuid_to_int(uid.to_hex()))
-        self.assertEqual(ORIGINAL_LOW, Smarkets.str_to_uuid128(uid.to_hex()).low)
+    def assertUuidsConversionIsSymmetric(self, originalUuid):
+        uuidAfterSymmetricConvertion = smk_api.integerToUuid(smk_api.uuidToInteger(originalUuid))
+        self.assertEqual(uuidAfterSymmetricConvertion.low, originalUuid.low)
+        self.assertEqual(uuidAfterSymmetricConvertion.high, originalUuid.high)
         
-    def test_that_uuid_arithmetic_with_low_and_high_works_as_expected(self):
-        uid = Uuid.from_int((ORIGINAL_HIGH, ORIGINAL_LOW), 'Account')
-        
-        self.assertTrue(isinstance( uuid_to_int(uid.to_hex()), ( int, long ) ) )
-        
-        self.assertEqual(ORIGINAL_LOW, Smarkets.str_to_uuid128(uid.to_hex()).low)
-        self.assertEqual(ORIGINAL_HIGH, Smarkets.str_to_uuid128(uid.to_hex()).high)
-        
-    def test_that_uuid_arithmetic_with_low_and_high_with_high_as_zero(self):
-        uid = Uuid.from_int((0, ORIGINAL_LOW), 'Account')
-        self.assertEqual(uuid_to_int(uid.to_hex()), ORIGINAL_LOW )
-
-    def test_that_uuid_arithmetic_with_int_works_as_expected(self):
+    def test_that_uuidToInteger_and_integerToUuid_are_symmetric(self):
         testId=1231
-        uid = Uuid.from_int(testId, 'Account')
-        self.assertEqual(testId, uuid_to_int(uid.to_hex()))
+        uid = Uuid.from_int(testId, TEST_TAG)
         
+        self.assertUuidsConversionIsSymmetric(uid)
+        
+    def test_that_uuidToInteger_and_integerToUuid_are_symmetric_with_low_and_high(self):
+        uid = Uuid.from_int((ORIGINAL_HIGH, ORIGINAL_LOW), TEST_TAG)
+        
+        self.assertUuidsConversionIsSymmetric(uid)
+        
+    def test_that_uuidToInteger_and_integerToUuid_are_symmetric_with_low_and_high_if_high_is_zero(self):
+        uid = Uuid.from_int((0, ORIGINAL_LOW), TEST_TAG)
+
+        self.assertUuidsConversionIsSymmetric(uid)
