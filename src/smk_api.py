@@ -11,6 +11,10 @@ import adapter_context
 LOGGER = logging.getLogger('[smk.api]')
 FOOTBALL_EVENT_TYPE_ID = 121005
 
+def uuid_to_integer(uuid):
+    uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
+    return uuid_to_int(uu.to_hex())
+
 def login(username, password):
     settings = smarkets.SessionSettings(username, password)
     settings.host = adapter_context.SMK_API_HOST
@@ -47,9 +51,8 @@ class Event(object):
 
     def __str__(self):
         return ("Event(id=%s, name=%s, typeId=%s)"%(self.eventId, self.eventName.encode("utf-8"), self.eventTypeId))
-
     def __repr__(self):
-        return self.__str__() 
+        return self.__str__()
 
 #unused
 class Market(object):
@@ -99,36 +102,45 @@ class EventsBroker():
         footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
         
         for parent in eventsMessage.parents:
-            parentIdInt = self.uuid_to_integer(parent.event)
+            parentIdInt = uuid_to_integer(parent.event)
             if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
                 events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
         for sportEvent in eventsMessage.with_markets:
-            eventIdInt = self.uuid_to_integer(sportEvent.event)
-            parentIdInt = self.uuid_to_integer(sportEvent.parent)
+            eventIdInt = uuid_to_integer(sportEvent.event)
+            parentIdInt = uuid_to_integer(sportEvent.parent)
             events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
 
             for marketItem in sportEvent.markets :
-                marketIdInt = self.uuid_to_integer(marketItem.market)
+                marketIdInt = uuid_to_integer(marketItem.market)
                 events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
                 for contract in marketItem.contracts :
-                    smkContract = Market(self.uuid_to_integer(contract.contract),
+                    smkContract = Market(uuid_to_integer(contract.contract),
                                          contract.name,
                                          FOOTBALL_EVENT_TYPE_ID,
                                          marketIdInt)
                     events.putContract(marketIdInt, smkContract)
         return events
 
-    def uuid_to_integer(self, uuid):
-        uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
-        return uuid_to_int(uu.to_hex())
-
 class AccountState(object):
     def __init__(self, accountStateMessage):
-        self.id=accountStateMessage.account_state.account.low
+        self.id=uuid_to_integer(accountStateMessage.account_state.account)
         self.currency=accountStateMessage.account_state.currency
         self.cash=accountStateMessage.account_state.cash.value
         self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
         self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
+    
+    def __str__(self):
+        return ("AccountState(id=%s, currency=%s, cash=%s, bonus=%s, exposure=%s)"%(self.id, self.currency, self.cash, self.bonus, self.exposure))
+    def __repr__(self):
+        return self.__str__()
+    
+class Bet(object):
+    def __init__(self, orderAcceptedMessage):
+        self.id=uuid_to_integer(orderAcceptedMessage.order_accepted.order)
+    def __str__(self):
+        return ("Bet(id=%s)"%(self.id))
+    def __repr__(self):
+        return self.__str__()
 
 class SmkBroker():
     LOGGER = logging.getLogger('[smk.broker]')
@@ -166,13 +178,18 @@ class SmkBroker():
         order.price = price#procents*100
         order.side = smarkets.Order.BUY
         
-        order.market = seto.Uuid128()
-        order.market.low = marketId
-        order.contract = seto.Uuid128()
-        order.contract.low = contractId
-        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted')#add nonsuccessful case:seto.order_rejected
+        order.market = self.intToUuid128(marketId)
+        order.contract = self.intToUuid128(contractId)
+        
+        return Bet(self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted'))#add nonsuccessful case:seto.order_rejected
 
     def cancelBet(self, orderId):
-        order = seto.Uuid128()
-        order.low = orderId
+        order = self.intToUuid128(orderId)
         return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled')#add nonsuccessful case:seto.order_rejected
+    
+    def intToUuid128(self, sourceInt):
+        sourceUuid = Uuid.from_int(sourceInt, 'Account')
+        resultedUuid = seto.Uuid128()
+        resultedUuid.low = sourceUuid.low
+        resultedUuid.high = sourceUuid.high
+        return resultedUuid

@@ -28,7 +28,6 @@ class SmkApiIntegrationTest(unittest.TestCase):
             assert True
         else:
             assert False
-            
     
     def test_bet_placing_workflow(self):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
@@ -43,8 +42,22 @@ class SmkApiIntegrationTest(unittest.TestCase):
                 market = events.parentToEvent[str(event.eventId)][0]
             self.assertFalse(market is None)
             
-            contract = events.marketToContract.get(str(market.eventId))
+            contract = events.marketToContract.get(str(market.eventId))[0]
             self.assertFalse(contract is None)
+            
+            smkBroker = smk_api.SmkBroker(client)
+            
+            self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
+            self.assertEqual(0, len(smkBroker.getBetsForAccount().orders_for_account.markets))
+            
+            bet = smkBroker.placeBet(market.eventId, contract.marketId, 220000, 2400)
+            print "======>Bet: "+str(bet)
+            self.assertEqual(1, len(smkBroker.getBetsForAccount().orders_for_account.markets))
+            cancelBetResponse = smkBroker.cancelBet(bet.id)
+            print "======>CancelBet: "+str(cancelBetResponse)
+            
+            self.assertEqual(0, len(smkBroker.getBetsForAccount().orders_for_account.markets))
+            self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
             
         finally:
             smk_api.logout(client)
