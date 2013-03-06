@@ -21,12 +21,15 @@ create_test_dir:
 	mkdir -p build/test
 
 
-all_tests: create_test_dir
-	$(TEST_COMMAND) tests/*.py
-
+unit_tests: create_test_dir
+	$(TEST_COMMAND) tests/*_test.py
 
 integration_tests: create_test_dir
-	$(TEST_COMMAND) tests/smk_api_test.py
+	$(TEST_COMMAND) tests/integration_tests.py
 
+acceptance_tests_suit: create_test_dir
+	$(TEST_COMMAND) tests/acceptance_tests.py
 
-test: start all_tests stop
+acceptance_tests: start acceptance_tests_suit stop
+
+test: unit_tests integration_tests acceptance_tests

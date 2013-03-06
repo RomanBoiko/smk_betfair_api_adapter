@@ -29,16 +29,27 @@ def logout(client):
 class Events(object):
     def __init__(self):
         self.parentToEvent={}
+        self.marketToContract={}
     def putEvent(self, parentIdInt, event):
         if str(parentIdInt) not in self.parentToEvent:
             self.parentToEvent[str(parentIdInt)] = []
         self.parentToEvent[str(parentIdInt)].append(event)
+    def putContract(self, parentMarketIdInt, contract):
+        if str(parentMarketIdInt) not in self.marketToContract:
+            self.marketToContract[str(parentMarketIdInt)] = []
+        self.marketToContract[str(parentMarketIdInt)].append(contract)
 
 class Event(object):
     def __init__(self, eventId, eventName, eventTypeId):
         self.eventId = eventId
         self.eventName = eventName
         self.eventTypeId = eventTypeId
+
+    def __str__(self):
+        return ("Event(id=%s, name=%s, typeId=%s)"%(self.eventId, self.eventName.encode("utf-8"), self.eventTypeId))
+
+    def __repr__(self):
+        return self.__str__() 
 
 #unused
 class Market(object):
@@ -99,8 +110,14 @@ class EventsBroker():
             for marketItem in sportEvent.markets :
                 marketIdInt = self.uuid_to_integer(marketItem.market)
                 events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
+                for contract in marketItem.contracts :
+                    smkContract = Market(self.uuid_to_integer(contract.contract),
+                                         contract.name,
+                                         FOOTBALL_EVENT_TYPE_ID,
+                                         marketIdInt)
+                    events.putContract(marketIdInt, smkContract)
         return events
-    
+
     def uuid_to_integer(self, uuid):
         uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
         return uuid_to_int(uu.to_hex())
