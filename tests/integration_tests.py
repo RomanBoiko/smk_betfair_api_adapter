@@ -33,7 +33,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         try:
             eventsBroker = smk_api.EventsBroker(client)
-            events = eventsBroker.footballByDate(datetime.date(2013, 3, 6))
+            events = eventsBroker.footballByDate(datetime.date(2013, 3, 7))
             event = events.parentToEvent.values()[0][0]
             market = None
             if events.parentToEvent.get(str(event.eventId)) is None:
@@ -47,8 +47,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             
             smkBroker = smk_api.SmkBroker(client)
             
-            self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
-            self.assertEqual(0, len(smkBroker.getBetsForAccount().orders_for_account.markets))
+            makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
             
             bet = smkBroker.placeBet(market.eventId, contract.marketId, 220000, 2400)
             print "======>Bet: "+str(bet)
@@ -56,8 +55,11 @@ class SmkApiIntegrationTest(unittest.TestCase):
             cancelBetResponse = smkBroker.cancelBet(bet.id)
             print "======>CancelBet: "+str(cancelBetResponse)
             
-            self.assertEqual(0, len(smkBroker.getBetsForAccount().orders_for_account.markets))
-            self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
+            makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
             
         finally:
             smk_api.logout(client)
+            
+    def makeSureAccountIsInInitialStateAndHasNoActiveBets(self, smkBroker):
+        self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
+        self.assertEqual(0, len(smkBroker.getBetsForAccount().orders_for_account.markets))
