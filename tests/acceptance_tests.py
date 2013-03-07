@@ -222,21 +222,25 @@ class WorkflowTest(AdapterAcceptanceTest):
         contractId=2311
         priceInProcents=2500
         quantityInPoundsMultipliedBy10000 = 30000
-
+        
         request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
+        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
-        self.assertEqual(textFromElement(responseDom, "betId", 0), "111111111")
+        betId = textFromElement(responseDom, "betId", 0)
+        self.assertTrue(len(betId)>0)
+        self.exchange_service_shold_cancel_bet_using_cancelBets(betId)
     
-    def test_exchange_service_cancelBets(self):
-        betId=1111
+    def exchange_service_shold_cancel_bet_using_cancelBets(self, betId):
         request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
+        self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
 
 
 ###############################################

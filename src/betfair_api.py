@@ -179,16 +179,23 @@ def placeBets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
     
     if sessionToken:
-        placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
-        
-        placeBetResult._averagePriceMatched = 10.0000#???
-        placeBetResult._betId = 111111111#???
-        placeBetResult._resultCode = "OK"
-        placeBetResult._sizeMatched = 10.0000#???
-        placeBetResult._success = True
-        
         resp._betResults = bfe.ArrayOfPlaceBetsResult_Def(soapBinding, typeDefinition)
-        resp._betResults._PlaceBetsResult = [placeBetResult]
+        resp._betResults._PlaceBetsResult = []
+        
+        for betRequest in request._request._bets._PlaceBets:
+            placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
+            sizeInPoundsMultipliedBy10000 = betRequest._size
+            priceInProcentsMultipliedBy100 = betRequest._price
+            marketId = betRequest._marketId
+            contractId = betRequest._selectionId
+    #        betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPoundsMultipliedBy10000, priceInProcentsMultipliedBy100)
+            
+            placeBetResult._averagePriceMatched = sizeInPoundsMultipliedBy10000#???
+            placeBetResult._sizeMatched = sizeInPoundsMultipliedBy10000#???
+            placeBetResult._betId = 1111#betResult.id
+            placeBetResult._resultCode = "OK"
+            placeBetResult._success = True
+            resp._betResults._PlaceBetsResult.append(placeBetResult)
     
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
@@ -200,16 +207,19 @@ def cancelBets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
     
     if sessionToken:
-        cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
-        
-        cancelBetResult._betId = 111111111#???
-        cancelBetResult._resultCode = "OK"
-        cancelBetResult._sizeCancelled = 10.0000#???
-        cancelBetResult._sizeMatched = 10.0000#???
-        cancelBetResult._success = True
-        
         resp._betResults = bfe.ArrayOfCancelBetsResult_Def(soapBinding, typeDefinition)
-        resp._betResults._CancelBetsResult = [cancelBetResult]
+        resp._betResults._CancelBetsResult = []
+        
+        for cancelBetRequest in request._request._bets._CancelBets:
+            cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
+            betId = cancelBetRequest._betId
+            cancelBetResult._betId = betId
+            cancelBetResult._resultCode = "OK"
+            cancelBetResult._sizeCancelled = 10.0000#???
+            cancelBetResult._sizeMatched = 10.0000#???
+            cancelBetResult._success = True
+            resp._betResults._CancelBetsResult.append(cancelBetResult)
+        
     
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
