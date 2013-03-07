@@ -3,6 +3,7 @@ from xmlrpclib import datetime
 from smarkets.exceptions import SocketDisconnected
 
 from betfair.BFGlobalService_types import bfg
+from betfair.BFExchangeService_types import bfe
 
 from business_layer import BusinessUnit
 import smk_api
@@ -146,5 +147,47 @@ def getEvents(soapBinding, typeDefinition, request, response):
             resp._errorCode = ERROR_API_ERROR
     else :
         resp._errorCode = ERROR_API_ERROR
+    response._Result = resp
+    return response
+
+def getAccountFunds(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetAccountFundsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+    
+    if sessionToken:
+        accountStatus = BUSINESS_UNIT.getAccountFunds(sessionToken)
+        resp._availBalance = accountStatus.cash#????
+        resp._balance = accountStatus.cash#???
+        resp._withdrawBalance = accountStatus.cash#???
+        resp._exposure = accountStatus.exposure#???
+        
+        
+        resp._commissionRetain = 0.0000#???
+        resp._creditLimit = 0.0000#???
+        resp._currentBetfairPoints = 0#???
+        resp._expoLimit = 0.0000#???
+        resp._holidaysAvailable = 0#???
+        resp._minorErrorCode = None
+        resp._nextDiscount = 0.0000#???
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+def placeBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.PlaceBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+    
+    placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
+    
+    placeBetResult._averagePriceMatched = 10.0000#???
+    placeBetResult._betId = 111111111#???
+    placeBetResult._resultCode = "OK"
+    placeBetResult._sizeMatched = 10.0000#???
+    placeBetResult._success = True
+    
+    resp._betResults = bfe.ArrayOfPlaceBetsResult_Def(soapBinding, typeDefinition)
+    resp._betResults._PlaceBetsResult = [placeBetResult]
+    
+    resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response

@@ -56,3 +56,8 @@ class BusinessUnit(object):
             eventsBroker = smk_api.EventsBroker(client)
             self.events = eventsBroker.footballByDate(datetime.date(2013, 3, 5))
         return self.events
+    
+    def getAccountFunds(self, sessionToken):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        smkBroker = smk_api.SmkBroker(client)
+        return smkBroker.getAccountState()

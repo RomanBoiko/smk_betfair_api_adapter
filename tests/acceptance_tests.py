@@ -9,13 +9,18 @@ import smk_api
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)
-BETFAIR_SERVICE = "/BFGlobalService"
+BETFAIR_GLOBAL_SERVICE = "/BFGlobalService"
+BETFAIR_EXCHANGE_SERVICE = "/BFExchangeService"
 
 ERROR_CODE_TAG="errorCode"
 SESSION_TOKEN_TAG="sessionToken"
 
 SOAP_ENVELOPE = """<?xml version="1.0" encoding="UTF-8"?>
-                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bfg="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+                    <soapenv:Envelope 
+                            xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                            xmlns:bfg="http://www.betfair.com/publicapi/v3/BFGlobalService/"
+                            xmlns:bfex="http://www.betfair.com/publicapi/v5/BFExchangeService/"
+                            xmlns:v5="http://www.betfair.com/publicapi/types/exchange/v5/">
                        <soapenv:Header/>
                        <soapenv:Body>%s</soapenv:Body>
                     </soapenv:Envelope>
@@ -61,6 +66,38 @@ getAllEventTypesRequestTemplate = """<bfg:getAllEventTypes>
                                     <locale>en_UK</locale>
                                  </bfg:request>
                               </bfg:getAllEventTypes>"""
+                              
+getAccountFundsRequestTemplate = """<bfex:getAccountFunds>
+                                         <bfex:request>
+                                            <header>
+                                               <clientStamp>0</clientStamp>
+                                               <sessionToken>%s</sessionToken>
+                                            </header>
+                                         </bfex:request>
+                                      </bfex:getAccountFunds>"""
+                                      
+placeBetsRequestTemplate = """<bfex:placeBets>
+                                 <bfex:request>
+                                    <header>
+                                       <clientStamp>0</clientStamp>
+                                       <sessionToken>%s</sessionToken>
+                                    </header>
+                                    <bets>
+                                       <!--Zero or more repetitions:-->
+                                       <v5:PlaceBets>
+                                          <asianLineId>0</asianLineId><!-- 0 for non-Asian, asianId for AsianHandicap -->
+                                          <betType>B</betType><!-- or L -->
+                                          <betCategoryType>E</betCategoryType><!-- or M or L -->
+                                          <betPersistenceType>NONE</betPersistenceType><!-- or IP or SP -->
+                                          <marketId>%s</marketId>
+                                          <price>%s</price>
+                                          <selectionId>%s</selectionId>
+                                          <size>%s</size>
+                                          <bspLiability>%s</bspLiability>
+                                       </v5:PlaceBets>
+                                    </bets>
+                                 </bfex:request>
+                              </bfex:placeBets>"""
 
 class AdapterAcceptanceTest(unittest.TestCase):
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
@@ -102,20 +139,20 @@ class SessionManagementAcceptanceTest(AdapterAcceptanceTest):
         self.assertErrorCodesAreOk(logoutResponseDom)
 
 
-class EventsRetrievingTest(AdapterAcceptanceTest):
+class WorkflowTest(AdapterAcceptanceTest):
 
     @classmethod
     def setUpClass(cls):
         loginResponseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
-        EventsRetrievingTest.validSessionToken = sessionTokenFrom(loginResponseDom)
+        WorkflowTest.validSessionToken = sessionTokenFrom(loginResponseDom)
 
     @classmethod
     def tearDownClass(cls):
-        getLogoutResponseDom(EventsRetrievingTest.validSessionToken)
+        getLogoutResponseDom(WorkflowTest.validSessionToken)
 
     def test_that_fixed_dummy_list_of_event_types_is_returned(self):
-        request = soapMessage(getAllEventTypesRequestTemplate%EventsRetrievingTest.validSessionToken)
-        responseDom = parseString(getServerReply(request))
+        request = soapMessage(getAllEventTypesRequestTemplate%(WorkflowTest.validSessionToken))
+        responseDom = parseString(getGlobalServiceReply(request))
         self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
         self.assertEqual(textFromElement(responseDom, "id", 0), str(smk_api.FOOTBALL_EVENT_TYPE_ID))
         self.assertErrorCodesAreOk(responseDom)
@@ -123,8 +160,8 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
       
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
         footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
-        request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, footballEventTypeId))
-        responseXml = getServerReply(request)
+        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, footballEventTypeId))
+        responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
 
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
@@ -136,8 +173,8 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         self.check_that_event_children_can_be_retreived_by_getEvents_request(parentEventId, footballEventTypeId)
 
     def check_that_event_children_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
-        request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, parentEventId))
-        responseXml = getServerReply(request)
+        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
+        responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
@@ -145,22 +182,49 @@ class EventsRetrievingTest(AdapterAcceptanceTest):
         self.check_that_markets_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
 
     def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
-        request = soapMessage(getEventsRequestTemplate%(EventsRetrievingTest.validSessionToken, parentEventId))
-        responseXml = getServerReply(request)
+        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
+        responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+
         #For Betfair:Market==Smk:Contract
 #        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
 #        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
 #        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
+    def test_exchange_service_getAccountFunds(self):
+        request = soapMessage(getAccountFundsRequestTemplate%(WorkflowTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+
+        for balanceField in ["balance", "availBalance", "withdrawBalance"]:
+            self.assertEqual(textFromElement(responseDom, balanceField, 0), "100000.000000")
+        self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
+        
+    def test_exchange_service_placeBetsRequestTemplate(self):
+        marketId=1231231
+        contractId=2311
+        priceInProcents=2500
+        quantityInPoundsMultipliedBy10000 = 30000
+
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        print "======>"+responseXml
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
+        self.assertEqual(textFromElement(responseDom, "betId", 0), "111111111")
+        
+
+
 ###############################################
 # Common utils to operate with Betfair SOAP API
 ###############################################
-def getServerReply(request):
+
+def getServerReply(request, serviceName):
     http_conn = httplib.HTTP(HOST, PORT)
-    http_conn.putrequest('POST', BETFAIR_SERVICE)
+    http_conn.putrequest('POST', serviceName)
     http_conn.putheader('Host', HOST)
     http_conn.putheader('Content-Type', 'text/xml; charset="utf-8"')
     http_conn.putheader('Content-Length', str(len(request)))
@@ -171,13 +235,19 @@ def getServerReply(request):
     response = http_conn.getfile().read() 
     return response
 
+def getGlobalServiceReply(request):
+    return getServerReply(request, BETFAIR_GLOBAL_SERVICE)
+
+def getExchangeServiceReply(request):
+    return getServerReply(request, BETFAIR_EXCHANGE_SERVICE)
+
 def getLogoutResponseDom(sessionToken):
     logoutRequest = soapMessage(logoutRequestTemplate%(sessionToken))
-    return parseString(getServerReply(logoutRequest))
+    return parseString(getGlobalServiceReply(logoutRequest))
 
 def getLoginResponseDom(username, password):
     loginRequest = soapMessage(loginRequestTemplate%(username, password))
-    response = getServerReply(loginRequest)
+    response = getGlobalServiceReply(loginRequest)
     return parseString(response)
 
 def textFromElement(dom, elementName, elementPosition):

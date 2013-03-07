@@ -10,6 +10,7 @@ from ZSI.schema import GED, GTD
 from ZSI.TCcompound import ComplexType, Struct
 from BFExchangeService_types import *
 from ZSI.ServiceContainer import ServiceSOAPBinding
+import betfair_api
 
 # Messages  
 getAccountFundsIn = GED("http://www.betfair.com/publicapi/v5/BFExchangeService/", "getAccountFunds").pyclass
@@ -143,10 +144,25 @@ class BFExchangeService(ServiceSOAPBinding):
 
     def soap_getAccountFunds(self, ps, **kw):
         request = ps.Parse(getAccountFundsIn.typecode)
-        return request,getAccountFundsOut()
+        response = betfair_api.getAccountFunds(self, ps, request, getAccountFundsOut())
+        return request,response
 
     soapAction['getAccountFunds'] = 'soap_getAccountFunds'
     root[(getAccountFundsIn.typecode.nspname,getAccountFundsIn.typecode.pname)] = 'soap_getAccountFunds'
+
+    def soap_placeBets(self, ps, **kw):
+        request = ps.Parse(placeBetsIn.typecode)
+        response = betfair_api.placeBets(self, ps, request, placeBetsOut())
+        return request,response
+
+    soapAction['placeBets'] = 'soap_placeBets'
+    root[(placeBetsIn.typecode.nspname,placeBetsIn.typecode.pname)] = 'soap_placeBets'
+
+
+
+#############################
+#    NOT IMPLEMENTED YET    #
+#############################
 
     def soap_cancelBets(self, ps, **kw):
         request = ps.Parse(cancelBetsIn.typecode)
@@ -168,13 +184,6 @@ class BFExchangeService(ServiceSOAPBinding):
 
     soapAction['updateBets'] = 'soap_updateBets'
     root[(updateBetsIn.typecode.nspname,updateBetsIn.typecode.pname)] = 'soap_updateBets'
-
-    def soap_placeBets(self, ps, **kw):
-        request = ps.Parse(placeBetsIn.typecode)
-        return request,placeBetsOut()
-
-    soapAction['placeBets'] = 'soap_placeBets'
-    root[(placeBetsIn.typecode.nspname,placeBetsIn.typecode.pname)] = 'soap_placeBets'
 
     def soap_getMarket(self, ps, **kw):
         request = ps.Parse(getMarketIn.typecode)
