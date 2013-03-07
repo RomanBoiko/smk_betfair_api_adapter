@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bfex="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:v5="http://www.betfair.com/publicapi/types/exchange/v5/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bfex:cancelBetsResponse>
+         <bfex:Result>
+            <header>
+               <errorCode>?</errorCode>
+               <minorErrorCode>?</minorErrorCode>
+               <sessionToken>?</sessionToken>
+               <timestamp>?</timestamp>
+            </header>
+            <betResults>
+               <!--Zero or more repetitions:-->
+               <v5:CancelBetsResult>
+                  <betId>?</betId>
+                  <resultCode>?</resultCode>
+                  <sizeCancelled>?</sizeCancelled>
+                  <sizeMatched>?</sizeMatched>
+                  <success>?</success>
+               </v5:CancelBetsResult>
+            </betResults>
+            <errorCode>?</errorCode>
+            <minorErrorCode>?</minorErrorCode>
+         </bfex:Result>
+      </bfex:cancelBetsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

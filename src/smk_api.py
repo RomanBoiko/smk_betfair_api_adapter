@@ -171,15 +171,13 @@ class SmkBroker():
         self.LOGGER.debug("smk data transfered for %s"%expectedResponseType)
         return self.smkResponsePayload
         
-    #unused
     def getAccountState(self):
         return AccountState(self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state'))
 
-    #unused, add processing of successful response payload  
     def getBetsForAccount(self):
         return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account')
 
-    #unused, add processing of successful and problematic response payload  
+    #add processing of problematic response payload  
     def placeBet(self, marketId, contractId, quantity, price):
         order = smarkets.Order()
         order.quantity = quantity#pounds*10000
@@ -191,6 +189,7 @@ class SmkBroker():
         
         return Bet(self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted'))#add nonsuccessful case:seto.order_rejected
 
+    #add processing of problematic response payload
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
         return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled')#add nonsuccessful case:seto.order_rejected

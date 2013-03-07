@@ -173,20 +173,43 @@ def getAccountFunds(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+#add ability to process multiple cancels
 def placeBets(soapBinding, typeDefinition, request, response):
     resp = bfe.PlaceBetsResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
     
-    placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
+    if sessionToken:
+        placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
+        
+        placeBetResult._averagePriceMatched = 10.0000#???
+        placeBetResult._betId = 111111111#???
+        placeBetResult._resultCode = "OK"
+        placeBetResult._sizeMatched = 10.0000#???
+        placeBetResult._success = True
+        
+        resp._betResults = bfe.ArrayOfPlaceBetsResult_Def(soapBinding, typeDefinition)
+        resp._betResults._PlaceBetsResult = [placeBetResult]
     
-    placeBetResult._averagePriceMatched = 10.0000#???
-    placeBetResult._betId = 111111111#???
-    placeBetResult._resultCode = "OK"
-    placeBetResult._sizeMatched = 10.0000#???
-    placeBetResult._success = True
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+#add ability to process multiple cancels
+def cancelBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.CancelBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
     
-    resp._betResults = bfe.ArrayOfPlaceBetsResult_Def(soapBinding, typeDefinition)
-    resp._betResults._PlaceBetsResult = [placeBetResult]
+    if sessionToken:
+        cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
+        
+        cancelBetResult._betId = 111111111#???
+        cancelBetResult._resultCode = "OK"
+        cancelBetResult._sizeCancelled = 10.0000#???
+        cancelBetResult._sizeMatched = 10.0000#???
+        cancelBetResult._success = True
+        
+        resp._betResults = bfe.ArrayOfCancelBetsResult_Def(soapBinding, typeDefinition)
+        resp._betResults._CancelBetsResult = [cancelBetResult]
     
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp

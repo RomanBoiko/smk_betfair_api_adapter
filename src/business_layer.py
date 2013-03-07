@@ -56,8 +56,19 @@ class BusinessUnit(object):
             eventsBroker = smk_api.EventsBroker(client)
             self.events = eventsBroker.footballByDate(datetime.date(2013, 3, 5))
         return self.events
-    
+
     def getAccountFunds(self, sessionToken):
         client = self.getClientIfTokenIsValid(sessionToken)
         smkBroker = smk_api.SmkBroker(client)
         return smkBroker.getAccountState()
+
+    def placeBet(self, sessionToken, marketId, contractId, quantity, price):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        smkBroker = smk_api.SmkBroker(client)
+        return smkBroker.placeBet(marketId, contractId, quantity, price)
+
+    def cancelBet(self, sessionToken, orderId):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        smkBroker = smk_api.SmkBroker(client)
+        return smkBroker.cancelBet(orderId)
+

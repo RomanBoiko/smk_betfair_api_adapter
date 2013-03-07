@@ -98,6 +98,21 @@ placeBetsRequestTemplate = """<bfex:placeBets>
                                     </bets>
                                  </bfex:request>
                               </bfex:placeBets>"""
+                              
+cancelBetsRequestTemplate = """<bfex:cancelBets>
+                                 <bfex:request>
+                                    <header>
+                                       <clientStamp>0</clientStamp>
+                                       <sessionToken>%s</sessionToken>
+                                    </header>
+                                    <bets>
+                                       <!--Zero or more repetitions:-->
+                                       <v5:CancelBets>
+                                          <betId>%s</betId>
+                                       </v5:CancelBets>
+                                    </bets>
+                                 </bfex:request>
+                              </bfex:cancelBets>"""
 
 class AdapterAcceptanceTest(unittest.TestCase):
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
@@ -202,7 +217,7 @@ class WorkflowTest(AdapterAcceptanceTest):
             self.assertEqual(textFromElement(responseDom, balanceField, 0), "100000.000000")
         self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
         
-    def test_exchange_service_placeBetsRequestTemplate(self):
+    def test_exchange_service_placeBets(self):
         marketId=1231231
         contractId=2311
         priceInProcents=2500
@@ -211,11 +226,17 @@ class WorkflowTest(AdapterAcceptanceTest):
         request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
-        print "======>"+responseXml
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         self.assertEqual(textFromElement(responseDom, "betId", 0), "111111111")
-        
+    
+    def test_exchange_service_cancelBets(self):
+        betId=1111
+        request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
 
 
 ###############################################
