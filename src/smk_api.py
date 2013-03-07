@@ -108,24 +108,25 @@ class EventsBroker():
         events = Events()
         footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
         
-        for parent in eventsMessage.parents:
-            parentIdInt = uuidToInteger(parent.event)
-            if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
-                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
-        for sportEvent in eventsMessage.with_markets:
-            eventIdInt = uuidToInteger(sportEvent.event)
-            parentIdInt = uuidToInteger(sportEvent.parent)
-            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
-
-            for marketItem in sportEvent.markets :
-                marketIdInt = uuidToInteger(marketItem.market)
-                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
-                for contract in marketItem.contracts :
-                    smkContract = Market(uuidToInteger(contract.contract),
-                                         contract.name,
-                                         FOOTBALL_EVENT_TYPE_ID,
-                                         marketIdInt)
-                    events.putContract(marketIdInt, smkContract)
+        if eventsMessage is not None:
+            for parent in eventsMessage.parents:
+                parentIdInt = uuidToInteger(parent.event)
+                if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
+                    events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
+            for sportEvent in eventsMessage.with_markets:
+                eventIdInt = uuidToInteger(sportEvent.event)
+                parentIdInt = uuidToInteger(sportEvent.parent)
+                events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
+    
+                for marketItem in sportEvent.markets :
+                    marketIdInt = uuidToInteger(marketItem.market)
+                    events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
+                    for contract in marketItem.contracts :
+                        smkContract = Market(uuidToInteger(contract.contract),
+                                             contract.name,
+                                             FOOTBALL_EVENT_TYPE_ID,
+                                             marketIdInt)
+                        events.putContract(marketIdInt, smkContract)
         return events
 
 class AccountState(object):
