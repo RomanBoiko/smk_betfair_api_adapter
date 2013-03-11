@@ -150,6 +150,16 @@ class Bet(object):
     def __repr__(self):
         return self.__str__()
 
+class BetsForAccount(object):
+    def __init__(self, ordersForAccountMessage):
+        self.markets = []
+        for marketOrders in ordersForAccountMessage.orders_for_account.markets:
+            self.markets.append(uuidToInteger(marketOrders.market))
+    def __str__(self):
+        return ("BetsForAccount(id=%s)"%(len(self.markets)))
+    def __repr__(self):
+        return self.__str__()
+
 class SmkBroker():
     LOGGER = logging.getLogger('[smk.broker]')
 
@@ -162,11 +172,13 @@ class SmkBroker():
         self.LOGGER.debug("smk data received")
         
     def getSmkResponse(self, clientAction, expectedResponseType):
+        self.smkResponsePayload = None
         callback = lambda message: self.dataHandlingCallback(message)
         self.client.add_handler(expectedResponseType, callback)
         clientAction()
-        self.client.flush()
-        self.client.read()
+        while self.smkResponsePayload is None:
+            self.client.flush()
+            self.client.read()
         self.client.del_handler(expectedResponseType, callback)
         self.LOGGER.debug("smk data transfered for %s"%expectedResponseType)
         return self.smkResponsePayload
@@ -175,7 +187,7 @@ class SmkBroker():
         return AccountState(self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state'))
 
     def getBetsForAccount(self):
-        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account')
+        return BetsForAccount(self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account'))
 
     #add processing of problematic response payload  
     def placeBet(self, marketId, contractId, quantity, price):
