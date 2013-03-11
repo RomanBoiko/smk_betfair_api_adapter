@@ -33,7 +33,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         try:
             eventsBroker = smk_api.EventsBroker(client)
-            events = eventsBroker.footballByDate(datetime.date(2013, 3, 7))
+            events = eventsBroker.footballByDate(datetime.date(2013, 3, 12))
             event = events.parentToEvent.values()[0][0]
             market = None
             if events.parentToEvent.get(str(event.eventId)) is None:
@@ -47,7 +47,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             
             smkBroker = smk_api.SmkBroker(client)
             
-            makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
+            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
             
             bet = smkBroker.placeBet(market.eventId, contract.marketId, 220000, 2400)
             print "======>Bet: "+str(bet)
@@ -55,7 +55,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             cancelBetResponse = smkBroker.cancelBet(bet.id)
             print "======>CancelBet: "+str(cancelBetResponse)
             
-            makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
+            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
             
         finally:
             smk_api.logout(client)
