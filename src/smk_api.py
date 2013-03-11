@@ -1,4 +1,6 @@
 import logging
+import time
+import threading
 
 from google.protobuf import text_format
 
@@ -22,6 +24,21 @@ def integerToUuid(sourceInt):
     resultedUuid.high = sourceUuid.high
     return resultedUuid
 
+CLIENT_LOCK = threading.Lock()
+PERIODIC_THREAD = None
+
+def periodicalFlush(client):
+    while True:
+        LOGGER.info("periodicalFlush: wake up")
+        CLIENT_LOCK.acquire()
+        try:
+            client.read()
+            client.flush()
+        finally:
+            CLIENT_LOCK.release()
+        LOGGER.info("periodicalFlush: go to sleep")
+        time.sleep(5)
+
 def login(username, password):
     settings = smarkets.SessionSettings(username, password)
     settings.host = adapter_context.SMK_API_HOST
@@ -32,10 +49,20 @@ def login(username, password):
     client.ping()
     client.flush()
     client.read()
+    
+    PERIODIC_THREAD = threading.Thread(target=periodicalFlush, args=(client,))
+    PERIODIC_THREAD.daemon = True
+    PERIODIC_THREAD.start()
+    
     return client 
     
 def logout(client):
-    client.logout()
+    CLIENT_LOCK.acquire()
+    try:
+        PERIODIC_THREAD.stop()
+        client.logout()
+    finally:
+        CLIENT_LOCK.release()
     
 class Events(object):
     def __init__(self):
@@ -101,8 +128,14 @@ class EventsBroker():
         return self.eventsMessage
     
     def footballByDate(self, eventsDate):
-        eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
-        return self.loadEvents(eventsMessage)
+        result = None
+        CLIENT_LOCK.acquire()
+        try:
+            eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
+            result = self.loadEvents(eventsMessage)
+        finally:
+            CLIENT_LOCK.release()
+        return result
     
     def loadEvents(self, eventsMessage):
         events = Events()
