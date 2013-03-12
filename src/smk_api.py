@@ -82,7 +82,6 @@ class Event(object):
     def __repr__(self):
         return self.__str__()
 
-#unused
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
         self.marketId = marketId
