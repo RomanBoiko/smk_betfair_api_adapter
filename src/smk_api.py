@@ -23,12 +23,20 @@ class AccountState(object):
         return ("AccountState(id=%s, currency=%s, cash=%s, bonus=%s, exposure=%s)"%(self.id, self.currency, self.cash, self.bonus, self.exposure))
     def __repr__(self):
         return self.__str__()
-    
+
 class Bet(object):
     def __init__(self, orderAcceptedMessage):
         self.id=uuidToInteger(orderAcceptedMessage.order_accepted.order)
     def __str__(self):
         return ("Bet(id=%s)"%(self.id))
+    def __repr__(self):
+        return self.__str__()
+
+class BetCancel(object):
+    def __init__(self, betCancelMessage):
+        self.id=111
+    def __str__(self):
+        return ("BetCancel(id=%s)"%(self.id))
     def __repr__(self):
         return self.__str__()
 
@@ -74,15 +82,6 @@ class Market(object):
         self.marketTypeId = marketTypeId
         self.marketParentEventId = marketParentEventId
 
-class SmkClient(object):
-    def __init__(self, client):
-        self.client = client
-        
-    def getClient(self):
-        return self.client
-    def smkLogout(self):
-        self.client.logout()
-
 def uuidToInteger(uuid):
     uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
     return uuid_to_int(uu.to_hex())
@@ -105,11 +104,6 @@ def login(username, password):
     client.flush()
     client.read()
     return SmkClient(client) 
-    
-def logout(client):
-    client.smkLogout()
-    
-
 
 class EventsBroker():
     LOGGER = logging.getLogger('[events.broker]')
@@ -171,35 +165,38 @@ class EventsBroker():
                         events.putContract(marketIdInt, smkContract)
         return events
 
-
-class SmkBroker():
-    LOGGER = logging.getLogger('[smk.broker]')
-
+class SmkClient(object):
+    LOGGER = logging.getLogger('[smk.client]')
     def __init__(self, client):
         self.client = client
         self.smkResponsePayload = None
-
+        
+    def getClient(self):
+        return self.client
+    def logout(self):
+        self.client.logout()
+        
     def dataHandlingCallback(self, message):
         self.smkResponsePayload = message
-        self.LOGGER.debug("smk data received")
         
-    def getSmkResponse(self, clientAction, expectedResponseType):
+    def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct):
         self.smkResponsePayload = None
         callback = lambda message: self.dataHandlingCallback(message)
-        self.client.getClient().add_handler(expectedResponseType, callback)
+        self.client.add_handler(expectedResponseType, callback)
         clientAction()
+        self.client.flush()
+
         while self.smkResponsePayload is None:
-            self.client.getClient().flush()
-            self.client.getClient().read()
-        self.client.getClient().del_handler(expectedResponseType, callback)
-        self.LOGGER.debug("smk data transfered for %s"%expectedResponseType)
-        return self.smkResponsePayload
-        
+            self.client.read()
+            self.client.flush()
+        self.client.del_handler(expectedResponseType, callback)
+        return classToConstruct(self.smkResponsePayload)
+    
     def getAccountState(self):
-        return AccountState(self.getSmkResponse(lambda: self.client.getClient().request_account_state(), 'seto.account_state'))
+        return self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state', AccountState)
 
     def getBetsForAccount(self):
-        return BetsForAccount(self.getSmkResponse(lambda: self.client.getClient().request_orders_for_account(), 'seto.orders_for_account'))
+        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount)
 
     #add processing of problematic response payload  
     def placeBet(self, marketId, contractId, quantity, price):
@@ -211,9 +208,9 @@ class SmkBroker():
         order.market = integerToUuid(marketId)
         order.contract = integerToUuid(contractId)
         
-        return Bet(self.getSmkResponse(lambda: self.client.getClient().order(order), 'seto.order_accepted'))#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet)#add nonsuccessful case:seto.order_rejected
 
     #add processing of problematic response payload
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
-        return self.getSmkResponse(lambda: self.client.getClient().order_cancel(order), 'seto.order_cancelled')#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel)#add nonsuccessful case:seto.order_rejected

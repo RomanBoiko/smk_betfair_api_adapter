@@ -18,7 +18,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
 
     def test_that_smk_api_must_login_and_logout_successfuly(self):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-        smk_api.logout(client)
+        client.logout()
         
     def test_that_smk_api_thows_SocketDisconnected_exception_if_credentials_are_wrong(self):
         try:
@@ -45,21 +45,19 @@ class SmkApiIntegrationTest(unittest.TestCase):
             contract = events.marketToContract.get(str(market.eventId))[0]
             self.assertFalse(contract is None)
             
-            smkBroker = smk_api.SmkBroker(client)
+            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(client)
             
-            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
-            
-            bet = smkBroker.placeBet(market.eventId, contract.marketId, 220000, 2400)
+            bet = client.placeBet(market.eventId, contract.marketId, 220000, 2400)
             print "======>Bet: "+str(bet)
-            self.assertEqual(1, len(smkBroker.getBetsForAccount().markets))
-            cancelBetResponse = smkBroker.cancelBet(bet.id)
+            self.assertEqual(1, len(client.getBetsForAccount().markets))
+            cancelBetResponse = client.cancelBet(bet.id)
             print "======>CancelBet: "+str(cancelBetResponse)
             
-            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(smkBroker)
+            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(client)
             
         finally:
-            smk_api.logout(client)
+            client.logout()
             
-    def makeSureAccountIsInInitialStateAndHasNoActiveBets(self, smkBroker):
-        self.assertEqual(str(smkBroker.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
-        self.assertEqual(0, len(smkBroker.getBetsForAccount().markets))
+    def makeSureAccountIsInInitialStateAndHasNoActiveBets(self, client):
+        self.assertEqual(str(client.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
+        self.assertEqual(0, len(client.getBetsForAccount().markets))

@@ -26,7 +26,7 @@ def smkAction(action):
         LOGGER.error("Unexpected error: %s", traceback.format_exc())
         
     finally:
-        smk_api.logout(client)
+        client.logout()
 
 def main():
     if len(sys.argv) < 2:
@@ -38,13 +38,13 @@ def main():
         elif option == "bet":
             quantity = 220000
             price = 2400
-            smkAction(lambda client: smk_api.SmkBroker(client).placeBet(276267, 380942, quantity, price))
+            smkAction(lambda client: client.placeBet(276267, 380942, quantity, price))
         elif option == "cancel":
-            smkAction(lambda client: smk_api.SmkBroker(client).cancelBet(int(sys.argv[2])))
+            smkAction(lambda client: client.cancelBet(int(sys.argv[2])))
         elif option == "account":
-            smkAction(lambda client: smk_api.SmkBroker(client).getAccountState())
+            smkAction(lambda client: client.getAccountState())
         elif option == "bets":
-            smkAction(lambda client: smk_api.SmkBroker(client).getBetsForAccount())
+            smkAction(lambda client: client.getBetsForAccount())
         else:
             print "==>invalid command line argument: %s" % option
 

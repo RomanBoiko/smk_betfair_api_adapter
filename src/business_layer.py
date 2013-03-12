@@ -33,7 +33,7 @@ class SessionStorage(object):
     
     def logUserOutAndReturnResultOfAction(self, sessionToken):
         if sessionToken in self.authenticatedClients :
-            smk_api.logout(self.authenticatedClients[sessionToken])
+            self.authenticatedClients[sessionToken].logout()
             del self.authenticatedClients[sessionToken]
             return True
         else:
@@ -59,16 +59,13 @@ class BusinessUnit(object):
 
     def getAccountFunds(self, sessionToken):
         client = self.getClientIfTokenIsValid(sessionToken)
-        smkBroker = smk_api.SmkBroker(client)
-        return smkBroker.getAccountState()
+        return client.getAccountState()
 
     def placeBet(self, sessionToken, marketId, contractId, quantity, price):
         client = self.getClientIfTokenIsValid(sessionToken)
-        smkBroker = smk_api.SmkBroker(client)
-        return smkBroker.placeBet(marketId, contractId, quantity, price)
+        return client.placeBet(marketId, contractId, quantity, price)
 
     def cancelBet(self, sessionToken, orderId):
         client = self.getClientIfTokenIsValid(sessionToken)
-        smkBroker = smk_api.SmkBroker(client)
-        return smkBroker.cancelBet(orderId)
+        return client.cancelBet(orderId)
 
