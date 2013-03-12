@@ -1,4 +1,6 @@
 import logging
+import threading
+import time
 
 from google.protobuf import text_format
 
@@ -139,14 +141,35 @@ def loadEvents(eventsMessage):
 
 class SmkClient(object):
     LOGGER = logging.getLogger('[smk.client]')
+    
     def __init__(self, client):
-        self.client = client
         self.smkResponsePayload = None
+        self.client = client
+        self.clientLock = threading.Lock()
+        self.threadStopEvent = threading.Event()
+        self.periodicThread = threading.Thread(target=self.periodicalFlush)
+        self.periodicThread.daemon = True
+        self.periodicThread.start()
+
+    def periodicalFlush(self):
+        while not self.threadStopEvent.is_set():
+            LOGGER.info("periodicalFlush: wake up")
+            self.clientLock.acquire()
+            try:
+                self.client.read()
+                self.client.flush()
+            finally:
+                self.clientLock.release()
+            LOGGER.info("periodicalFlush: go to sleep")
+            self.threadStopEvent.wait(5)
         
-    def getClient(self):
-        return self.client
     def logout(self):
-        self.client.logout()
+        self.clientLock.acquire()
+        try:
+            self.threadStopEvent.set()
+            self.client.logout()
+        finally:
+            self.clientLock.release()
         
     def dataHandlingCallback(self, message):
         self.smkResponsePayload = message
@@ -154,14 +177,18 @@ class SmkClient(object):
     def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct):
         self.smkResponsePayload = None
         callback = lambda message: self.dataHandlingCallback(message)
-        self.client.add_handler(expectedResponseType, callback)
-        clientAction()
-        self.client.flush()
-
-        while self.smkResponsePayload is None:
-            self.client.read()
+        self.clientLock.acquire()
+        try:
+            self.client.add_handler(expectedResponseType, callback)
+            clientAction()
             self.client.flush()
-        self.client.del_handler(expectedResponseType, callback)
+    
+            while self.smkResponsePayload is None:
+                self.client.read()
+                self.client.flush()
+            self.client.del_handler(expectedResponseType, callback)
+        finally:
+            self.clientLock.release()
         return classToConstruct(self.smkResponsePayload)
     
     def getAccountState(self):
