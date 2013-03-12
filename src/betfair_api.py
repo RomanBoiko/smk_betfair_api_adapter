@@ -174,7 +174,6 @@ def getAccountFunds(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-#add ability to process multiple cancels
 def placeBets(soapBinding, typeDefinition, request, response):
     resp = bfe.PlaceBetsResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
@@ -202,7 +201,6 @@ def placeBets(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-#add ability to process multiple cancels
 def cancelBets(soapBinding, typeDefinition, request, response):
     resp = bfe.CancelBetsResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
@@ -224,5 +222,52 @@ def cancelBets(soapBinding, typeDefinition, request, response):
         
     
     resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+def getCurrentBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetCurrentBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+    
+    if sessionToken:
+        resp._bets = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
+        resp._bets._Bet = []
+        
+        bet = bfe.Bet_Def(soapBinding, typeDefinition)
+        bet._asianLineId=0#change
+        bet._avgPrice=3400#change
+        bet._betId=1111#change
+        bet._betStatus = "U"#change
+        bet._betType = "B"#or L, change
+        bet._betCategoryType="NONE"
+        bet._betPersistenceType="NONE"
+        
+        bet._cancelledDate = None
+        bet._lapsedDate = None
+        bet._marketId = 111#change
+        bet._marketName = "someName"#optional
+#        bet._fullMarketName = "someName"#change
+        bet._marketType = "NOT_APPLICABLE"
+        bet._marketTypeVariant = "D"#Default
+        bet._matchedDate = currentDateTime()
+        bet._matchedSize = 12313.00
+        bet._matches = None
+        bet._placedDate = currentDateTime()
+        bet._price = 3400#change
+        bet._bspLiability = 123.00#nillable
+        bet._profitAndLoss = 321.00#nillable
+        bet._selectionId = 222#contract
+        bet._selectionName = None
+        bet._settledDate = currentDateTime()
+        bet._remainingSize = 1111.0#change
+        bet._requestedSize = 1111.0#change
+        bet._voidedDate = currentDateTime()
+        bet._handicap = 123.00#change
+        
+        resp._bets._Bet.append(bet)
+        
+    
+    resp._errorCode = ERROR_CODE_OK
+    resp._totalRecordCount = 0
     response._Result = resp
     return response
