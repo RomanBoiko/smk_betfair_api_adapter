@@ -189,11 +189,11 @@ def placeBets(soapBinding, typeDefinition, request, response):
             priceInProcentsMultipliedBy100 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
-    #        betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPoundsMultipliedBy10000, priceInProcentsMultipliedBy100)
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPoundsMultipliedBy10000, priceInProcentsMultipliedBy100)
             
             placeBetResult._averagePriceMatched = sizeInPoundsMultipliedBy10000#???
             placeBetResult._sizeMatched = sizeInPoundsMultipliedBy10000#???
-            placeBetResult._betId = 1111#betResult.id
+            placeBetResult._betId = betResult.id
             placeBetResult._resultCode = "OK"
             placeBetResult._success = True
             resp._betResults._PlaceBetsResult.append(placeBetResult)
@@ -214,6 +214,7 @@ def cancelBets(soapBinding, typeDefinition, request, response):
         for cancelBetRequest in request._request._bets._CancelBets:
             cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
             betId = cancelBetRequest._betId
+            BUSINESS_UNIT.cancelBet(sessionToken, betId)
             cancelBetResult._betId = betId
             cancelBetResult._resultCode = "OK"
             cancelBetResult._sizeCancelled = 10.0000#???
