@@ -6,7 +6,6 @@ from google.protobuf import text_format
 
 import smk_api
 import adapter_context
-import smarkets
 
 LOGGER = logging.getLogger('[investigation]')
 
@@ -17,7 +16,6 @@ def global_callback(message_name, message):
 
 def smkAction(action):
     client=smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-    client.add_global_handler(global_callback)
     
     try:
         action(client)

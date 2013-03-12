@@ -189,7 +189,7 @@ def placeBets(soapBinding, typeDefinition, request, response):
             priceInProcentsMultipliedBy100 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
-            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPoundsMultipliedBy10000, priceInProcentsMultipliedBy100)
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, int(sizeInPoundsMultipliedBy10000), int(priceInProcentsMultipliedBy100))
             
             placeBetResult._averagePriceMatched = sizeInPoundsMultipliedBy10000#???
             placeBetResult._sizeMatched = sizeInPoundsMultipliedBy10000#???
