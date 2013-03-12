@@ -34,7 +34,7 @@ def main():
     else:
         option = sys.argv[1]
         if option == "events":
-            smkAction(lambda client: smk_api.EventsBroker().getEvents(client, smarkets.events.FootballByDate(datetime.date(2013, 3, 5))))
+            smkAction(lambda client: client.footballByDate(datetime.date(2013, 3, 5)))
         elif option == "bet":
             quantity = 220000
             price = 2400

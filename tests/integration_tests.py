@@ -32,8 +32,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
     def test_bet_placing_workflow(self):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         try:
-            eventsBroker = smk_api.EventsBroker(client)
-            events = eventsBroker.footballByDate(datetime.date(2013, 3, 11))
+            events = client.footballByDate(datetime.date(2013, 3, 11))
             event = events.parentToEvent.values()[0][0]
             market = None
             if events.parentToEvent.get(str(event.eventId)) is None:

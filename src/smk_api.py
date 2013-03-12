@@ -49,6 +49,12 @@ class BetsForAccount(object):
         return ("BetsForAccount(id=%s)"%(len(self.markets)))
     def __repr__(self):
         return self.__str__()
+    
+class HttpUrl(object):
+    def __init__(self, httpUrlMessage):
+        urlFetched = httpUrlMessage.http_found.url
+        normalizedUrl = urlFetched.replace("vagrant-dev.corp", "api-sandbox")
+        self.url = normalizedUrl
 
 class Events(object):
     def __init__(self):
@@ -105,65 +111,31 @@ def login(username, password):
     client.read()
     return SmkClient(client) 
 
-class EventsBroker():
-    LOGGER = logging.getLogger('[events.broker]')
+    
+def loadEvents(eventsMessage):
+    events = Events()
+    footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
+    
+    if eventsMessage is not None:
+        for parent in eventsMessage.parents:
+            parentIdInt = uuidToInteger(parent.event)
+            if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
+                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
+        for sportEvent in eventsMessage.with_markets:
+            eventIdInt = uuidToInteger(sportEvent.event)
+            parentIdInt = uuidToInteger(sportEvent.parent)
+            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
 
-    def __init__(self, client):
-        self.eventsMessage = None
-        self.client = client
-        
-    def doWithHttpService(self, serviceUrl):
-        content_type, result = smarkets.urls.fetch(serviceUrl)
-        if content_type == 'application/x-protobuf':
-            incoming_payload = seto.Events()
-            incoming_payload.ParseFromString(result)
-            self.LOGGER.debug("Response from %s: %s"%(serviceUrl, text_format.MessageToString(incoming_payload)))
-            self.eventsMessage = incoming_payload
-
-    def httpDataFetchingCallback(self, message):
-        self.LOGGER.debug("Received football event response: %s" % (text_format.MessageToString(message)))
-        url = message.http_found.url
-        normalizedUrl = url.replace("vagrant-dev.corp", "api-sandbox")
-        self.LOGGER.debug("URL to be used for events load: %s" % normalizedUrl)
-        self.doWithHttpService(normalizedUrl)
-        
-    def getEvents(self, eventRequest):
-        callback = lambda x: self.httpDataFetchingCallback(x)
-        self.client.getClient().add_handler('seto.http_found', callback)
-        self.client.getClient().request_events(eventRequest)
-        self.client.getClient().flush()
-        self.client.getClient().read()
-        self.client.getClient().del_handler('seto.http_found', callback)
-        return self.eventsMessage
-    
-    def footballByDate(self, eventsDate):
-        eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
-        return self.loadEvents(eventsMessage)
-    
-    def loadEvents(self, eventsMessage):
-        events = Events()
-        footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
-        
-        if eventsMessage is not None:
-            for parent in eventsMessage.parents:
-                parentIdInt = uuidToInteger(parent.event)
-                if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
-                    events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
-            for sportEvent in eventsMessage.with_markets:
-                eventIdInt = uuidToInteger(sportEvent.event)
-                parentIdInt = uuidToInteger(sportEvent.parent)
-                events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
-    
-                for marketItem in sportEvent.markets :
-                    marketIdInt = uuidToInteger(marketItem.market)
-                    events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
-                    for contract in marketItem.contracts :
-                        smkContract = Market(uuidToInteger(contract.contract),
-                                             contract.name,
-                                             FOOTBALL_EVENT_TYPE_ID,
-                                             marketIdInt)
-                        events.putContract(marketIdInt, smkContract)
-        return events
+            for marketItem in sportEvent.markets :
+                marketIdInt = uuidToInteger(marketItem.market)
+                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
+                for contract in marketItem.contracts :
+                    smkContract = Market(uuidToInteger(contract.contract),
+                                         contract.name,
+                                         FOOTBALL_EVENT_TYPE_ID,
+                                         marketIdInt)
+                    events.putContract(marketIdInt, smkContract)
+    return events
 
 class SmkClient(object):
     LOGGER = logging.getLogger('[smk.client]')
@@ -198,7 +170,6 @@ class SmkClient(object):
     def getBetsForAccount(self):
         return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount)
 
-    #add processing of problematic response payload  
     def placeBet(self, marketId, contractId, quantity, price):
         order = smarkets.Order()
         order.quantity = quantity#pounds*10000
@@ -210,7 +181,23 @@ class SmkClient(object):
         
         return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet)#add nonsuccessful case:seto.order_rejected
 
-    #add processing of problematic response payload
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
         return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel)#add nonsuccessful case:seto.order_rejected
+    
+    def getPayloadViaHttp(self, serviceUrl):
+        content_type, result = smarkets.urls.fetch(serviceUrl)
+        if content_type == 'application/x-protobuf':
+            incoming_payload = seto.Events()
+            incoming_payload.ParseFromString(result)
+            self.LOGGER.debug("Response from %s: %s"%(serviceUrl, text_format.MessageToString(incoming_payload)))
+            return incoming_payload
+        return "return nothing - fix"
+
+    def getEvents(self, eventRequest):
+        httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl)
+        return self.getPayloadViaHttp(httpUrl.url)
+    
+    def footballByDate(self, eventsDate):
+        eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
+        return loadEvents(eventsMessage)
