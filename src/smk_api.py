@@ -37,7 +37,7 @@ class Bet(object):
 
 class BetCancel(object):
     def __init__(self, betCancelMessage):
-        self.id=111
+        self.id=uuidToInteger(betCancelMessage.order_cancelled.order)
     def __str__(self):
         return ("BetCancel(id=%s)"%(self.id))
     def __repr__(self):

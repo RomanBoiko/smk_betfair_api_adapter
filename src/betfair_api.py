@@ -212,11 +212,11 @@ def cancelBets(soapBinding, typeDefinition, request, response):
         for cancelBetRequest in request._request._bets._CancelBets:
             cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
             betId = cancelBetRequest._betId
-            BUSINESS_UNIT.cancelBet(sessionToken, betId)
+            originalCancelBetResult = BUSINESS_UNIT.cancelBet(sessionToken, betId)
             cancelBetResult._betId = betId
             cancelBetResult._resultCode = "OK"
-            cancelBetResult._sizeCancelled = 10.0000#???
-            cancelBetResult._sizeMatched = 10.0000#???
+            cancelBetResult._sizeCancelled = 000.0000#???
+            cancelBetResult._sizeMatched = 000.0000#???
             cancelBetResult._success = True
             resp._betResults._CancelBetsResult.append(cancelBetResult)
         
