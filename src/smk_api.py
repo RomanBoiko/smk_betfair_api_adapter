@@ -1,6 +1,7 @@
 import logging
 import threading
 import time
+import pprint
 
 from google.protobuf import text_format
 
@@ -42,13 +43,37 @@ class BetCancel(object):
     def __repr__(self):
         return self.__str__()
 
+class BetDetails(object):
+    def __init__(self, id, marketId, contractId, price, status, quantity, createdDateInMillis):
+        self.id = id
+        self.marketId = marketId
+        self.contractId = contractId
+        self.price = price
+        self.status = status
+        self.quantity = quantity
+        self.createdDateInMillis = createdDateInMillis
+    def __str__(self):
+        return ("BetDetails(id=%s, market=%s, contractId=%s, price=%s, status=%s, quantity=%s, createdDateInMillis=%s)"%(self.id, self.marketId, self.contractId, self.price, self.status, self.quantity, self.createdDateInMillis))
+    def __repr__(self):
+        return self.__str__()
+
 class BetsForAccount(object):
     def __init__(self, ordersForAccountMessage):
-        self.markets = []
+        self.bets = []
         for marketOrders in ordersForAccountMessage.orders_for_account.markets:
-            self.markets.append(uuidToInteger(marketOrders.market))
+            marketId = uuidToInteger(marketOrders.market)
+            for contract in marketOrders.contracts:
+                contractId = uuidToInteger(contract.contract)
+                for bid in contract.bids:
+                    price = bid.price
+                    for order in bid.orders:
+                        orderId = uuidToInteger(order.order)
+                        status = order.status
+                        quantity = order.quantity
+                        createdDateInMillis = order.created_microseconds
+                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis))
     def __str__(self):
-        return ("BetsForAccount(id=%s)"%(len(self.markets)))
+        return ("BetsForAccount(bets=%s)"%(pprint.pformat(self.bets)))
     def __repr__(self):
         return self.__str__()
     

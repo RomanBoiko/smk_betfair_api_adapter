@@ -68,3 +68,7 @@ class BusinessUnit(object):
         client = self.getClientIfTokenIsValid(sessionToken)
         return client.cancelBet(orderId)
 
+    def getBetsForAccount(self, sessionToken):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        return client.getBetsForAccount()
+

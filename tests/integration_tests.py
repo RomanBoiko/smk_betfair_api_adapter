@@ -32,6 +32,8 @@ class SmkApiIntegrationTest(unittest.TestCase):
     def test_bet_placing_workflow(self):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         try:
+            initialAmountOfMarkets = len(client.getBetsForAccount().bets)
+            
             events = client.footballByDate(datetime.date(2013, 3, 11))
             event = events.parentToEvent.values()[0][0]
             market = None
@@ -41,22 +43,18 @@ class SmkApiIntegrationTest(unittest.TestCase):
                 market = events.parentToEvent[str(event.eventId)][0]
             self.assertFalse(market is None)
             
+            
             contract = events.marketToContract.get(str(market.eventId))[0]
             self.assertFalse(contract is None)
             
-            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(client)
+            self.assertTrue(str(client.getAccountState()).startswith("AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure="))
             
             bet = client.placeBet(market.eventId, contract.marketId, 220000, 2400)
             print "======>Bet: "+str(bet)
-            self.assertEqual(1, len(client.getBetsForAccount().markets))
+            self.assertEqual(initialAmountOfMarkets+1, len(client.getBetsForAccount().bets))
             cancelBetResponse = client.cancelBet(bet.id)
+            self.assertEqual(initialAmountOfMarkets, len(client.getBetsForAccount().bets))
             print "======>CancelBet: "+str(cancelBetResponse)
-            
-            self.makeSureAccountIsInInitialStateAndHasNoActiveBets(client)
             
         finally:
             client.logout()
-            
-    def makeSureAccountIsInInitialStateAndHasNoActiveBets(self, client):
-        self.assertEqual(str(client.getAccountState()), "AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure=0)")
-        self.assertEqual(0, len(client.getBetsForAccount().markets))

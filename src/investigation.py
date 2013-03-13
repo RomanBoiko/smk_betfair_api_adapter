@@ -18,7 +18,7 @@ def smkAction(action):
     client=smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
     
     try:
-        action(client)
+        print "===========>"+str(action(client))
     except:
         LOGGER.error("**********error occured")
         LOGGER.error("Unexpected error: %s", traceback.format_exc())

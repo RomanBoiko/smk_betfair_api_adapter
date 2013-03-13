@@ -232,39 +232,40 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._bets = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
         resp._bets._Bet = []
-        
-        bet = bfe.Bet_Def(soapBinding, typeDefinition)
-        bet._asianLineId=0#change
-        bet._avgPrice=3400#change
-        bet._betId=1111#change
-        bet._betStatus = "U"#change
-        bet._betType = "B"#or L, change
-        bet._betCategoryType="NONE"
-        bet._betPersistenceType="NONE"
-        
-        bet._cancelledDate = None
-        bet._lapsedDate = None
-        bet._marketId = 111#change
-        bet._marketName = "someName"#optional
-#        bet._fullMarketName = "someName"#change
-        bet._marketType = "NOT_APPLICABLE"
-        bet._marketTypeVariant = "D"#Default
-        bet._matchedDate = currentDateTime()
-        bet._matchedSize = 12313.00
-        bet._matches = None
-        bet._placedDate = currentDateTime()
-        bet._price = 3400#change
-        bet._bspLiability = 123.00#nillable
-        bet._profitAndLoss = 321.00#nillable
-        bet._selectionId = 222#contract
-        bet._selectionName = None
-        bet._settledDate = currentDateTime()
-        bet._remainingSize = 1111.0#change
-        bet._requestedSize = 1111.0#change
-        bet._voidedDate = currentDateTime()
-        bet._handicap = 123.00#change
-        
-        resp._bets._Bet.append(bet)
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        for betDetails in betsForAccount.bets:
+            bet = bfe.Bet_Def(soapBinding, typeDefinition)
+            bet._asianLineId=0#change
+            bet._avgPrice=betDetails.price#?
+            bet._betId=betDetails.id
+            bet._betStatus = "U"#change
+            bet._betType = "B"#or L, change
+            bet._betCategoryType="NONE"
+            bet._betPersistenceType="NONE"
+            
+            bet._cancelledDate = currentDateTime()
+            bet._lapsedDate = currentDateTime()
+            bet._marketId = betDetails.marketId
+            # bet._marketName = "someName"#optional
+            # bet._fullMarketName = "someName"#change
+            bet._marketType = "NOT_APPLICABLE"
+            bet._marketTypeVariant = "D"#Default
+            bet._matchedDate = currentDateTime()
+            bet._matchedSize = betDetails.quantity#?
+            bet._matches = None
+            bet._placedDate = currentDateTime()
+            bet._price = betDetails.price
+            bet._bspLiability = betDetails.quantity#?
+            bet._profitAndLoss = 00000.00#nillable
+            bet._selectionId = betDetails.contractId
+            bet._selectionName = None
+            bet._settledDate = currentDateTime()
+            bet._remainingSize = betDetails.quantity#?
+            bet._requestedSize = betDetails.quantity#?
+            bet._voidedDate = currentDateTime()
+            bet._handicap = 0.00#change
+            
+            resp._bets._Bet.append(bet)
         
     
     resp._errorCode = ERROR_CODE_OK

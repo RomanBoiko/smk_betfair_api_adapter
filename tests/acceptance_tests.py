@@ -241,7 +241,6 @@ class WorkflowTest(AdapterAcceptanceTest):
         print "==========>" + responseXml
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        self.assertEqual(textFromElement(responseDom, "price", 0), "3400.000000")
         
 #    def test_exchange_service_placeBets(self):
 #        marketId=1231231
@@ -260,7 +259,7 @@ class WorkflowTest(AdapterAcceptanceTest):
 #        self.assertTrue(len(betId)>0)
 #        self.exchange_service_shold_cancel_bet_using_cancelBets(betId)
 #    
-#    def exchange_service_shold_cancel_bet_using_cancelBets(self, betId):
+#    def exchange_service_should_cancel_bet_using_cancelBets(self, betId):
 #        request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
 #        responseXml = getExchangeServiceReply(request)
 #        responseDom = parseString(responseXml)

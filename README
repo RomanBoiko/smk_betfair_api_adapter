@@ -19,3 +19,4 @@ Running:
 	- run "make test" to ensure everything works fine
 	- run "make start" to start the adapter
 	- run "make stop" to stop the adapter
+
