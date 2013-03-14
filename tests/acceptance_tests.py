@@ -143,33 +143,33 @@ class AdapterAcceptanceTest(unittest.TestCase):
 
 class SessionManagementAcceptanceTest(AdapterAcceptanceTest):
 
-#    def test_that_valid_credentials_are_causing_successful_login(self):
-#        responseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
-#        
-#        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-#        sessionToken = sessionTokenFrom(responseDom)
-#        self.assertGreater(len(sessionToken), 0)
-#
-#        getLogoutResponseDom(sessionToken)
-#
+    def test_that_valid_credentials_are_causing_successful_login(self):
+        responseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
+        
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        sessionToken = sessionTokenFrom(responseDom)
+        self.assertGreater(len(sessionToken), 0)
+
+        getLogoutResponseDom(sessionToken)
+
     def test_that_invalid_credentials_are_causing_login_failure(self):
         responseDom = getLoginResponseDom('wrongLogin_' + str(time.time()), 'wrongPassword')
-        
+
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_INVALID_USERNAME_OR_PASSWORD)
         self.assertEquals(responseDom.getElementsByTagName(SESSION_TOKEN_TAG)[0].firstChild, None)
-#
-#    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
-#        responseDom = getLogoutResponseDom("invalidSessionToken")
-#        #THEN
-#        self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_NO_SESSION)
-#        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_API_ERROR)
-#
-#    def test_that_logout_with_valid_session_token_results_successfuly(self):
-#        loginResponseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
-#        validSessionToken = sessionTokenFrom(loginResponseDom)
-#        logoutResponseDom = getLogoutResponseDom(validSessionToken)
-#        #THEN
-#        self.assertErrorCodesAreOk(logoutResponseDom)
+
+    def test_that_logout_with_nonexisting_session_token_results_unsuccessfuly(self):
+        responseDom = getLogoutResponseDom("invalidSessionToken")
+        #THEN
+        self.assertErrorCodeInHeaderIs(responseDom, betfair_api.ERROR_NO_SESSION)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_API_ERROR)
+
+    def test_that_logout_with_valid_session_token_results_successfuly(self):
+        loginResponseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
+        validSessionToken = sessionTokenFrom(loginResponseDom)
+        logoutResponseDom = getLogoutResponseDom(validSessionToken)
+        #THEN
+        self.assertErrorCodesAreOk(logoutResponseDom)
 
 
 class WorkflowTest(AdapterAcceptanceTest):
@@ -183,27 +183,27 @@ class WorkflowTest(AdapterAcceptanceTest):
     def tearDownClass(cls):
         getLogoutResponseDom(WorkflowTest.validSessionToken)
 
-#    def test_that_fixed_dummy_list_of_event_types_is_returned(self):
-#        request = soapMessage(getAllEventTypesRequestTemplate%(WorkflowTest.validSessionToken))
-#        responseDom = parseString(getGlobalServiceReply(request))
-#        self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
-#        self.assertEqual(textFromElement(responseDom, "id", 0), str(smk_api.FOOTBALL_EVENT_TYPE_ID))
-#        self.assertErrorCodesAreOk(responseDom)
-#    
-#      
-#    def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
-#        footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
-#        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, footballEventTypeId))
-#        responseXml = getGlobalServiceReply(request)
-#        responseDom = parseString(responseXml)
-#
-#        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
-#        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
-#
-#        self.assertErrorCodesAreOk(responseDom)
-#
-#        parentEventId = textFromElement(responseDom, "eventId", 0)
-#        self.check_that_event_children_can_be_retreived_by_getEvents_request(parentEventId, footballEventTypeId)
+    def test_that_fixed_dummy_list_of_event_types_is_returned(self):
+        request = soapMessage(getAllEventTypesRequestTemplate%(WorkflowTest.validSessionToken))
+        responseDom = parseString(getGlobalServiceReply(request))
+        self.assertEqual(textFromElement(responseDom, "name", 0), "Football")
+        self.assertEqual(textFromElement(responseDom, "id", 0), str(smk_api.FOOTBALL_EVENT_TYPE_ID))
+        self.assertErrorCodesAreOk(responseDom)
+
+
+    def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
+        footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
+        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, footballEventTypeId))
+        responseXml = getGlobalServiceReply(request)
+        responseDom = parseString(responseXml)
+
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
+
+        self.assertErrorCodesAreOk(responseDom)
+
+        parentEventId = textFromElement(responseDom, "eventId", 0)
+        self.check_that_event_children_can_be_retreived_by_getEvents_request(parentEventId, footballEventTypeId)
 
     def check_that_event_children_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
@@ -214,58 +214,65 @@ class WorkflowTest(AdapterAcceptanceTest):
         firstEventId = textFromElement(responseDom, "eventId", 0)
         self.check_that_markets_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
 
+    #For Smk:Market==still Betfair:Event
     def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+        firstEventId = textFromElement(responseDom, "eventId", 0)
+        self.check_that_contracts_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
 
-        #For Betfair:Market==Smk:Contract
-#        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
-#        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
-#        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+    #For Smk:Contract==Betfair:Market
+    def check_that_contracts_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
+        request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
+        responseXml = getGlobalServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
+        firstMarketId = textFromElement(responseDom, "marketId", 0)
+        self.assertGreater(len(firstMarketId), 0)
+        self.check_that_exchange_service_placesBets(parentEventId, firstMarketId)
 
-#    def test_exchange_service_getAccountFunds(self):
-#        request = soapMessage(getAccountFundsRequestTemplate%(WorkflowTest.validSessionToken))
-#        responseXml = getExchangeServiceReply(request)
-#        responseDom = parseString(responseXml)
-#
-#        for balanceField in ["balance", "availBalance", "withdrawBalance"]:
-#            self.assertEqual(textFromElement(responseDom, balanceField, 0), "100000.000000")
-#        self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
+    def check_that_exchange_service_placesBets(self, marketId, contractId):
+        priceInProcents=2500
+        quantityInPoundsMultipliedBy10000 = 30000
+
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
+        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
+        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
+        betId = textFromElement(responseDom, "betId", 0)
+        self.assertTrue(len(betId)>0)
+        self.exchange_service_should_cancel_bet_using_cancelBets(betId)
+
+    def exchange_service_should_cancel_bet_using_cancelBets(self, betId):
+        request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
+        self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
+
+    def test_exchange_service_getAccountFunds(self):
+        request = soapMessage(getAccountFundsRequestTemplate%(WorkflowTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+ 
+        for balanceField in ["balance", "availBalance", "withdrawBalance"]:
+            self.assertEqual(textFromElement(responseDom, balanceField, 0), "100000.000000")
+        self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
 
     def test_that_list_of_bets_is_returned_for_account(self):
         request = soapMessage(getCurrentBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
-        print "==========>" + responseXml
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        
-#    def test_exchange_service_placeBets(self):
-#        marketId=1231231
-#        contractId=2311
-#        priceInProcents=2500
-#        quantityInPoundsMultipliedBy10000 = 30000
-#        
-#        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
-#        responseXml = getExchangeServiceReply(request)
-#        responseDom = parseString(responseXml)
-#        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-#        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
-#        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
-#        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
-#        betId = textFromElement(responseDom, "betId", 0)
-#        self.assertTrue(len(betId)>0)
-#        self.exchange_service_shold_cancel_bet_using_cancelBets(betId)
-#    
-#    def exchange_service_should_cancel_bet_using_cancelBets(self, betId):
-#        request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
-#        responseXml = getExchangeServiceReply(request)
-#        responseDom = parseString(responseXml)
-#        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-#        self.assertEqual(textFromElement(responseDom, "success", 0), "true")
-#        self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
 
 
 ###############################################

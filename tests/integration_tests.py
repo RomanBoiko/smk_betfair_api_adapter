@@ -34,7 +34,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
         try:
             initialAmountOfMarkets = len(client.getBetsForAccount().bets)
             
-            events = client.footballByDate(datetime.date(2013, 3, 11))
+            events = client.footballByDate(datetime.date.today())
             event = events.parentToEvent.values()[0][0]
             market = None
             if events.parentToEvent.get(str(event.eventId)) is None:
