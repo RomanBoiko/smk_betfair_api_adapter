@@ -13,14 +13,18 @@ import adapter_context
 
 LOGGER = logging.getLogger('[smk.api]')
 FOOTBALL_EVENT_TYPE_ID = 121005
+SMK_CASH_MULTIPLIER = 10000
+
+def smkCashAmountToReal(smkCashAmount):
+    return float(smkCashAmount)/SMK_CASH_MULTIPLIER
 
 class AccountState(object):
     def __init__(self, accountStateMessage):
         self.id=uuidToInteger(accountStateMessage.account_state.account)
         self.currency=accountStateMessage.account_state.currency
-        self.cash=accountStateMessage.account_state.cash.value
-        self.bonus=accountStateMessage.account_state.bonus.value#do we need that?
-        self.exposure=accountStateMessage.account_state.exposure.value#do we need that?
+        self.cash=smkCashAmountToReal(accountStateMessage.account_state.cash.value)
+        self.bonus=smkCashAmountToReal(accountStateMessage.account_state.bonus.value)#do we need that?
+        self.exposure=smkCashAmountToReal(accountStateMessage.account_state.exposure.value)#do we need that?
     
     def __str__(self):
         return ("AccountState(id=%s, currency=%s, cash=%s, bonus=%s, exposure=%s)"%(self.id, self.currency, self.cash, self.bonus, self.exposure))

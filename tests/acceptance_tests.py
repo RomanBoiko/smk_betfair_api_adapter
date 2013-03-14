@@ -276,7 +276,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         responseDom = parseString(responseXml)
  
         for balanceField in ["balance", "availBalance", "withdrawBalance"]:
-            self.assertEqual(textFromElement(responseDom, balanceField, 0), "100000.000000")
+            self.assertEqual(textFromElement(responseDom, balanceField, 0), "10.000000")
         self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
 
     def test_that_list_of_bets_is_returned_for_account(self):
@@ -286,7 +286,6 @@ class WorkflowTest(AdapterAcceptanceTest):
     def getListOfBetsForAccount(self):
         request = soapMessage(getCurrentBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
-        print "====>"+responseXml
         return parseString(responseXml)
 
 

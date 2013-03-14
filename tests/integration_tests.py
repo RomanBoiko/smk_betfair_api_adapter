@@ -47,7 +47,8 @@ class SmkApiIntegrationTest(unittest.TestCase):
             contract = events.marketToContract.get(str(market.eventId))[0]
             self.assertFalse(contract is None)
             
-            self.assertTrue(str(client.getAccountState()).startswith("AccountState(id=13700964455177639, currency=1, cash=100000, bonus=0, exposure="))
+            accountState = str(client.getAccountState())
+            self.assertEqual(accountState, "AccountState(id=13700964455177639, currency=1, cash=10.0, bonus=0.0, exposure=0.0)")
             
             bet = client.placeBet(market.eventId, contract.marketId, 220000, 2400)
             print "======>Bet: "+str(bet)
