@@ -191,50 +191,57 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertErrorCodesAreOk(responseDom)
 
 
+
     def test_that_list_of_football_parent_events_is_in_reponse_on_events_by_football_parentid(self):
         footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, footballEventTypeId))
         responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
 
-        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), footballEventTypeId)
-        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), footballEventTypeId)
-
+        self.validateEventTypeAndParentIds(responseDom, footballEventTypeId, footballEventTypeId)
         self.assertErrorCodesAreOk(responseDom)
 
-        parentEventId = textFromElement(responseDom, "eventId", 0)
-        self.check_that_event_children_can_be_retreived_by_getEvents_request(parentEventId, footballEventTypeId)
+        self.check_that_event_children_can_be_retreived_by_getEvents_request(self.firstEventId(responseDom), footballEventTypeId)
 
     def check_that_event_children_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
-        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
-        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
-        firstEventId = textFromElement(responseDom, "eventId", 0)
-        self.check_that_markets_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
+
+        self.validateEventTypeAndParentIds(responseDom, eventTypeId, parentEventId)
+
+        self.check_that_markets_can_be_retreived_by_getEvents_request(self.firstEventId(responseDom), eventTypeId)
+
 
     #For Smk:Market==still Betfair:Event
     def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
-        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
-        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
-        firstEventId = textFromElement(responseDom, "eventId", 0)
-        self.check_that_contracts_can_be_retreived_by_getEvents_request(firstEventId, eventTypeId)
+
+        self.validateEventTypeAndParentIds(responseDom, eventTypeId, parentEventId)
+
+        self.check_that_contracts_can_be_retreived_by_getEvents_request(self.firstEventId(responseDom), eventTypeId)
 
     #For Smk:Contract==Betfair:Market
     def check_that_contracts_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
         responseDom = parseString(responseXml)
-        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
-        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+
+        self.validateEventTypeAndParentIds(responseDom, eventTypeId, parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventParentId", 1), parentEventId)
         firstMarketId = textFromElement(responseDom, "marketId", 0)
         self.assertGreater(len(firstMarketId), 0)
+
         self.check_that_exchange_service_placesBets(parentEventId, firstMarketId)
+
+    def firstEventId(self, responseDom):
+        return textFromElement(responseDom, "eventId", 0)
+
+    def validateEventTypeAndParentIds(self, responseDom, eventTypeId, parentEventId):
+        self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
+        self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
     def check_that_exchange_service_placesBets(self, marketId, contractId):
         priceInProcents=2500
@@ -249,6 +256,10 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         betId = textFromElement(responseDom, "betId", 0)
         self.assertTrue(len(betId)>0)
+
+        getBetsResponseDom = self.getListOfBetsForAccount()
+        self.assertEqual(textFromElement(getBetsResponseDom, "betId", 0), betId)
+
         self.exchange_service_should_cancel_bet_using_cancelBets(betId)
 
     def exchange_service_should_cancel_bet_using_cancelBets(self, betId):
@@ -269,10 +280,15 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertEqual(textFromElement(responseDom, "exposure", 0), "0.000000")
 
     def test_that_list_of_bets_is_returned_for_account(self):
+        responseDom = self.getListOfBetsForAccount()
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+
+    def getListOfBetsForAccount(self):
         request = soapMessage(getCurrentBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
-        responseDom = parseString(responseXml)
-        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        print "====>"+responseXml
+        return parseString(responseXml)
+
 
 
 ###############################################
