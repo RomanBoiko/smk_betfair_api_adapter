@@ -18,6 +18,9 @@ SMK_CASH_MULTIPLIER = 10000
 def smkCashAmountToReal(smkCashAmount):
     return float(smkCashAmount)/SMK_CASH_MULTIPLIER
 
+def realCashAmountToSmk(realCashAmount):
+    return int(round(realCashAmount*SMK_CASH_MULTIPLIER))
+
 class AccountState(object):
     def __init__(self, accountStateMessage):
         self.id=uuidToInteger(accountStateMessage.account_state.account)
@@ -227,7 +230,7 @@ class SmkClient(object):
 
     def placeBet(self, marketId, contractId, quantity, price):
         order = smarkets.Order()
-        order.quantity = quantity#pounds*10000
+        order.quantity = realCashAmountToSmk(quantity)
         order.price = price#procents*100
         order.side = smarkets.Order.BUY
         

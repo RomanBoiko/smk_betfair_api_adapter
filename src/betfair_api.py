@@ -184,14 +184,14 @@ def placeBets(soapBinding, typeDefinition, request, response):
         
         for betRequest in request._request._bets._PlaceBets:
             placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
-            sizeInPoundsMultipliedBy10000 = betRequest._size
+            sizeInPounds = betRequest._size
             priceInProcentsMultipliedBy100 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
-            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, int(sizeInPoundsMultipliedBy10000), int(priceInProcentsMultipliedBy100))
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100))
             
-            placeBetResult._averagePriceMatched = sizeInPoundsMultipliedBy10000#???
-            placeBetResult._sizeMatched = sizeInPoundsMultipliedBy10000#???
+            placeBetResult._averagePriceMatched = sizeInPounds#???
+            placeBetResult._sizeMatched = sizeInPounds#???
             placeBetResult._betId = betResult.id
             placeBetResult._resultCode = "OK"
             placeBetResult._success = True

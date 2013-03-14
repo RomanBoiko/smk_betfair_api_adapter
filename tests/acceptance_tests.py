@@ -245,14 +245,14 @@ class WorkflowTest(AdapterAcceptanceTest):
 
     def check_that_exchange_service_placesBets(self, marketId, contractId):
         priceInProcents=2500
-        quantityInPoundsMultipliedBy10000 = 30000
+        quantityInPounds = 3
 
-        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPoundsMultipliedBy10000, quantityInPoundsMultipliedBy10000))
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPounds, quantityInPounds))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
-        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPoundsMultipliedBy10000)+".000000")
+        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPounds)+".000000")
+        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPounds)+".000000")
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         betId = textFromElement(responseDom, "betId", 0)
         self.assertTrue(len(betId)>0)
