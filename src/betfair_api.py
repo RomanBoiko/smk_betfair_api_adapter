@@ -1,7 +1,5 @@
 from xmlrpclib import datetime
 
-from smarkets.exceptions import SocketDisconnected
-
 from betfair.BFGlobalService_types import bfg
 from betfair.BFExchangeService_types import bfe
 
@@ -44,11 +42,12 @@ def login(soapBinding, typeDefinition, request, loginResponse):
     username = request._request._username
     password = request._request._password
 
-    try:
-        sessionToken = BUSINESS_UNIT.authenticateUserAndReturnHisSessionToken(username, password)
+    loginResult = BUSINESS_UNIT.authenticateUserAndReturnHisSessionToken(username, password)
+    if loginResult.succeeded :
+        sessionToken = loginResult.result
         createHeader(loginResp, ERROR_CODE_OK, sessionToken, soapBinding, typeDefinition)
         loginResp._errorCode = ERROR_CODE_OK
-    except SocketDisconnected:
+    else:
         createHeader(loginResp, ERROR_CODE_OK, None, soapBinding, typeDefinition)
         loginResp._errorCode = ERROR_INVALID_USERNAME_OR_PASSWORD
 

@@ -6,7 +6,6 @@ import smk_api
 
 DEFAULT_CURRENCY = "GBP"
 
-
 class SessionStorage(object):
     "Encapsulates client authentication actions and active clients storage"
     SESSION_TOKEN_LENGTH=32
@@ -20,10 +19,14 @@ class SessionStorage(object):
         return uuid.uuid4().hex
     
     def authenticateUserAndReturnHisSessionToken(self, username, password):
-        client = smk_api.login(username, password)
-        sessionToken = self.newSessionId()
-        self.authenticatedClients[sessionToken] = client
-        return sessionToken
+        loginResult = smk_api.login(username, password)
+        if loginResult.succeeded :
+            client = loginResult.result
+            sessionToken = self.newSessionId()
+            self.authenticatedClients[sessionToken] = client
+            return smk_api.ActionSucceeded(sessionToken)
+        else:
+            return smk_api.ActionFailed(loginResult.result)
 
     def getClientIfTokenIsValid(self, sessionToken):
         if sessionToken in self.authenticatedClients :

@@ -9,6 +9,7 @@ from google.protobuf import text_format
 import smarkets
 import smarkets.seto.piqi_pb2 as seto
 from smarkets.uuid import Uuid, uuid_to_int
+from smarkets.exceptions import SocketDisconnected
 
 import adapter_context
 
@@ -135,18 +136,6 @@ def integerToUuid(sourceInt):
     resultedUuid.high = sourceUuid.high
     return resultedUuid
 
-def login(username, password):
-    settings = smarkets.SessionSettings(username, password)
-    settings.host = adapter_context.SMK_API_HOST
-    settings.port = int(adapter_context.SMK_API_PORT)
-    session = smarkets.Session(settings)
-    client = smarkets.Smarkets(session)
-    client.login()
-    client.ping()
-    client.flush()
-    client.read()
-    return SmkClient(client) 
-
 def dateTime(year=1970, month=1, day=1, hour=0, minute=0):
     list(datetime.datetime(year, month, day, hour, minute).timetuple())
 
@@ -176,6 +165,34 @@ def loadEvents(eventsMessage):
                                          marketIdInt, eventStartTime)
                     events.putContract(marketIdInt, smkContract)
     return events
+
+class ActionResult(object):
+    def __init__(self, hasSucceeded, result):
+        self.succeeded = hasSucceeded
+        self.result = result
+
+class ActionSucceeded(ActionResult):
+    def __init__(self, result):
+        super(ActionSucceeded, self).__init__(True, result)
+class ActionFailed(ActionResult):
+    def __init__(self, result):
+        super(ActionFailed, self).__init__(False, result)
+
+
+def login(username, password):
+    try:
+        settings = smarkets.SessionSettings(username, password)
+        settings.host = adapter_context.SMK_API_HOST
+        settings.port = int(adapter_context.SMK_API_PORT)
+        session = smarkets.Session(settings)
+        client = smarkets.Smarkets(session)
+        client.login()
+        client.ping()
+        client.flush()
+        client.read()
+        return ActionSucceeded(SmkClient(client))
+    except SocketDisconnected:
+        return ActionFailed("login failed")
 
 class SmkClient(object):
     LOGGER = logging.getLogger('[smk.client]')
