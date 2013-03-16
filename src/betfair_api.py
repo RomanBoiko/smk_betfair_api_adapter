@@ -100,7 +100,7 @@ def event(eventDTO, soapBinding, typeDefinition):
     event._eventTypeId = eventDTO.eventTypeId
     event._menuLevel = 0#don't know what to use
     event._orderIndex = 0#don't know what to use
-    event._startTime = currentDateTime()#use constant 0001-01-01T00:00:00.000Z instead
+    event._startTime = eventDTO.startTime
     event._timezone = "Greenwich Mean Time"#constant
     return event
 
@@ -113,7 +113,7 @@ def market(marketDTO, soapBinding, typeDefinition):
     market._marketTypeVariant = "ADL"#<marketTypeVariant xsi:type="n2:MarketTypeVariantEnum">ADL</marketTypeVariant>
     market._menuLevel = 6 # <menuLevel xsi:type="xsd:int">6</menuLevel>
     market._orderIndex = 2638500 # <orderIndex xsi:type="xsd:int">2638500</orderIndex>
-    market._startTime = currentDateTime()#use constant 0001-01-01T00:00:00.000Z instead # <startTime xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</startTime>
+    market._startTime = marketDTO.startTime
     market._timezone = "GMT" # <timezone xsi:type="xsd:string">GMT</timezone>
     market._betDelay = 0 # <betDelay xsi:type="xsd:int">0</betDelay>
     market._numberOfWinners = 0 # <numberOfWinners xsi:type="xsd:int">0</numberOfWinners>

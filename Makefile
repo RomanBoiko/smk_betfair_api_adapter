@@ -33,3 +33,6 @@ acceptance_tests_suit: create_test_dir
 acceptance_tests: start acceptance_tests_suit stop
 
 test: unit_tests integration_tests acceptance_tests
+
+try:
+	python src/investigation.py ${action}

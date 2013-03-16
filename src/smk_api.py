@@ -2,6 +2,7 @@ import logging
 import threading
 import time
 import pprint
+from xmlrpclib import datetime
 
 from google.protobuf import text_format
 
@@ -104,10 +105,11 @@ class Events(object):
         self.marketToContract[str(parentMarketIdInt)].append(contract)
 
 class Event(object):
-    def __init__(self, eventId, eventName, eventTypeId):
+    def __init__(self, eventId, eventName, eventTypeId, startDateTime):
         self.eventId = eventId
         self.eventName = eventName
         self.eventTypeId = eventTypeId
+        self.startTime = startDateTime
 
     def __str__(self):
         return ("Event(id=%s, name=%s, typeId=%s)"%(self.eventId, self.eventName.encode("utf-8"), self.eventTypeId))
@@ -115,11 +117,12 @@ class Event(object):
         return self.__str__()
 
 class Market(object):
-    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId):
+    def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
         self.marketId = marketId
         self.marketName = marketName
         self.marketTypeId = marketTypeId
         self.marketParentEventId = marketParentEventId
+        self.startTime = startDateTime
 
 def uuidToInteger(uuid):
     uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
@@ -144,29 +147,33 @@ def login(username, password):
     client.read()
     return SmkClient(client) 
 
-    
+def dateTime(year=1970, month=1, day=1, hour=0, minute=0):
+    list(datetime.datetime(year, month, day, hour, minute).timetuple())
+
 def loadEvents(eventsMessage):
     events = Events()
-    footballEvent = lambda eventId, eventName: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID)
+    footballEvent = lambda eventId, eventName, startDateTime: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID, startDateTime)
     
     if eventsMessage is not None:
         for parent in eventsMessage.parents:
             parentIdInt = uuidToInteger(parent.event)
             if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
-                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name))
+                eventStartTime = dateTime(parent.start_date.year, parent.start_date.month, parent.start_date.day)
+                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name, eventStartTime))
         for sportEvent in eventsMessage.with_markets:
             eventIdInt = uuidToInteger(sportEvent.event)
             parentIdInt = uuidToInteger(sportEvent.parent)
-            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name))
+            eventStartTime = dateTime(sportEvent.start_date.year, sportEvent.start_date.month, sportEvent.start_date.day, sportEvent.start_time.hour, sportEvent.start_time.minute)
+            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name, eventStartTime))
 
             for marketItem in sportEvent.markets :
                 marketIdInt = uuidToInteger(marketItem.market)
-                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name))
+                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name, eventStartTime))
                 for contract in marketItem.contracts :
                     smkContract = Market(uuidToInteger(contract.contract),
                                          contract.name,
                                          FOOTBALL_EVENT_TYPE_ID,
-                                         marketIdInt)
+                                         marketIdInt, eventStartTime)
                     events.putContract(marketIdInt, smkContract)
     return events
 
