@@ -15,8 +15,9 @@ def global_callback(message_name, message):
                   text_format.MessageToString(message)))
 
 def smkAction(action):
-    client=smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
-    
+    client=smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD).result
+    client.client.add_global_handler(global_callback)
+
     try:
         print "===========>"+str(action(client))
     except:

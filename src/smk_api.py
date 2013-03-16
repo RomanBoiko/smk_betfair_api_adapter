@@ -198,7 +198,7 @@ class SmkClient(object):
     LOGGER = logging.getLogger('[smk.client]')
     
     def __init__(self, client):
-        self.smkResponsePayload = None
+        self.smkResponse = None
         self.client = client
         self.clientLock = threading.Lock()
         self.threadStopEvent = threading.Event()
@@ -226,31 +226,44 @@ class SmkClient(object):
         finally:
             self.clientLock.release()
         
-    def dataHandlingCallback(self, message):
-        self.smkResponsePayload = message
+    def actionSucceeded(self, message):
+        self.smkResponse = ActionSucceeded(message)
+    def actionFailed(self, message):
+        self.smkResponse = ActionFailed(message)
         
-    def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct):
-        self.smkResponsePayload = None
-        callback = lambda message: self.dataHandlingCallback(message)
+    def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct, expectedFailureResponseType=None):
+        self.smkResponse = None
+        callbackPositive = lambda message: self.actionSucceeded(message)
+        callbackNegative = lambda message: self.actionFailed(message)
+        callbacks = {expectedResponseType: callbackPositive}
         self.clientLock.acquire()
         try:
-            self.client.add_handler(expectedResponseType, callback)
+            self.client.add_handler(expectedResponseType, callbackPositive)
+            if expectedFailureResponseType is not None:
+                self.client.add_handler(expectedFailureResponseType, callbackNegative)
+                callbacks[expectedFailureResponseType] = callbackNegative
+
             clientAction()
             self.client.flush()
     
-            while self.smkResponsePayload is None:
+            while self.smkResponse is None:
                 self.client.read()
                 self.client.flush()
-            self.client.del_handler(expectedResponseType, callback)
+            for callbackType in callbacks :
+                self.client.del_handler(callbackType, callbacks[callbackType])
         finally:
             self.clientLock.release()
-        return classToConstruct(self.smkResponsePayload)
+        if self.smkResponse.succeeded :
+            return ActionSucceeded(classToConstruct(self.smkResponse.result))
+        else:
+            return ActionFailed("failure reason")
+
     
     def getAccountState(self):
-        return self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state', AccountState)
+        return self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state', AccountState).result
 
     def getBetsForAccount(self):
-        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount)
+        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount).result
 
     def placeBet(self, marketId, contractId, quantity, price):
         order = smarkets.Order()
@@ -261,11 +274,11 @@ class SmkClient(object):
         order.market = integerToUuid(marketId)
         order.contract = integerToUuid(contractId)
         
-        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet)#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet).result#add nonsuccessful case:seto.order_rejected
 
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
-        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel)#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel).result#add nonsuccessful case:seto.order_rejected
     
     def getPayloadViaHttp(self, serviceUrl):
         content_type, result = smarkets.urls.fetch(serviceUrl)
@@ -277,8 +290,11 @@ class SmkClient(object):
         return "return nothing - fix"
 
     def getEvents(self, eventRequest):
-        httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl)
-        return self.getPayloadViaHttp(httpUrl.url)
+        httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl, 'seto.invalid_request')
+        if httpUrl.succeeded:
+            return self.getPayloadViaHttp(httpUrl.result.url)
+        else:
+            return None#to be fixed
     
     def footballByDate(self, eventsDate):
         eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
