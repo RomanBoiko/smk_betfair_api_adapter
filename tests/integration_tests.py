@@ -21,13 +21,8 @@ class SmkApiIntegrationTest(unittest.TestCase):
         client.logout()
         
     def test_that_smk_api_thows_SocketDisconnected_exception_if_credentials_are_wrong(self):
-        try:
-            #using different login to avoid user blocking
-            smk_api.login('wrongLogin_' + str(time.time()), 'wrongPassword')
-        except SocketDisconnected:
-            assert True
-        else:
-            assert False
+        #using different login to avoid user blocking
+        self.assertFalse(smk_api.login('wrongLogin_' + str(time.time()), 'wrongPassword').succeeded)
     
     def test_bet_placing_workflow(self):
         client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD).result
