@@ -137,7 +137,7 @@ def integerToUuid(sourceInt):
     return resultedUuid
 
 def dateTime(year=1970, month=1, day=1, hour=0, minute=0):
-    list(datetime.datetime(year, month, day, hour, minute).timetuple())
+    return list(datetime.datetime(year, month, day, hour, minute).timetuple())
 
 def loadEvents(eventsMessage):
     events = Events()

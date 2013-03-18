@@ -17,7 +17,7 @@ import smarkets.seto.piqi_pb2 as seto
 class SmkApiIntegrationTest(unittest.TestCase):
 
     def test_that_smk_api_must_login_and_logout_successfuly(self):
-        client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
+        client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD).result
         client.logout()
         
     def test_that_smk_api_thows_SocketDisconnected_exception_if_credentials_are_wrong(self):
@@ -30,7 +30,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             assert False
     
     def test_bet_placing_workflow(self):
-        client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
+        client = smk_api.login(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD).result
         try:
             initialAmountOfMarkets = len(client.getBetsForAccount().bets)
             
