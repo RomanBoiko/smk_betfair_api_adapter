@@ -213,7 +213,6 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.check_that_markets_can_be_retreived_by_getEvents_request(self.firstEventId(responseDom), eventTypeId)
 
 
-    #For Smk:Market==still Betfair:Event
     def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
@@ -223,7 +222,6 @@ class WorkflowTest(AdapterAcceptanceTest):
 
         self.check_that_contracts_can_be_retreived_by_getEvents_request(self.firstEventId(responseDom), eventTypeId)
 
-    #For Smk:Contract==Betfair:Market
     def check_that_contracts_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
@@ -259,6 +257,7 @@ class WorkflowTest(AdapterAcceptanceTest):
 
         getBetsResponseDom = self.getListOfBetsForAccount()
         self.assertEqual(textFromElement(getBetsResponseDom, "betId", 0), betId)
+        self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_CODE_OK)
 
         self.exchange_service_should_cancel_bet_using_cancelBets(betId)
 
@@ -269,6 +268,28 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
+
+    def test_that_placeBets_with_unexisting_marketId_returns_action_failed_response(self):
+        priceInProcents=2500
+        quantityInPounds = 3
+
+        unexistingMarketId = 0
+        unexistingContractId = 0
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingMarketId, priceInProcents, unexistingContractId, quantityInPounds, quantityInPounds))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_CANNOT_ACCEPT_BET)
+        self.assertEqual(textFromElement(responseDom, "success", 0), "false")
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+
+    def test_that_cancelBets_with_unexisting_betId_returns_action_failed_response(self):
+        unexistingBetId = 0
+        request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingBetId))
+        responseXml = getExchangeServiceReply(request)
+        responseDom = parseString(responseXml)
+        self.assertEqual(textFromElement(responseDom, "success", 0), "false")
+        self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.BET_NOT_CANCELLED)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
 
     def test_exchange_service_getAccountFunds(self):
         request = soapMessage(getAccountFundsRequestTemplate%(WorkflowTest.validSessionToken))

@@ -10,6 +10,8 @@ ERROR_CODE_OK = "OK"
 ERROR_INVALID_USERNAME_OR_PASSWORD = "INVALID_USERNAME_OR_PASSWORD"
 ERROR_NO_SESSION = "NO_SESSION"
 ERROR_API_ERROR = "API_ERROR"
+ERROR_CANNOT_ACCEPT_BET = "CANNOT_ACCEPT_BET"
+ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
 
 DEFAULT_CURRENCY = "GBP"
 
@@ -187,13 +189,18 @@ def placeBets(soapBinding, typeDefinition, request, response):
             priceInProcentsMultipliedBy100 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
-            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100))
             
             placeBetResult._averagePriceMatched = sizeInPounds#???
             placeBetResult._sizeMatched = sizeInPounds#???
-            placeBetResult._betId = betResult.id
-            placeBetResult._resultCode = "OK"
-            placeBetResult._success = True
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100))
+            if betResult.succeeded:
+                placeBetResult._resultCode = ERROR_CODE_OK
+                placeBetResult._success = True
+                placeBetResult._betId = betResult.result.id
+            else:
+                placeBetResult._resultCode = ERROR_CANNOT_ACCEPT_BET
+                placeBetResult._success = False
+                placeBetResult._betId = 0
             resp._betResults._PlaceBetsResult.append(placeBetResult)
     
     resp._errorCode = ERROR_CODE_OK
@@ -212,11 +219,15 @@ def cancelBets(soapBinding, typeDefinition, request, response):
             cancelBetResult = bfe.CancelBetsResult_Def(soapBinding, typeDefinition)
             betId = cancelBetRequest._betId
             originalCancelBetResult = BUSINESS_UNIT.cancelBet(sessionToken, betId)
+            if originalCancelBetResult.succeeded:
+                cancelBetResult._resultCode = ERROR_CODE_OK
+                cancelBetResult._success = True
+            else:
+                cancelBetResult._resultCode = ERROR_BET_NOT_CANCELLED
+                cancelBetResult._success = False
             cancelBetResult._betId = betId
-            cancelBetResult._resultCode = "OK"
             cancelBetResult._sizeCancelled = 000.0000#???
             cancelBetResult._sizeMatched = 000.0000#???
-            cancelBetResult._success = True
             resp._betResults._CancelBetsResult.append(cancelBetResult)
         
     

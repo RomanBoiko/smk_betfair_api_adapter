@@ -274,11 +274,11 @@ class SmkClient(object):
         order.market = integerToUuid(marketId)
         order.contract = integerToUuid(contractId)
         
-        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet).result#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet, 'seto.order_rejected')
 
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
-        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel).result#add nonsuccessful case:seto.order_rejected
+        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel, 'seto.order_cancel_rejected')
     
     def getPayloadViaHttp(self, serviceUrl):
         content_type, result = smarkets.urls.fetch(serviceUrl)
