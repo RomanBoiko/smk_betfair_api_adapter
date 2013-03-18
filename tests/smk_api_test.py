@@ -39,3 +39,7 @@ class SmkApiUnitTest(unittest.TestCase):
         uid = Uuid.from_int((0, ORIGINAL_LOW), TEST_TAG)
 
         self.assertUuidsConversionIsSymmetric(uid)
+
+    def test_that_currency_convertion_works(self):
+        self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(1), "GBP")
+        self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(2), "EUR")

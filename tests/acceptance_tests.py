@@ -288,7 +288,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "success", 0), "false")
-        self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.BET_NOT_CANCELLED)
+        self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_BET_NOT_CANCELLED)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
 
     def test_exchange_service_getAccountFunds(self):

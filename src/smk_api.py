@@ -23,10 +23,16 @@ def smkCashAmountToReal(smkCashAmount):
 def realCashAmountToSmk(realCashAmount):
     return int(round(realCashAmount*SMK_CASH_MULTIPLIER))
 
+def extractCurrencyFromAccountStateMessage(currencyCode):
+    for currency in seto._CURRENCY.values:
+        if currency.number == currencyCode:
+            return (str(currency.name))[-3:]
+    raise Exception("CURRENCY NOT RECOGNIZED(%s)"%str(currencyCode))
+
 class AccountState(object):
     def __init__(self, accountStateMessage):
         self.id=uuidToInteger(accountStateMessage.account_state.account)
-        self.currency=accountStateMessage.account_state.currency
+        self.currency= extractCurrencyFromAccountStateMessage(accountStateMessage.account_state.currency)
         self.cash=smkCashAmountToReal(accountStateMessage.account_state.cash.value)
         self.bonus=smkCashAmountToReal(accountStateMessage.account_state.bonus.value)#do we need that?
         self.exposure=smkCashAmountToReal(accountStateMessage.account_state.exposure.value)#do we need that?

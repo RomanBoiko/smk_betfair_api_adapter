@@ -13,8 +13,6 @@ ERROR_API_ERROR = "API_ERROR"
 ERROR_CANNOT_ACCEPT_BET = "CANNOT_ACCEPT_BET"
 ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
 
-DEFAULT_CURRENCY = "GBP"
-
 BUSINESS_UNIT = BusinessUnit()
 
 def currentDateTime():
@@ -36,8 +34,6 @@ def addHeaderToResponseAndValidateSession(request, response, soapBinding, typeDe
         createHeader(response, ERROR_NO_SESSION, None, soapBinding, typeDefinition)
         return None
 
-
-#+covered with acceptance test as verbose to unit test of markup generation
 def login(soapBinding, typeDefinition, request, loginResponse):
     loginResp = bfg.LoginResp_Def(soapBinding, typeDefinition)
     
@@ -49,13 +45,14 @@ def login(soapBinding, typeDefinition, request, loginResponse):
         sessionToken = loginResult.result
         createHeader(loginResp, ERROR_CODE_OK, sessionToken, soapBinding, typeDefinition)
         loginResp._errorCode = ERROR_CODE_OK
+        accountStatus = BUSINESS_UNIT.getAccountFunds(sessionToken)
+        loginResp._currency = accountStatus.currency
     else:
         createHeader(loginResp, ERROR_CODE_OK, None, soapBinding, typeDefinition)
         loginResp._errorCode = ERROR_INVALID_USERNAME_OR_PASSWORD
 
     loginResp._minorErrorCode = "age.verification.required"
     loginResp._validUntil = currentDateTime()
-    loginResp._currency = DEFAULT_CURRENCY
 
     loginResponse._Result = loginResp
     return loginResponse
