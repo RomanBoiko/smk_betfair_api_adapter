@@ -3,6 +3,7 @@ import threading
 import time
 import pprint
 from xmlrpclib import datetime
+from datetime import timedelta
 
 from google.protobuf import text_format
 
@@ -16,6 +17,8 @@ import adapter_context
 LOGGER = logging.getLogger('[smk.api]')
 FOOTBALL_EVENT_TYPE_ID = 121005
 SMK_CASH_MULTIPLIER = 10000
+
+FOOTBALL_EVENTS_AVAILABILITY_IN_FUTURE_DAYS = 6
 
 def smkCashAmountToReal(smkCashAmount):
     return float(smkCashAmount)/SMK_CASH_MULTIPLIER
@@ -111,6 +114,23 @@ class Events(object):
             self.marketToContract[str(parentMarketIdInt)] = []
         self.marketToContract[str(parentMarketIdInt)].append(contract)
 
+    def parentsCount(self):
+        return len(self.parentToEvent)
+    def eventsAndMarketsCount(self):
+        eventsAndMarketsCount = 0
+        for parent in self.parentToEvent:
+            eventsAndMarketsCount += len(self.parentToEvent[parent])
+        return eventsAndMarketsCount
+
+    def marketsCount(self):
+        return len(self.marketToContract)
+    def contractsCount(self):
+        contractsCount = 0
+        for market in self.marketToContract:
+            contractsCount += len(self.marketToContract[market])
+        return contractsCount
+
+
 class Event(object):
     def __init__(self, eventId, eventName, eventTypeId, startDateTime):
         self.eventId = eventId
@@ -145,31 +165,36 @@ def integerToUuid(sourceInt):
 def dateTime(year=1970, month=1, day=1, hour=0, minute=0):
     return list(datetime.datetime(year, month, day, hour, minute).timetuple())
 
-def loadEvents(eventsMessage):
+def dateInNextNumberOfDays(daysDelta):
+    today = datetime.date.today()
+    return (today+timedelta(days=daysDelta))
+
+def loadEvents(eventsMessages):
     events = Events()
     footballEvent = lambda eventId, eventName, startDateTime: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID, startDateTime)
     
-    if eventsMessage is not None:
-        for parent in eventsMessage.parents:
-            parentIdInt = uuidToInteger(parent.event)
-            if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
-                eventStartTime = dateTime(parent.start_date.year, parent.start_date.month, parent.start_date.day)
-                events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name, eventStartTime))
-        for sportEvent in eventsMessage.with_markets:
-            eventIdInt = uuidToInteger(sportEvent.event)
-            parentIdInt = uuidToInteger(sportEvent.parent)
-            eventStartTime = dateTime(sportEvent.start_date.year, sportEvent.start_date.month, sportEvent.start_date.day, sportEvent.start_time.hour, sportEvent.start_time.minute)
-            events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name, eventStartTime))
+    for eventsMessage in eventsMessages:
+        if eventsMessage is not None:
+            for parent in eventsMessage.parents:
+                parentIdInt = uuidToInteger(parent.event)
+                if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
+                    eventStartTime = dateTime(parent.start_date.year, parent.start_date.month, parent.start_date.day)
+                    events.putEvent(FOOTBALL_EVENT_TYPE_ID, footballEvent(parentIdInt, parent.name, eventStartTime))
+            for sportEvent in eventsMessage.with_markets:
+                eventIdInt = uuidToInteger(sportEvent.event)
+                parentIdInt = uuidToInteger(sportEvent.parent)
+                eventStartTime = dateTime(sportEvent.start_date.year, sportEvent.start_date.month, sportEvent.start_date.day, sportEvent.start_time.hour, sportEvent.start_time.minute)
+                events.putEvent(parentIdInt, footballEvent(eventIdInt, sportEvent.name, eventStartTime))
 
-            for marketItem in sportEvent.markets :
-                marketIdInt = uuidToInteger(marketItem.market)
-                events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name, eventStartTime))
-                for contract in marketItem.contracts :
-                    smkContract = Market(uuidToInteger(contract.contract),
-                                         contract.name,
-                                         FOOTBALL_EVENT_TYPE_ID,
-                                         marketIdInt, eventStartTime)
-                    events.putContract(marketIdInt, smkContract)
+                for marketItem in sportEvent.markets :
+                    marketIdInt = uuidToInteger(marketItem.market)
+                    events.putEvent(eventIdInt, footballEvent(marketIdInt, marketItem.name, eventStartTime))
+                    for contract in marketItem.contracts :
+                        smkContract = Market(uuidToInteger(contract.contract),
+                                             contract.name,
+                                             FOOTBALL_EVENT_TYPE_ID,
+                                             marketIdInt, eventStartTime)
+                        events.putContract(marketIdInt, smkContract)
     return events
 
 class ActionResult(object):
@@ -200,6 +225,13 @@ def login(username, password):
     except SocketDisconnected:
         return ActionFailed("login failed")
 
+
+class EventsCache(object):
+    def __init__(self):
+        self.events = None
+        self.cacheCreationDate = None
+
+
 class SmkClient(object):
     LOGGER = logging.getLogger('[smk.client]')
     
@@ -211,6 +243,7 @@ class SmkClient(object):
         self.periodicThread = threading.Thread(target=self.periodicalFlush)
         self.periodicThread.daemon = True
         self.periodicThread.start()
+        self.footballEventsCache = EventsCache()
 
     def periodicalFlush(self):
         while not self.threadStopEvent.is_set():
@@ -304,4 +337,13 @@ class SmkClient(object):
     
     def footballByDate(self, eventsDate):
         eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
-        return loadEvents(eventsMessage)
+        return loadEvents([eventsMessage])
+
+    def footballActiveEvents(self):
+        todaysDate = datetime.date.today()
+        if self.footballEventsCache.cacheCreationDate != todaysDate:
+            eventsMessage = self.getEvents(smarkets.events.FootballByDate(todaysDate))
+            todaysEvents = loadEvents([eventsMessage])
+            self.footballEventsCache.events = todaysEvents
+            self.footballEventsCache.cacheCreationDate = todaysDate
+        return self.footballEventsCache.events

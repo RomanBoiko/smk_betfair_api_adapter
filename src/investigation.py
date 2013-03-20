@@ -32,8 +32,10 @@ def main():
         print "==>command line argument not specified"
     else:
         option = sys.argv[1]
-        if option == "events":
-            smkAction(lambda client: client.footballByDate(datetime.date(2013, 3, 5)))
+        if option == "eventsByDate":
+            smkAction(lambda client: client.footballByDate(datetime.date(2013, 3, 20)))
+        elif option == "events":
+            smkAction(lambda client: client.footballByDate(datetime.date.today()))
         elif option == "bet":
             quantity = 22
             price = 2400

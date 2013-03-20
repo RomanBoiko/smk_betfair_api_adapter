@@ -56,7 +56,7 @@ class BusinessUnit(object):
     def getTodaysFootballEvents(self, sessionToken):
         if self.events is None :
             client = self.getClientIfTokenIsValid(sessionToken)
-            self.events = client.footballByDate(datetime.date.today())
+            self.events = client.footballActiveEvents()
         return self.events
 
     def getAccountFunds(self, sessionToken):

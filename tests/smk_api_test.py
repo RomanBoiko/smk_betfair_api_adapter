@@ -1,6 +1,8 @@
 import unittest
 import time
 import datetime
+import urllib2
+import os
 
 from smarkets.exceptions import SocketDisconnected
 import smarkets
@@ -43,3 +45,51 @@ class SmkApiUnitTest(unittest.TestCase):
     def test_that_currency_convertion_works(self):
         self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(1), "GBP")
         self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(2), "EUR")
+
+    def eventsPayloadFromFile(self, pathToFile):
+        fileStream = urllib2.urlopen("file://%s"%os.path.abspath(pathToFile))
+        data = fileStream.read()
+        fileStream.close()
+        
+        incoming_payload = seto.Events()
+        incoming_payload.ParseFromString(data)
+        return incoming_payload
+
+    PARENTS_IN_FILE_1 = 90
+    EVENTS_AND_MARKETS_IN_FILE_1 = 3702
+    MARKETS_IN_FILE_1 = 3613
+    CONTRACTS_IN_FILE_1 = 7478
+
+    PARENTS_IN_FILE_2 = 43
+    EVENTS_AND_MARKETS_IN_FILE_2 = 1564
+    MARKETS_IN_FILE_2 = 1522
+    CONTRACTS_IN_FILE_2 = 3132
+
+    def test_that_events_file_1_can_be_loaded_separately(self):
+        incoming_payload = self.eventsPayloadFromFile("tests/resources/events_day_1.pb")
+        events = smk_api.loadEvents([incoming_payload])
+
+        self.assertEqual(events.parentsCount(), self.__class__.PARENTS_IN_FILE_1)
+        self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_1)
+        self.assertEqual(events.marketsCount(), self.__class__.MARKETS_IN_FILE_1)
+        self.assertEqual(events.contractsCount(), self.__class__.CONTRACTS_IN_FILE_1)
+
+    def test_that_events_file_2_can_be_loaded_separately(self):
+        incoming_payload = self.eventsPayloadFromFile("tests/resources/events_day_2.pb")
+        events = smk_api.loadEvents([incoming_payload])
+
+        self.assertEqual(events.parentsCount(), self.__class__.PARENTS_IN_FILE_2)
+        self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_2)
+        self.assertEqual(events.marketsCount(), self.__class__.MARKETS_IN_FILE_2)
+        self.assertEqual(events.contractsCount(), self.__class__.CONTRACTS_IN_FILE_2)
+
+    def test_that_events_from_both_files_could_be_loaded_and_merged(self):
+        incomingPayload1 = self.eventsPayloadFromFile("tests/resources/events_day_1.pb")
+        incomingPayload2 = self.eventsPayloadFromFile("tests/resources/events_day_2.pb")
+        events = smk_api.loadEvents([incomingPayload1, incomingPayload2])
+        
+        self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_1 + self.__class__.EVENTS_AND_MARKETS_IN_FILE_2)
+        self.assertEqual(events.marketsCount(), self.__class__.MARKETS_IN_FILE_1 + self.__class__.MARKETS_IN_FILE_2)
+        self.assertEqual(events.contractsCount(), self.__class__.CONTRACTS_IN_FILE_1 + self.__class__.CONTRACTS_IN_FILE_2)
+
+
