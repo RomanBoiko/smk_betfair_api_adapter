@@ -3,9 +3,9 @@ import time
 import unittest
 from xml.dom.minidom import parseString
 
-import adapter_context
-import betfair_api
-import smk_api
+import smkadapter.adapter_context as adapter_context
+import smkadapter.betfair_api as betfair_api
+import smkadapter.smk_api as smk_api
 
 HOST="localhost"
 PORT=int(adapter_context.BETFAIR_API_PORT)

@@ -10,7 +10,7 @@ clean:
 
 
 start:
-	python src/adapter.py  &> server.log &
+	python src/smkadapter/adapter.py  &> server.log &
 
 
 stop:
@@ -35,4 +35,4 @@ acceptance_tests: start acceptance_tests_suit stop
 test: unit_tests integration_tests acceptance_tests
 
 try:
-	python src/investigation.py ${action}
+	python src/smkadapter/investigation.py ${action}

@@ -10,8 +10,8 @@ import smarkets.uuid
 from smarkets.uuid import Uuid, uuid_to_int
 from smarkets.clients import Smarkets
 
-import adapter_context
-import smk_api
+import smkadapter.adapter_context as adapter_context
+import smkadapter.smk_api as smk_api
 
 import smarkets.seto.piqi_pb2 as seto
 

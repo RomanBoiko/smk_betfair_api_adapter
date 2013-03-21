@@ -1,6 +1,6 @@
 import unittest
 
-from adapter_context import *
+from smkadapter.adapter_context import *
 
 class AdapterContextTest(unittest.TestCase):
 

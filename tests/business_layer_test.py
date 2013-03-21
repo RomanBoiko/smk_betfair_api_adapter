@@ -1,11 +1,11 @@
 import time
 import unittest
 
-import adapter_context
-import smk_api
+import smkadapter.adapter_context as adapter_context
+import smkadapter.smk_api as smk_api
+from smkadapter.business_layer import SessionStorage
 
 from smarkets.exceptions import SocketDisconnected
-from business_layer import SessionStorage
 
 class SessionStorageTest(unittest.TestCase):
     storage = SessionStorage()
