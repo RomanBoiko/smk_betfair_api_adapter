@@ -1,0 +1,1 @@
+"smarkets-betfair api adapter"
