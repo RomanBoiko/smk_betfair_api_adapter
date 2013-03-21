@@ -165,10 +165,6 @@ def integerToUuid(sourceInt):
 def dateTime(year=1970, month=1, day=1, hour=0, minute=0):
     return list(datetime.datetime(year, month, day, hour, minute).timetuple())
 
-def dateInNextNumberOfDays(daysDelta):
-    today = datetime.date.today()
-    return (today+timedelta(days=daysDelta))
-
 def loadEvents(eventsMessages):
     events = Events()
     footballEvent = lambda eventId, eventName, startDateTime: Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID, startDateTime)
@@ -335,15 +331,15 @@ class SmkClient(object):
         else:
             return None#to be fixed
     
-    def footballByDate(self, eventsDate):
-        eventsMessage = self.getEvents(smarkets.events.FootballByDate(eventsDate))
-        return loadEvents([eventsMessage])
-
     def footballActiveEvents(self):
         todaysDate = datetime.date.today()
         if self.footballEventsCache.cacheCreationDate != todaysDate:
-            eventsMessage = self.getEvents(smarkets.events.FootballByDate(todaysDate))
-            todaysEvents = loadEvents([eventsMessage])
-            self.footballEventsCache.events = todaysEvents
+            eventsMessages = []
+            datePlusDelta = lambda startDate, daysDelta: (startDate+timedelta(days=daysDelta))
+            for dayDelta in range(7):
+                day = datePlusDelta(todaysDate, dayDelta)
+                events = self.getEvents(smarkets.events.FootballByDate(day))
+                eventsMessages.append(events)
+            self.footballEventsCache.events = loadEvents(eventsMessages)
             self.footballEventsCache.cacheCreationDate = todaysDate
         return self.footballEventsCache.events
