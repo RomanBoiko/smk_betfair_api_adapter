@@ -67,7 +67,7 @@ class SmkApiUnitTest(unittest.TestCase):
 
     def test_that_events_file_1_can_be_loaded_separately(self):
         incoming_payload = self.eventsPayloadFromFile("tests/resources/events_day_1.pb")
-        events = smk_api.loadEvents([incoming_payload])
+        events = smk_api.EventsParser().parseEvents([incoming_payload])
 
         self.assertEqual(events.parentsCount(), self.__class__.PARENTS_IN_FILE_1)
         self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_1)
@@ -76,7 +76,7 @@ class SmkApiUnitTest(unittest.TestCase):
 
     def test_that_events_file_2_can_be_loaded_separately(self):
         incoming_payload = self.eventsPayloadFromFile("tests/resources/events_day_2.pb")
-        events = smk_api.loadEvents([incoming_payload])
+        events = smk_api.EventsParser().parseEvents([incoming_payload])
 
         self.assertEqual(events.parentsCount(), self.__class__.PARENTS_IN_FILE_2)
         self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_2)
@@ -86,7 +86,7 @@ class SmkApiUnitTest(unittest.TestCase):
     def test_that_events_from_both_files_could_be_loaded_and_merged(self):
         incomingPayload1 = self.eventsPayloadFromFile("tests/resources/events_day_1.pb")
         incomingPayload2 = self.eventsPayloadFromFile("tests/resources/events_day_2.pb")
-        events = smk_api.loadEvents([incomingPayload1, incomingPayload2])
+        events = smk_api.EventsParser().parseEvents([incomingPayload1, incomingPayload2])
         
         self.assertEqual(events.eventsAndMarketsCount(), self.__class__.EVENTS_AND_MARKETS_IN_FILE_1 + self.__class__.EVENTS_AND_MARKETS_IN_FILE_2)
         self.assertEqual(events.marketsCount(), self.__class__.MARKETS_IN_FILE_1 + self.__class__.MARKETS_IN_FILE_2)
