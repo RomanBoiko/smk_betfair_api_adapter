@@ -174,19 +174,18 @@ class BFExchangeService(ServiceSOAPBinding):
     soapAction['getCurrentBets'] = 'soap_getCurrentBets'
     root[(getCurrentBetsIn.typecode.nspname,getCurrentBetsIn.typecode.pname)] = 'soap_getCurrentBets'
 
+    def soap_cancelBetsByMarket(self, ps, **kw):
+        request = ps.Parse(cancelBetsByMarketIn.typecode)
+        response = betfair_api.cancelBetsByMarket(self, ps, request, cancelBetsByMarketOut())
+        return request,response
+
+    soapAction['cancelBetsByMarket'] = 'soap_cancelBetsByMarket'
+    root[(cancelBetsByMarketIn.typecode.nspname,cancelBetsByMarketIn.typecode.pname)] = 'soap_cancelBetsByMarket'
 
 
 #############################
 #    NOT IMPLEMENTED YET    #
 #############################
-
-
-    def soap_cancelBetsByMarket(self, ps, **kw):
-        request = ps.Parse(cancelBetsByMarketIn.typecode)
-        return request,cancelBetsByMarketOut()
-
-    soapAction['cancelBetsByMarket'] = 'soap_cancelBetsByMarket'
-    root[(cancelBetsByMarketIn.typecode.nspname,cancelBetsByMarketIn.typecode.pname)] = 'soap_cancelBetsByMarket'
 
     def soap_updateBets(self, ps, **kw):
         request = ps.Parse(updateBetsIn.typecode)

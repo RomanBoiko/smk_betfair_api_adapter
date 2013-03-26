@@ -279,3 +279,15 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
     resp._totalRecordCount = 0
     response._Result = resp
     return response
+
+def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
+    resp = bfe.CancelBetsByMarketResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        resp._results = bfe.ArrayOfCancelBetsByMarketResult_Def(soapBinding, typeDefinition)
+        resp._results._CancelBetsByMarketResult = []
+        
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response

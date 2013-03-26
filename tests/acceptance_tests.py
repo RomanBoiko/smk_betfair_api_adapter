@@ -132,6 +132,34 @@ getCurrentBetsRequestTemplate = """<bfex:getCurrentBets>
                                      </bfex:request>
                                   </bfex:getCurrentBets>"""
 
+#Planned
+cancelBetsByMarketRequestTemplate = """<bfex:cancelBetsByMarket>
+                                   <bfex:request>
+                                      <header>
+                                         <clientStamp>0</clientStamp>
+                                         <sessionToken>%s</sessionToken>
+                                      </header>
+                                      <markets>
+                                         <!--Zero or more repetitions:-->
+                                         <v5:int>%s</v5:int>
+                                         <v5:int>%s</v5:int>
+                                      </markets>
+                                   </bfex:request>
+                                </bfex:cancelBetsByMarket>"""
+
+
+getMarketTemplate = """<bfex:getMarket>
+                         <bfex:request>
+                            <header>
+                               <clientStamp>0</clientStamp>
+                               <sessionToken>%s</sessionToken>
+                            </header>
+                            <locale>en_UK</locale>
+                            <marketId>%s</marketId>
+                            <includeCouponLinks>false</includeCouponLinks>
+                         </bfex:request>
+                      </bfex:getMarket>"""
+
 class AdapterAcceptanceTest(unittest.TestCase):
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
         self.assertEquals(textFromElement(response, ERROR_CODE_TAG, 0), expectedErrorCode)
@@ -309,7 +337,28 @@ class WorkflowTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         return parseString(responseXml)
 
+class RequestsResponsesValidationTest(AdapterAcceptanceTest):
 
+    @classmethod
+    def setUpClass(cls):
+        loginResponseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
+        RequestsResponsesValidationTest.validSessionToken = sessionTokenFrom(loginResponseDom)
+
+    @classmethod
+    def tearDownClass(cls):
+        getLogoutResponseDom(RequestsResponsesValidationTest.validSessionToken)
+
+    def test_exchange_service_cancelBetsByMarket(self):
+        testMarket1 = 1
+        testMarket2 = 1
+
+        request = soapMessage(cancelBetsByMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarket1, testMarket2))
+        responseXml = getExchangeServiceReply(request)
+        print "============CANCEL_BY_MARKET: %s"%responseXml
+        responseDom = parseString(responseXml)
+ 
+        # for balanceField in ["balance", "availBalance", "withdrawBalance"]:
+        #     self.assertEqual(textFromElement(responseDom, balanceField, 0), "10.000000")
 
 ###############################################
 # Common utils to operate with Betfair SOAP API
