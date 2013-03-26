@@ -334,7 +334,20 @@ def getMarketPrices(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._marketPrices = bfe.MarketPrices_Def(soapBinding, typeDefinition)
+          # <xsd:element name="currencyCode" nillable="true" type="xsd:string"/>
+          # <xsd:element name="delay" nillable="false" type="xsd:int"/>
+          # <xsd:element name="discountAllowed" nillable="false" type="xsd:boolean"/>
+          # <xsd:element name="lastRefresh" type="xsd:long"/>
+          # <xsd:element name="marketBaseRate" type="xsd:float"/>
+          # <xsd:element name="marketId" nillable="false" type="xsd:int"/>
+          # <xsd:element name="marketInfo" nillable="true" type="xsd:string"/>
+          # <xsd:element name="removedRunners" nillable="true" type="xsd:string"/>
+          # <xsd:element name="marketStatus" type="types:MarketStatusEnum"/>
+          # <xsd:element name="numberOfWinners" nillable="false" type="xsd:int"/>
+          # <xsd:element name="bspMarket" nillable="false" type="xsd:boolean"/>          
+          # <xsd:element name="runnerPrices" nillable="true" type="types:ArrayOfRunnerPrices"/>
+
     response._Result = resp
     return response
 
@@ -343,7 +356,7 @@ def getMarketPricesCompressed(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._marketPrices = "COMPRESSED_STRING"
     response._Result = resp
     return response
 
@@ -352,7 +365,9 @@ def getMarketTradedVolume(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._priceItems = bfe.ArrayOfVolumeInfo_Def(soapBinding, typeDefinition)
+        resp._priceItems._VolumeInfo = []
+
     response._Result = resp
     return response
 
@@ -361,7 +376,9 @@ def getMarketTradedVolumeCompressed(soapBinding, typeDefinition, request, respon
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._tradedVolume = '<xsd:element name="tradedVolume" nillable="true" type="xsd:string"/>'
+        resp._currencyCode = '<xsd:element name="currencyCode" nillable="true" type="xsd:string"/>'
+        resp._currencyCode = 0 # <xsd:element name="marketId" nillable="false" type="xsd:int"/>
     response._Result = resp
     return response
 
@@ -370,7 +387,8 @@ def updateBets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
+        resp._betResults._UpdateBetsResult = []
     response._Result = resp
     return response
 
@@ -379,7 +397,9 @@ def getMUBets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._bets = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
+        resp._bets._Bet = []
+        resp._totalRecordCount = len(resp._bets._Bet) # '<xsd:element name="totalRecordCount" nillable="false" type="xsd:int"/>
     response._Result = resp
     return response
 
@@ -388,7 +408,7 @@ def getBet(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._bet = bfe.Bet_Def(soapBinding, typeDefinition)
     response._Result = resp
     return response
 
@@ -397,7 +417,7 @@ def getAllMarkets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._marketData = '<xsd:element name="marketData" nillable="true" type="xsd:string"/>'
     response._Result = resp
     return response
 
@@ -406,7 +426,8 @@ def getBetHistory(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._betHistoryItems = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
+        resp._betHistoryItems._Bet = []
     response._Result = resp
     return response
 
@@ -415,7 +436,7 @@ def getInPlayMarkets(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._marketData = '<xsd:element name="marketData" nillable="true" type="xsd:string"/>'
     response._Result = resp
     return response
 
@@ -424,6 +445,7 @@ def getAccountStatement(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        print "DUMMY"
+        resp._items = bfe.ArrayOfAccountStatementItem_Def(soapBinding, typeDefinition)
+        resp._items._AccountStatementItem = []
     response._Result = resp
     return response

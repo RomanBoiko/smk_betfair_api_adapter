@@ -167,8 +167,8 @@ getMarketPricesRequestTemplate = """<bfex:getMarketPrices>
                                              <clientStamp>0</clientStamp>
                                              <sessionToken>%s</sessionToken>
                                           </header>
-                                          <currencyCode>GBP</currencyCode><--??-->
-                                          <marketId>MARKETID????</marketId>
+                                          <currencyCode>GBP</currencyCode>
+                                          <marketId>%s</marketId>
                                        </bfex:request>
                                     </bfex:getMarketPrices>"""
 
@@ -178,8 +178,8 @@ getMarketPricesCompressedRequestTemplate = """<bfex:getMarketPricesCompressed>
                                                        <clientStamp>0</clientStamp>
                                                        <sessionToken>%s</sessionToken>
                                                     </header>
-                                                    <currencyCode>?</currencyCode>
-                                                    <marketId>?</marketId>
+                                                    <currencyCode>GBP</currencyCode>
+                                                    <marketId>%s</marketId>
                                                  </bfex:request>
                                               </bfex:getMarketPricesCompressed>"""
 
@@ -189,10 +189,10 @@ getMarketTradedVolumeRequestTemplate = """<bfex:getMarketTradedVolume>
                                                    <clientStamp>0</clientStamp>
                                                    <sessionToken>%s</sessionToken>
                                                 </header>
-                                                <asianLineId>?</asianLineId>
-                                                <currencyCode>?</currencyCode>
-                                                <marketId>?</marketId>
-                                                <selectionId>?</selectionId>
+                                                <asianLineId>0</asianLineId>
+                                                <currencyCode>GBP</currencyCode>
+                                                <marketId>%s</marketId>
+                                                <selectionId>%s</selectionId>
                                              </bfex:request>
                                           </bfex:getMarketTradedVolume>"""
 
@@ -202,8 +202,8 @@ getMarketTradedVolumeCompressedRequestTemplate = """<bfex:getMarketTradedVolumeC
                                                              <clientStamp>0</clientStamp>
                                                              <sessionToken>%s</sessionToken>
                                                           </header>
-                                                          <currencyCode>?</currencyCode>
-                                                          <marketId>?</marketId>
+                                                          <currencyCode>GBP</currencyCode>
+                                                          <marketId>%s</marketId>
                                                        </bfex:request>
                                                     </bfex:getMarketTradedVolumeCompressed>"""
 
@@ -216,13 +216,13 @@ updateBetsRequestTemplate = """<bfex:updateBets>
                                     <bets>
                                        <!--Zero or more repetitions:-->
                                        <v5:UpdateBets>
-                                          <betId>?</betId>
-                                          <newPrice>?</newPrice>
-                                          <newSize>?</newSize>
-                                          <oldPrice>?</oldPrice>
-                                          <oldSize>?</oldSize>
-                                          <oldBetPersistenceType>?</oldBetPersistenceType>
-                                          <newBetPersistenceType>?</newBetPersistenceType>
+                                          <betId>?</betId>                                 <!-- <xsd:element name="betId" type="xsd:long"/>                                    -->
+                                          <newPrice>?</newPrice>                           <!-- <xsd:element name="newPrice" nillable="true" type="xsd:double"/>               -->
+                                          <newSize>?</newSize>                             <!-- <xsd:element name="newSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldPrice>?</oldPrice>                           <!-- <xsd:element name="oldPrice" nillable="true" type="xsd:double"/>               -->
+                                          <oldSize>?</oldSize>                             <!-- <xsd:element name="oldSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldBetPersistenceType>?</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                          <newBetPersistenceType>?</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
                                        </v5:UpdateBets>
                                     </bets>
                                  </bfex:request>
@@ -238,14 +238,12 @@ getMUBetsRequestTemplate = """<bfex:getMUBets>
                                     <marketId>?</marketId>
                                     <betIds>
                                        <!--0 to 1000 repetitions:-->
-                                       <v5:betId>?</v5:betId>
+                                       <!--<v5:betId>111111</v5:betId>-->
                                     </betIds>
-                                    <orderBy>?</orderBy>
-                                    <sortOrder>?</sortOrder>
-                                    <recordCount>?</recordCount>
-                                    <startRecord>?</startRecord>
-                                    <matchedSince>?</matchedSince>
-                                    <excludeLastSecond>?</excludeLastSecond>
+                                    <orderBy>BET_ID</orderBy>
+                                    <sortOrder>ASC</sortOrder>
+                                    <recordCount>1000</recordCount>
+                                    <startRecord>0</startRecord>
                                  </bfex:request>
                               </bfex:getMUBets>"""
 
@@ -255,7 +253,7 @@ getBetRequestTemplate = """<bfex:getBet>
                                    <clientStamp>0</clientStamp>
                                    <sessionToken>%s</sessionToken>
                                 </header>
-                                <betId>?</betId>
+                                <betId>%s</betId>
                                 <locale>en_UK</locale>
                              </bfex:request>
                           </bfex:getBet>"""
@@ -330,6 +328,13 @@ getAccountStatementRequestTemplate = """<bfex:getAccountStatement>
                                               <startDate>?</startDate>
                                               <startRecord>?</startRecord>
                                               <locale>en_UK</locale>
+                                                    <!-- <xsd:element name="endDate" type="xsd:dateTime"/>                             -->
+                                                    <!-- <xsd:element name="itemsIncluded" type="types:AccountStatementIncludeEnum"/>  -->
+                                                    <!-- <xsd:element name="ignoreAutoTransfers" nillable="false" type="xsd:boolean"/> -->
+                                                    <!-- <xsd:element name="recordCount" nillable="false" type="xsd:int"/>             -->
+                                                    <!-- <xsd:element name="startDate" type="xsd:dateTime"/>                           -->
+                                                    <!-- <xsd:element name="startRecord" nillable="false" type="xsd:int"/>             -->
+                                                    <!-- <xsd:element name="locale" nillable="true" type="xsd:string"/>                -->
                                            </bfex:req>
                                         </bfex:getAccountStatement>"""
 
@@ -522,8 +527,8 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         getLogoutResponseDom(RequestsResponsesValidationTest.validSessionToken)
 
     def test_exchange_service_cancelBetsByMarket(self):
-        testMarket1 = 1
-        testMarket2 = 1
+        testMarket1 = 1111111
+        testMarket2 = 1111111
 
         request = soapMessage(cancelBetsByMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarket1, testMarket2))
         responseXml = getExchangeServiceReply(request)
@@ -531,7 +536,7 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarket(self):
-        testMarketId = 329658
+        testMarketId = 1111111
 
         request = soapMessage(getMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarketId))
         responseXml = getExchangeServiceReply(request)
@@ -539,25 +544,30 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketPrices(self):
-        request = soapMessage(getMarketPricesRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        marketId = 1111111
+        request = soapMessage(getMarketPricesRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketPrices: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketPricesCompressed(self):
-        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        marketId = 1111111
+        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketPricesCompressed: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketTradedVolume(self):
-        request = soapMessage(getMarketTradedVolumeRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        marketId = 1111111
+        contractId = 1111111
+        request = soapMessage(getMarketTradedVolumeRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId, contractId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketTradedVolume: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketTradedVolumeCompressed(self):
-        request = soapMessage(getMarketTradedVolumeCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        marketId = 1111111
+        request = soapMessage(getMarketTradedVolumeCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketTradedVolumeCompressed: %s"%responseXml
         responseDom = parseString(responseXml)
@@ -575,7 +585,8 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getBet(self):
-        request = soapMessage(getBetRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        betId = 1111111
+        request = soapMessage(getBetRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, betId))
         responseXml = getExchangeServiceReply(request)
         print "============getBet: %s"%responseXml
         responseDom = parseString(responseXml)
