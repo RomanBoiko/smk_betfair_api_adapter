@@ -178,28 +178,108 @@ class BFExchangeService(ServiceSOAPBinding):
         request = ps.Parse(cancelBetsByMarketIn.typecode)
         response = betfair_api.cancelBetsByMarket(self, ps, request, cancelBetsByMarketOut())
         return request,response
-
     soapAction['cancelBetsByMarket'] = 'soap_cancelBetsByMarket'
     root[(cancelBetsByMarketIn.typecode.nspname,cancelBetsByMarketIn.typecode.pname)] = 'soap_cancelBetsByMarket'
 
+    def soap_getMarket(self, ps, **kw):
+        request = ps.Parse(getMarketIn.typecode)
+        response = betfair_api.getMarket(self, ps, request, getMarketOut())
+        return request,response
+    soapAction['getMarket'] = 'soap_getMarket'
+    root[(getMarketIn.typecode.nspname,getMarketIn.typecode.pname)] = 'soap_getMarket'
 
-#############################
-#    NOT IMPLEMENTED YET    #
-#############################
+    def soap_getMarketPrices(self, ps, **kw):
+        request = ps.Parse(getMarketPricesIn.typecode)
+        response = betfair_api.getMarketPrices(self, ps, request, getMarketPricesOut())
+        return request,response
+
+    soapAction['getMarketPrices'] = 'soap_getMarketPrices'
+    root[(getMarketPricesIn.typecode.nspname,getMarketPricesIn.typecode.pname)] = 'soap_getMarketPrices'
+
+    def soap_getMarketPricesCompressed(self, ps, **kw):
+        request = ps.Parse(getMarketPricesCompressedIn.typecode)
+        response = betfair_api.getMarketPricesCompressed(self, ps, request, getMarketPricesCompressedOut())
+        return request,response
+
+    soapAction['getMarketPricesCompressed'] = 'soap_getMarketPricesCompressed'
+    root[(getMarketPricesCompressedIn.typecode.nspname,getMarketPricesCompressedIn.typecode.pname)] = 'soap_getMarketPricesCompressed'
+
+    def soap_getMarketTradedVolume(self, ps, **kw):
+        request = ps.Parse(getMarketTradedVolumeIn.typecode)
+        response = betfair_api.getMarketTradedVolume(self, ps, request, getMarketTradedVolumeOut())
+        return request,response
+
+    soapAction['getMarketTradedVolume'] = 'soap_getMarketTradedVolume'
+    root[(getMarketTradedVolumeIn.typecode.nspname,getMarketTradedVolumeIn.typecode.pname)] = 'soap_getMarketTradedVolume'
+
+    def soap_getMarketTradedVolumeCompressed(self, ps, **kw):
+        request = ps.Parse(getMarketTradedVolumeCompressedIn.typecode)
+        response = betfair_api.getMarketTradedVolumeCompressed(self, ps, request, getMarketTradedVolumeCompressedOut())
+        return request,response
+
+    soapAction['getMarketTradedVolumeCompressed'] = 'soap_getMarketTradedVolumeCompressed'
+    root[(getMarketTradedVolumeCompressedIn.typecode.nspname,getMarketTradedVolumeCompressedIn.typecode.pname)] = 'soap_getMarketTradedVolumeCompressed'
 
     def soap_updateBets(self, ps, **kw):
         request = ps.Parse(updateBetsIn.typecode)
-        return request,updateBetsOut()
+        response = betfair_api.updateBets(self, ps, request, updateBetsOut())
+        return request,response
 
     soapAction['updateBets'] = 'soap_updateBets'
     root[(updateBetsIn.typecode.nspname,updateBetsIn.typecode.pname)] = 'soap_updateBets'
 
-    def soap_getMarket(self, ps, **kw):
-        request = ps.Parse(getMarketIn.typecode)
-        return request,getMarketOut()
+    def soap_getMUBets(self, ps, **kw):
+        request = ps.Parse(getMUBetsIn.typecode)
+        response = betfair_api.getMUBets(self, ps, request, getMUBetsOut())
+        return request,response
 
-    soapAction['getMarket'] = 'soap_getMarket'
-    root[(getMarketIn.typecode.nspname,getMarketIn.typecode.pname)] = 'soap_getMarket'
+    soapAction['getMUBets'] = 'soap_getMUBets'
+    root[(getMUBetsIn.typecode.nspname,getMUBetsIn.typecode.pname)] = 'soap_getMUBets'
+
+    def soap_getBet(self, ps, **kw):
+        request = ps.Parse(getBetIn.typecode)
+        response = betfair_api.getBet(self, ps, request, getBetOut())
+        return request,response
+
+    soapAction['getBet'] = 'soap_getBet'
+    root[(getBetIn.typecode.nspname,getBetIn.typecode.pname)] = 'soap_getBet'
+
+    def soap_getAllMarkets(self, ps, **kw):
+        request = ps.Parse(getAllMarketsIn.typecode)
+        response = betfair_api.getAllMarkets(self, ps, request, getAllMarketsOut())
+        return request,response
+
+    soapAction['getAllMarkets'] = 'soap_getAllMarkets'
+    root[(getAllMarketsIn.typecode.nspname,getAllMarketsIn.typecode.pname)] = 'soap_getAllMarkets'
+
+    def soap_getBetHistory(self, ps, **kw):
+        request = ps.Parse(getBetHistoryIn.typecode)
+        response = betfair_api.getBetHistory(self, ps, request, getBetHistoryOut())
+        return request,response
+
+    soapAction['getBetHistory'] = 'soap_getBetHistory'
+    root[(getBetHistoryIn.typecode.nspname,getBetHistoryIn.typecode.pname)] = 'soap_getBetHistory'
+
+    def soap_getInPlayMarkets(self, ps, **kw):
+        request = ps.Parse(getInPlayMarketsIn.typecode)
+        response = betfair_api.getInPlayMarkets(self, ps, request, getInPlayMarketsOut())
+        return request,response
+
+    soapAction['getInPlayMarkets'] = 'soap_getInPlayMarkets'
+    root[(getInPlayMarketsIn.typecode.nspname,getInPlayMarketsIn.typecode.pname)] = 'soap_getInPlayMarkets'
+
+    def soap_getAccountStatement(self, ps, **kw):
+        request = ps.Parse(getAccountStatementIn.typecode)
+        response = betfair_api.getAccountStatement(self, ps, request, getAccountStatementOut())
+        return request,response
+
+    soapAction['getAccountStatement'] = 'soap_getAccountStatement'
+    root[(getAccountStatementIn.typecode.nspname,getAccountStatementIn.typecode.pname)] = 'soap_getAccountStatement'
+
+
+#######################################
+#    NOT PLANNED TO BE IMPLEMENTED    #
+#######################################
 
     def soap_getMarketInfo(self, ps, **kw):
         request = ps.Parse(getMarketInfoIn.typecode)
@@ -208,12 +288,6 @@ class BFExchangeService(ServiceSOAPBinding):
     soapAction['getMarketInfo'] = 'soap_getMarketInfo'
     root[(getMarketInfoIn.typecode.nspname,getMarketInfoIn.typecode.pname)] = 'soap_getMarketInfo'
 
-    def soap_getMarketPrices(self, ps, **kw):
-        request = ps.Parse(getMarketPricesIn.typecode)
-        return request,getMarketPricesOut()
-
-    soapAction['getMarketPrices'] = 'soap_getMarketPrices'
-    root[(getMarketPricesIn.typecode.nspname,getMarketPricesIn.typecode.pname)] = 'soap_getMarketPrices'
 
     def soap_getCompleteMarketPricesCompressed(self, ps, **kw):
         request = ps.Parse(getCompleteMarketPricesCompressedIn.typecode)
@@ -222,33 +296,7 @@ class BFExchangeService(ServiceSOAPBinding):
     soapAction['getCompleteMarketPricesCompressed'] = 'soap_getCompleteMarketPricesCompressed'
     root[(getCompleteMarketPricesCompressedIn.typecode.nspname,getCompleteMarketPricesCompressedIn.typecode.pname)] = 'soap_getCompleteMarketPricesCompressed'
 
-    def soap_getMarketTradedVolumeCompressed(self, ps, **kw):
-        request = ps.Parse(getMarketTradedVolumeCompressedIn.typecode)
-        return request,getMarketTradedVolumeCompressedOut()
 
-    soapAction['getMarketTradedVolumeCompressed'] = 'soap_getMarketTradedVolumeCompressed'
-    root[(getMarketTradedVolumeCompressedIn.typecode.nspname,getMarketTradedVolumeCompressedIn.typecode.pname)] = 'soap_getMarketTradedVolumeCompressed'
-
-    def soap_getMarketPricesCompressed(self, ps, **kw):
-        request = ps.Parse(getMarketPricesCompressedIn.typecode)
-        return request,getMarketPricesCompressedOut()
-
-    soapAction['getMarketPricesCompressed'] = 'soap_getMarketPricesCompressed'
-    root[(getMarketPricesCompressedIn.typecode.nspname,getMarketPricesCompressedIn.typecode.pname)] = 'soap_getMarketPricesCompressed'
-
-    def soap_getAllMarkets(self, ps, **kw):
-        request = ps.Parse(getAllMarketsIn.typecode)
-        return request,getAllMarketsOut()
-
-    soapAction['getAllMarkets'] = 'soap_getAllMarkets'
-    root[(getAllMarketsIn.typecode.nspname,getAllMarketsIn.typecode.pname)] = 'soap_getAllMarkets'
-
-    def soap_getInPlayMarkets(self, ps, **kw):
-        request = ps.Parse(getInPlayMarketsIn.typecode)
-        return request,getInPlayMarketsOut()
-
-    soapAction['getInPlayMarkets'] = 'soap_getInPlayMarkets'
-    root[(getInPlayMarketsIn.typecode.nspname,getInPlayMarketsIn.typecode.pname)] = 'soap_getInPlayMarkets'
 
     def soap_getPrivateMarkets(self, ps, **kw):
         request = ps.Parse(getPrivateMarketsIn.typecode)
@@ -271,13 +319,6 @@ class BFExchangeService(ServiceSOAPBinding):
     soapAction['getCurrentBetsLite'] = 'soap_getCurrentBetsLite'
     root[(getCurrentBetsLiteIn.typecode.nspname,getCurrentBetsLiteIn.typecode.pname)] = 'soap_getCurrentBetsLite'
 
-    def soap_getMUBets(self, ps, **kw):
-        request = ps.Parse(getMUBetsIn.typecode)
-        return request,getMUBetsOut()
-
-    soapAction['getMUBets'] = 'soap_getMUBets'
-    root[(getMUBetsIn.typecode.nspname,getMUBetsIn.typecode.pname)] = 'soap_getMUBets'
-
     def soap_getMUBetsLite(self, ps, **kw):
         request = ps.Parse(getMUBetsLiteIn.typecode)
         return request,getMUBetsLiteOut()
@@ -292,40 +333,12 @@ class BFExchangeService(ServiceSOAPBinding):
     soapAction['getDetailAvailableMktDepth'] = 'soap_getDetailAvailableMktDepth'
     root[(getDetailAvailableMktDepthIn.typecode.nspname,getDetailAvailableMktDepthIn.typecode.pname)] = 'soap_getDetailAvailableMktDepth'
 
-    def soap_getMarketTradedVolume(self, ps, **kw):
-        request = ps.Parse(getMarketTradedVolumeIn.typecode)
-        return request,getMarketTradedVolumeOut()
-
-    soapAction['getMarketTradedVolume'] = 'soap_getMarketTradedVolume'
-    root[(getMarketTradedVolumeIn.typecode.nspname,getMarketTradedVolumeIn.typecode.pname)] = 'soap_getMarketTradedVolume'
-
-    def soap_getBetHistory(self, ps, **kw):
-        request = ps.Parse(getBetHistoryIn.typecode)
-        return request,getBetHistoryOut()
-
-    soapAction['getBetHistory'] = 'soap_getBetHistory'
-    root[(getBetHistoryIn.typecode.nspname,getBetHistoryIn.typecode.pname)] = 'soap_getBetHistory'
-
-    def soap_getAccountStatement(self, ps, **kw):
-        request = ps.Parse(getAccountStatementIn.typecode)
-        return request,getAccountStatementOut()
-
-    soapAction['getAccountStatement'] = 'soap_getAccountStatement'
-    root[(getAccountStatementIn.typecode.nspname,getAccountStatementIn.typecode.pname)] = 'soap_getAccountStatement'
-
     def soap_getMarketProfitAndLoss(self, ps, **kw):
         request = ps.Parse(getMarketProfitAndLossIn.typecode)
         return request,getMarketProfitAndLossOut()
 
     soapAction['getMarketProfitAndLoss'] = 'soap_getMarketProfitAndLoss'
     root[(getMarketProfitAndLossIn.typecode.nspname,getMarketProfitAndLossIn.typecode.pname)] = 'soap_getMarketProfitAndLoss'
-
-    def soap_getBet(self, ps, **kw):
-        request = ps.Parse(getBetIn.typecode)
-        return request,getBetOut()
-
-    soapAction['getBet'] = 'soap_getBet'
-    root[(getBetIn.typecode.nspname,getBetIn.typecode.pname)] = 'soap_getBet'
 
     def soap_getBetLite(self, ps, **kw):
         request = ps.Parse(getBetLiteIn.typecode)

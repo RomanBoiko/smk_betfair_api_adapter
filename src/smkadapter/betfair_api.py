@@ -280,6 +280,9 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+######################
+#DUMMY IMPLEMENTATIONS
+######################
 def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     resp = bfe.CancelBetsByMarketResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
@@ -289,5 +292,138 @@ def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
         resp._results._CancelBetsByMarketResult = []
         
     resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+def getMarket(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetMarketResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        marketId = request._request._marketId
+        resp._market = bfe.Market_Def(soapBinding, typeDefinition)
+        resp._market._countryISO3 = "xsd:string" #optional
+        resp._market._discountAllowed  = False #?
+        resp._market._eventTypeId = 1 #mandatory
+        resp._market._lastRefresh = 2 #LONG mandatory
+        resp._market._marketBaseRate = 1.0 #FLOAT mandatory
+        resp._market._marketDescription = "xsd:string" #optional
+        resp._market._marketDescriptionHasDate  = False #mandatory
+        resp._market._marketDisplayTime = currentDateTime() #?mandatory
+        resp._market._marketId = marketId
+        resp._market._marketStatus = "ACTIVE" #?types:MarketStatusEnum mandatory
+        resp._market._marketSuspendTime = currentDateTime() #?mandatory
+        resp._market._marketTime = currentDateTime() #?mandatory
+        resp._market._marketType = "NOT_APPLICABLE" #?types:MarketTypeEnum mandatory
+        resp._market._marketTypeVariant = "D" #?types:MarketTypeVariantEnum mandatory
+        resp._market._name = "xsd:string" #optional
+        resp._market._numberOfWinners = 1 #mandatory
+        resp._market._parentEventId = 1 #mandatory
+        resp._market._runnersMayBeAdded = False #?
+        resp._market._licenceId = 1 #mandatory
+        resp._market._bspMarket = False #mandatory
+        
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+
+
+def getMarketPrices(soapBinding, typeDefinition, request, response):
+    resp = bfe.getMarketPricesResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getMarketPricesCompressed(soapBinding, typeDefinition, request, response):
+    resp = bfe.getMarketPricesCompressedResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getMarketTradedVolume(soapBinding, typeDefinition, request, response):
+    resp = bfe.getMarketTradedVolumeResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getMarketTradedVolumeCompressed(soapBinding, typeDefinition, request, response):
+    resp = bfe.getMarketTradedVolumeCompressedResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def updateBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.updateBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getMUBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.getMUBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getBet(soapBinding, typeDefinition, request, response):
+    resp = bfe.getBetResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getAllMarkets(soapBinding, typeDefinition, request, response):
+    resp = bfe.getAllMarketsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getBetHistory(soapBinding, typeDefinition, request, response):
+    resp = bfe.getBetHistoryResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getInPlayMarkets(soapBinding, typeDefinition, request, response):
+    resp = bfe.getInPlayMarketsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
+    response._Result = resp
+    return response
+
+def getAccountStatement(soapBinding, typeDefinition, request, response):
+    resp = bfe.getAccountStatementResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        print "DUMMY"
     response._Result = resp
     return response

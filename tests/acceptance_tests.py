@@ -366,7 +366,14 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         print "============CANCEL_BY_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
-            
+
+    def test_exchange_service_getMarket(self):
+        testMarketId = 329658
+
+        request = soapMessage(getMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarketId))
+        responseXml = getExchangeServiceReply(request)
+        print "============GET_MARKET: %s"%responseXml
+        responseDom = parseString(responseXml)
 
 ###############################################
 # Common utils to operate with Betfair SOAP API
