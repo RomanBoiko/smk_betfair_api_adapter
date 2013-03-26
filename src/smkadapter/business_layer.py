@@ -4,8 +4,6 @@ import datetime
 
 import smk_api
 
-DEFAULT_CURRENCY = "GBP"
-
 class SessionStorage(object):
     "Encapsulates client authentication actions and active clients storage"
     SESSION_TOKEN_LENGTH=32
