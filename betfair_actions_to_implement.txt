@@ -1,0 +1,24 @@
+==============================================================================================
+|N  |Action                    |Shop1|Shop2|Shop3|Status | Comment                           |
+==============================================================================================
+|1  |Login                     | Yes | Yes | Yes | Ready |                                   |
+|2  |GetMarketPrices           | Yes | No  | No  |  --   |                                   |
+|3  |GetMarketPricesCompressed | Yes | Yes | Yes |  --   |                                   |
+|4  |GetTradedVolume           | Yes | No  | Yes |  --   |"getMarketTradedVolume"??          |
+|5  |GetTradedVolumeCompressed | Yes | No  | No  |  --   |"getMarketTradedVolumeCompressed"??|
+|6  |GetMarket                 | Yes | No  | Yes |  --   |                                   |
+|7  |GetEvents                 | Yes | No  | No  | Ready |                                   |
+|8  |PlaceBets                 | Yes | Yes | Yes | Ready |                                   |
+|9  |CancelBets                | Yes | Yes | Yes | Ready |                                   |
+|10 |UpdateBet                 | Yes | Yes | Yes |  --   |                                   |
+|11 |CancelBetsByMarket        | Yes | Yes | No  |  --   |                                   |
+|12 |GetMUBets                 | Yes | Yes | Yes |  --   |GetMatchedUnmatchedBets            |
+|13 |GetBetDetails             | Yes | No  | Yes |  --   |?? maybe "getBet" ??               |
+|14 |Logout                    | Yes | No  | No  | Ready |                                   |
+|15 |GetAccountFunds           | No  | Yes | Yes | Ready |                                   |
+|16 |GetAllMarkets             | No  | Yes | Yes |  --   |                                   |
+|17 |GetBetsHistory            | No  | Yes | Yes |  --   |                                   |
+|18 |GetEventTypes             | No  | No  | Yes | Ready |                                   |
+|19 |GetInPlayMarkets          | No  | No  | Yes |  --   |Lower priority                     |
+|20 |GetAccountStatement       | No  | No  | Yes |  --   |Lower priority                     |
+==============================================================================================
