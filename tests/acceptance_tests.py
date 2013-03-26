@@ -147,17 +147,6 @@ cancelBetsByMarketRequestTemplate = """<bfex:cancelBetsByMarket>
                                    </bfex:request>
                                 </bfex:cancelBetsByMarket>"""
 
-getMarketPricesRequestTemplate = """<bfex:getMarketPrices>
-                                       <bfex:request>
-                                          <header>
-                                             <clientStamp>0</clientStamp>
-                                             <sessionToken>%s</sessionToken>
-                                          </header>
-                                          <currencyCode>GBP</currencyCode><--??-->
-                                          <marketId>%s</marketId>
-                                       </bfex:request>
-                                    </bfex:getMarketPrices>"""
-
 getMarketRequestTemplate = """<bfex:getMarket>
                                <bfex:request>
                                   <header>
@@ -169,6 +158,180 @@ getMarketRequestTemplate = """<bfex:getMarket>
                                   <includeCouponLinks>false</includeCouponLinks>
                                </bfex:request>
                             </bfex:getMarket>"""
+
+##########################
+################TO REPLACE
+getMarketPricesRequestTemplate = """<bfex:getMarketPrices>
+                                       <bfex:request>
+                                          <header>
+                                             <clientStamp>0</clientStamp>
+                                             <sessionToken>%s</sessionToken>
+                                          </header>
+                                          <currencyCode>GBP</currencyCode><--??-->
+                                          <marketId>MARKETID????</marketId>
+                                       </bfex:request>
+                                    </bfex:getMarketPrices>"""
+
+getMarketPricesCompressedRequestTemplate = """<bfex:getMarketPricesCompressed>
+                                                 <bfex:request>
+                                                    <header>
+                                                       <clientStamp>0</clientStamp>
+                                                       <sessionToken>%s</sessionToken>
+                                                    </header>
+                                                    <currencyCode>?</currencyCode>
+                                                    <marketId>?</marketId>
+                                                 </bfex:request>
+                                              </bfex:getMarketPricesCompressed>"""
+
+getMarketTradedVolumeRequestTemplate = """<bfex:getMarketTradedVolume>
+                                             <bfex:request>
+                                                <header>
+                                                   <clientStamp>0</clientStamp>
+                                                   <sessionToken>%s</sessionToken>
+                                                </header>
+                                                <asianLineId>?</asianLineId>
+                                                <currencyCode>?</currencyCode>
+                                                <marketId>?</marketId>
+                                                <selectionId>?</selectionId>
+                                             </bfex:request>
+                                          </bfex:getMarketTradedVolume>"""
+
+getMarketTradedVolumeCompressedRequestTemplate = """<bfex:getMarketTradedVolumeCompressed>
+                                                       <bfex:request>
+                                                          <header>
+                                                             <clientStamp>0</clientStamp>
+                                                             <sessionToken>%s</sessionToken>
+                                                          </header>
+                                                          <currencyCode>?</currencyCode>
+                                                          <marketId>?</marketId>
+                                                       </bfex:request>
+                                                    </bfex:getMarketTradedVolumeCompressed>"""
+
+updateBetsRequestTemplate = """<bfex:updateBets>
+                                 <bfex:request>
+                                    <header>
+                                       <clientStamp>0</clientStamp>
+                                       <sessionToken>%s</sessionToken>
+                                    </header>
+                                    <bets>
+                                       <!--Zero or more repetitions:-->
+                                       <v5:UpdateBets>
+                                          <betId>?</betId>
+                                          <newPrice>?</newPrice>
+                                          <newSize>?</newSize>
+                                          <oldPrice>?</oldPrice>
+                                          <oldSize>?</oldSize>
+                                          <oldBetPersistenceType>?</oldBetPersistenceType>
+                                          <newBetPersistenceType>?</newBetPersistenceType>
+                                       </v5:UpdateBets>
+                                    </bets>
+                                 </bfex:request>
+                              </bfex:updateBets>"""
+
+getMUBetsRequestTemplate = """<bfex:getMUBets>
+                                 <bfex:request>
+                                    <header>
+                                       <clientStamp>0</clientStamp>
+                                       <sessionToken>%s</sessionToken>
+                                    </header>
+                                    <betStatus>?</betStatus>
+                                    <marketId>?</marketId>
+                                    <betIds>
+                                       <!--0 to 1000 repetitions:-->
+                                       <v5:betId>?</v5:betId>
+                                    </betIds>
+                                    <orderBy>?</orderBy>
+                                    <sortOrder>?</sortOrder>
+                                    <recordCount>?</recordCount>
+                                    <startRecord>?</startRecord>
+                                    <matchedSince>?</matchedSince>
+                                    <excludeLastSecond>?</excludeLastSecond>
+                                 </bfex:request>
+                              </bfex:getMUBets>"""
+
+getBetRequestTemplate = """<bfex:getBet>
+                             <bfex:request>
+                                <header>
+                                   <clientStamp>0</clientStamp>
+                                   <sessionToken>%s</sessionToken>
+                                </header>
+                                <betId>?</betId>
+                                <locale>en_UK</locale>
+                             </bfex:request>
+                          </bfex:getBet>"""
+
+getAllMarketsRequestTemplate = """<bfex:getAllMarkets>
+                                     <bfex:request>
+                                        <header>
+                                           <clientStamp>0</clientStamp>
+                                           <sessionToken>%s</sessionToken>
+                                        </header>
+                                        <locale>en_UK</locale>
+                                        <eventTypeIds>
+                                           <!--Zero or more repetitions:-->
+                                           <v5:int>?</v5:int>
+                                        </eventTypeIds>
+                                        <countries>
+                                           <!--Zero or more repetitions:-->
+                                           <v5:Country>?</v5:Country>
+                                        </countries>
+                                        <fromDate>?</fromDate>
+                                        <toDate>?</toDate>
+                                     </bfex:request>
+                                  </bfex:getAllMarkets>"""
+
+getBetHistoryRequestTemplate = """<bfex:getBetHistory>
+                                     <bfex:request>
+                                        <header>
+                                           <clientStamp>0</clientStamp>
+                                           <sessionToken>%s</sessionToken>
+                                        </header>
+                                        <betTypesIncluded>?</betTypesIncluded>
+                                        <detailed>?</detailed>
+                                        <eventTypeIds>
+                                           <!--Zero or more repetitions:-->
+                                           <v5:int>?</v5:int>
+                                        </eventTypeIds>
+                                        <marketId>?</marketId>
+                                        <locale>en_UK</locale>
+                                        <timezone>?</timezone>
+                                        <marketTypesIncluded>
+                                           <!--Zero or more repetitions:-->
+                                           <v5:MarketTypeEnum>?</v5:MarketTypeEnum>
+                                        </marketTypesIncluded>
+                                        <placedDateFrom>?</placedDateFrom>
+                                        <placedDateTo>?</placedDateTo>
+                                        <recordCount>?</recordCount>
+                                        <sortBetsBy>?</sortBetsBy>
+                                        <startRecord>?</startRecord>
+                                     </bfex:request>
+                                  </bfex:getBetHistory>"""
+
+getInPlayMarketsRequestTemplate = """<bfex:getInPlayMarkets>
+                                       <bfex:request>
+                                          <header>
+                                             <clientStamp>0</clientStamp>
+                                             <sessionToken>%s</sessionToken>
+                                          </header>
+                                          <locale>en_UK</locale>
+                                       </bfex:request>
+                                    </bfex:getInPlayMarkets>"""
+
+getAccountStatementRequestTemplate = """<bfex:getAccountStatement>
+                                           <bfex:req>
+                                              <header>
+                                                 <clientStamp>0</clientStamp>
+                                                 <sessionToken>%s</sessionToken>
+                                              </header>
+                                              <endDate>?</endDate>
+                                              <itemsIncluded>?</itemsIncluded>
+                                              <ignoreAutoTransfers>?</ignoreAutoTransfers>
+                                              <recordCount>?</recordCount>
+                                              <startDate>?</startDate>
+                                              <startRecord>?</startRecord>
+                                              <locale>en_UK</locale>
+                                           </bfex:req>
+                                        </bfex:getAccountStatement>"""
 
 class AdapterAcceptanceTest(unittest.TestCase):
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
@@ -373,6 +536,72 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         request = soapMessage(getMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarketId))
         responseXml = getExchangeServiceReply(request)
         print "============GET_MARKET: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getMarketPrices(self):
+        request = soapMessage(getMarketPricesRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketPrices: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getMarketPricesCompressed(self):
+        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketPricesCompressed: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getMarketTradedVolume(self):
+        request = soapMessage(getMarketTradedVolumeRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketTradedVolume: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getMarketTradedVolumeCompressed(self):
+        request = soapMessage(getMarketTradedVolumeCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketTradedVolumeCompressed: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_updateBets(self):
+        request = soapMessage(updateBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============updateBets: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getMUBets(self):
+        request = soapMessage(getMUBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMUBets: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getBet(self):
+        request = soapMessage(getBetRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getBet: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getAllMarkets(self):
+        request = soapMessage(getAllMarketsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getAllMarkets: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getBetHistory(self):
+        request = soapMessage(getBetHistoryRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getBetHistory: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getInPlayMarkets(self):
+        request = soapMessage(getInPlayMarketsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getInPlayMarkets: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+    def test_exchange_service_getAccountStatement(self):
+        request = soapMessage(getAccountStatementRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getAccountStatement: %s"%responseXml
         responseDom = parseString(responseXml)
 
 ###############################################
