@@ -49,13 +49,10 @@ class BusinessUnit(object):
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
         self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
         self.LOGGER.info("BusinessUnit started ")
-        self.events = None
         
     def getTodaysFootballEvents(self, sessionToken):
-        if self.events is None :
-            client = self.getClientIfTokenIsValid(sessionToken)
-            self.events = client.footballActiveEvents()
-        return self.events
+        client = self.getClientIfTokenIsValid(sessionToken)
+        return client.footballActiveEvents()
 
     def getAccountFunds(self, sessionToken):
         client = self.getClientIfTokenIsValid(sessionToken)
