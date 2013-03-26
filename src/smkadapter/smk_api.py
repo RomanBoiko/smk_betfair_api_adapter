@@ -282,7 +282,7 @@ class SmkClient(object):
             finally:
                 self.clientLock.release()
             LOGGER.info("periodicalFlush: go to sleep")
-            self.threadStopEvent.wait(5)
+            self.threadStopEvent.wait(10)
         
     def logout(self):
         self.clientLock.acquire()
@@ -355,20 +355,21 @@ class SmkClient(object):
             return incoming_payload
         return "return nothing - fix"
 
-    def getEvents(self, eventRequest):
+    def getEventsUrls(self, eventRequest):
         httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl, 'seto.invalid_request')
         if httpUrl.succeeded:
-            return self.getPayloadViaHttp(httpUrl.result.url)
-        else:
-            return None#to be fixed
-    
+            return httpUrl.result.url
+        raise Exception("No events for %s"%eventRequest)
+
     def footballActiveEvents(self):
         if not self.footballEventsCache.isUpToDate():
             eventsMessages = []
+            eventsMessagesUrls = []
             datePlusDelta = lambda daysDelta: (todaysDate()+timedelta(days=daysDelta))
             for dayDelta in range(7):
                 day = datePlusDelta(dayDelta)
-                events = self.getEvents(smarkets.events.FootballByDate(day))
-                eventsMessages.append(events)
+                eventsMessagesUrls.append(self.getEventsUrls(smarkets.events.FootballByDate(day)))
+            for eventsUrl in eventsMessagesUrls:
+                eventsMessages.append(self.getPayloadViaHttp(eventsUrl))
             self.footballEventsCache.updateEvents(EventsParser().parseEvents(eventsMessages))
         return self.footballEventsCache.getEvents()
