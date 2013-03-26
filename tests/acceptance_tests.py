@@ -147,18 +147,28 @@ cancelBetsByMarketRequestTemplate = """<bfex:cancelBetsByMarket>
                                    </bfex:request>
                                 </bfex:cancelBetsByMarket>"""
 
+getMarketPricesRequestTemplate = """<bfex:getMarketPrices>
+                                       <bfex:request>
+                                          <header>
+                                             <clientStamp>0</clientStamp>
+                                             <sessionToken>%s</sessionToken>
+                                          </header>
+                                          <currencyCode>GBP</currencyCode><--??-->
+                                          <marketId>%s</marketId>
+                                       </bfex:request>
+                                    </bfex:getMarketPrices>"""
 
-getMarketTemplate = """<bfex:getMarket>
-                         <bfex:request>
-                            <header>
-                               <clientStamp>0</clientStamp>
-                               <sessionToken>%s</sessionToken>
-                            </header>
-                            <locale>en_UK</locale>
-                            <marketId>%s</marketId>
-                            <includeCouponLinks>false</includeCouponLinks>
-                         </bfex:request>
-                      </bfex:getMarket>"""
+getMarketRequestTemplate = """<bfex:getMarket>
+                               <bfex:request>
+                                  <header>
+                                     <clientStamp>0</clientStamp>
+                                     <sessionToken>%s</sessionToken>
+                                  </header>
+                                  <locale>en_UK</locale>
+                                  <marketId>%s</marketId>
+                                  <includeCouponLinks>false</includeCouponLinks>
+                               </bfex:request>
+                            </bfex:getMarket>"""
 
 class AdapterAcceptanceTest(unittest.TestCase):
     def assertErrorCodeInHeaderIs(self, response, expectedErrorCode):
@@ -356,9 +366,7 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         print "============CANCEL_BY_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
- 
-        # for balanceField in ["balance", "availBalance", "withdrawBalance"]:
-        #     self.assertEqual(textFromElement(responseDom, balanceField, 0), "10.000000")
+            
 
 ###############################################
 # Common utils to operate with Betfair SOAP API

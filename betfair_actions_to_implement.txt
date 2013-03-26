@@ -11,7 +11,7 @@
 |8  |PlaceBets                 | Yes | Yes | Yes | Ready |                                   |
 |9  |CancelBets                | Yes | Yes | Yes | Ready |                                   |
 |10 |UpdateBet                 | Yes | Yes | Yes |  --   |                                   |
-|11 |CancelBetsByMarket        | Yes | Yes | No  |  --   |                                   |
+|11 |CancelBetsByMarket        | Yes | Yes | No  |  --   |Dummy                              |
 |12 |GetMUBets                 | Yes | Yes | Yes |  --   |GetMatchedUnmatchedBets            |
 |13 |GetBetDetails             | Yes | No  | Yes |  --   |?? maybe "getBet" ??               |
 |14 |Logout                    | Yes | No  | No  | Ready |                                   |
