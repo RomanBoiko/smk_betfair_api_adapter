@@ -46,6 +46,13 @@ class SmkApiUnitTest(unittest.TestCase):
         self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(1), "GBP")
         self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(2), "EUR")
 
+    def test_that_order_status_convertion_is_correct(self):
+        self.assertEqual(smk_api.orderStatusCodeToString(1), "LIVE")
+        self.assertEqual(smk_api.orderStatusCodeToString(2), "PARTIALLY_FILLED")
+        self.assertEqual(smk_api.orderStatusCodeToString(3), "FILLED")
+        self.assertEqual(smk_api.orderStatusCodeToString(4), "PARTIALLY_CANCELLED")
+        self.assertEqual(smk_api.orderStatusCodeToString(5), "CANCELLED")
+
     def eventsPayloadFromFile(self, pathToFile):
         fileStream = urllib2.urlopen("file://%s"%os.path.abspath(pathToFile))
         data = fileStream.read()

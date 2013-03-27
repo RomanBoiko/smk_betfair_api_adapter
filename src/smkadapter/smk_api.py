@@ -30,7 +30,14 @@ def extractCurrencyFromAccountStateMessage(currencyCode):
     for currency in seto._CURRENCY.values:
         if currency.number == currencyCode:
             return (str(currency.name))[-3:]
-    raise Exception("CURRENCY NOT RECOGNIZED(%s)"%str(currencyCode))
+    raise Exception("CURRENCY NOT RECOGNISED(%s)"%str(currencyCode))
+
+def orderStatusCodeToString(orderStatusCode):
+    for statusCode in seto._ORDERSTATUS.values:
+        if statusCode.number == orderStatusCode:
+            return (str(statusCode.name))[len("ORDER_STATUS_"):]
+    raise Exception("ORDER_STATUS_CODE NOT RECOGNISED(%s)"%str(currencyCode))
+
 
 class AccountState(object):
     def __init__(self, accountStateMessage):
@@ -67,7 +74,7 @@ class BetDetails(object):
         self.marketId = marketId
         self.contractId = contractId
         self.price = price
-        self.status = status
+        self.status = orderStatusCodeToString(status)
         self.quantity = quantity
         self.createdDateInMillis = createdDateInMillis
     def __str__(self):
