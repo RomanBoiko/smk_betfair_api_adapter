@@ -216,13 +216,13 @@ updateBetsRequestTemplate = """<bfex:updateBets>
                                     <bets>
                                        <!--Zero or more repetitions:-->
                                        <v5:UpdateBets>
-                                          <betId>?</betId>                                 <!-- <xsd:element name="betId" type="xsd:long"/>                                    -->
-                                          <newPrice>?</newPrice>                           <!-- <xsd:element name="newPrice" nillable="true" type="xsd:double"/>               -->
-                                          <newSize>?</newSize>                             <!-- <xsd:element name="newSize" nillable="false" type="xsd:double"/>               -->
-                                          <oldPrice>?</oldPrice>                           <!-- <xsd:element name="oldPrice" nillable="true" type="xsd:double"/>               -->
-                                          <oldSize>?</oldSize>                             <!-- <xsd:element name="oldSize" nillable="false" type="xsd:double"/>               -->
-                                          <oldBetPersistenceType>?</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
-                                          <newBetPersistenceType>?</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                          <betId>111111</betId>                               <!-- <xsd:element name="betId" type="xsd:long"/>                                    -->
+                                          <newPrice>1.0</newPrice>                            <!-- <xsd:element name="newPrice" nillable="true" type="xsd:double"/>               -->
+                                          <newSize>1.0</newSize>                              <!-- <xsd:element name="newSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldPrice>1.0</oldPrice>                            <!-- <xsd:element name="oldPrice" nillable="true" type="xsd:double"/>               -->
+                                          <oldSize>1.0</oldSize>                              <!-- <xsd:element name="oldSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldBetPersistenceType>NONE</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                          <newBetPersistenceType>NONE</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
                                        </v5:UpdateBets>
                                     </bets>
                                  </bfex:request>
@@ -234,8 +234,8 @@ getMUBetsRequestTemplate = """<bfex:getMUBets>
                                        <clientStamp>0</clientStamp>
                                        <sessionToken>%s</sessionToken>
                                     </header>
-                                    <betStatus>?</betStatus>
-                                    <marketId>?</marketId>
+                                    <betStatus>MU</betStatus><!-- <xsd:simpleType name="BetStatusEnum"> -->
+                                    <marketId>111111</marketId>
                                     <betIds>
                                        <!--0 to 1000 repetitions:-->
                                        <!--<v5:betId>111111</v5:betId>-->
@@ -244,6 +244,8 @@ getMUBetsRequestTemplate = """<bfex:getMUBets>
                                     <sortOrder>ASC</sortOrder>
                                     <recordCount>1000</recordCount>
                                     <startRecord>0</startRecord>
+                                    <matchedSince/>
+                                    <excludeLastSecond>false</excludeLastSecond>
                                  </bfex:request>
                               </bfex:getMUBets>"""
 
@@ -267,14 +269,14 @@ getAllMarketsRequestTemplate = """<bfex:getAllMarkets>
                                         <locale>en_UK</locale>
                                         <eventTypeIds>
                                            <!--Zero or more repetitions:-->
-                                           <v5:int>?</v5:int>
+                                           <!-- <v5:int>?</v5:int> -->
                                         </eventTypeIds>
                                         <countries>
                                            <!--Zero or more repetitions:-->
-                                           <v5:Country>?</v5:Country>
+                                           <!-- <v5:Country>?</v5:Country> -->
                                         </countries>
-                                        <fromDate>?</fromDate>
-                                        <toDate>?</toDate>
+                                        <fromDate/>
+                                        <toDate/>
                                      </bfex:request>
                                   </bfex:getAllMarkets>"""
 
@@ -284,24 +286,24 @@ getBetHistoryRequestTemplate = """<bfex:getBetHistory>
                                            <clientStamp>0</clientStamp>
                                            <sessionToken>%s</sessionToken>
                                         </header>
-                                        <betTypesIncluded>?</betTypesIncluded>
-                                        <detailed>?</detailed>
+                                        <betTypesIncluded>MU</betTypesIncluded> <!-- <xsd:element name="betTypesIncluded" type="types:BetStatusEnum"/> -->
+                                        <detailed>false</detailed>
                                         <eventTypeIds>
                                            <!--Zero or more repetitions:-->
-                                           <v5:int>?</v5:int>
+                                           <!--<v5:int>?</v5:int>-->
                                         </eventTypeIds>
-                                        <marketId>?</marketId>
+                                        <marketId>111111</marketId>
                                         <locale>en_UK</locale>
-                                        <timezone>?</timezone>
+                                        <timezone/>
                                         <marketTypesIncluded>
                                            <!--Zero or more repetitions:-->
-                                           <v5:MarketTypeEnum>?</v5:MarketTypeEnum>
+                                           <!-- <v5:MarketTypeEnum>?</v5:MarketTypeEnum> -->
                                         </marketTypesIncluded>
-                                        <placedDateFrom>?</placedDateFrom>
-                                        <placedDateTo>?</placedDateTo>
-                                        <recordCount>?</recordCount>
-                                        <sortBetsBy>?</sortBetsBy>
-                                        <startRecord>?</startRecord>
+                                        <placedDateFrom>2013-03-27T21:32:52</placedDateFrom> <!-- <xsd:element name="placedDateFrom" type="xsd:dateTime"/>            -->
+                                        <placedDateTo>2013-03-27T21:32:52</placedDateTo>     <!-- <xsd:element name="placedDateTo" type="xsd:dateTime"/>              -->
+                                        <recordCount>1111111</recordCount>                   <!-- <xsd:element name="recordCount" nillable="false" type="xsd:int"/>   -->
+                                        <sortBetsBy>BET_ID</sortBetsBy>                      <!-- <xsd:element name="sortBetsBy" type="types:BetsOrderByEnum"/>       -->
+                                        <startRecord>0</startRecord>                         <!-- <xsd:element name="startRecord" nillable="false" type="xsd:int"/>   -->
                                      </bfex:request>
                                   </bfex:getBetHistory>"""
 
@@ -321,20 +323,13 @@ getAccountStatementRequestTemplate = """<bfex:getAccountStatement>
                                                  <clientStamp>0</clientStamp>
                                                  <sessionToken>%s</sessionToken>
                                               </header>
-                                              <endDate>?</endDate>
-                                              <itemsIncluded>?</itemsIncluded>
-                                              <ignoreAutoTransfers>?</ignoreAutoTransfers>
-                                              <recordCount>?</recordCount>
-                                              <startDate>?</startDate>
-                                              <startRecord>?</startRecord>
+                                              <endDate>2013-03-27T21:32:52</endDate>           <!-- <xsd:element name="endDate" type="xsd:dateTime"/>                             -->
+                                              <itemsIncluded>ALL</itemsIncluded>               <!-- <xsd:element name="itemsIncluded" type="types:AccountStatementIncludeEnum"/>  -->
+                                              <ignoreAutoTransfers>false</ignoreAutoTransfers> <!-- <xsd:element name="ignoreAutoTransfers" nillable="false" type="xsd:boolean"/> -->
+                                              <recordCount>100000</recordCount>                <!-- <xsd:element name="recordCount" nillable="false" type="xsd:int"/>             -->
+                                              <startDate>2013-03-27T21:32:52</startDate>       <!-- <xsd:element name="startDate" type="xsd:dateTime"/>                           -->
+                                              <startRecord>0</startRecord>                     <!-- <xsd:element name="startRecord" nillable="false" type="xsd:int"/>             -->
                                               <locale>en_UK</locale>
-                                                    <!-- <xsd:element name="endDate" type="xsd:dateTime"/>                             -->
-                                                    <!-- <xsd:element name="itemsIncluded" type="types:AccountStatementIncludeEnum"/>  -->
-                                                    <!-- <xsd:element name="ignoreAutoTransfers" nillable="false" type="xsd:boolean"/> -->
-                                                    <!-- <xsd:element name="recordCount" nillable="false" type="xsd:int"/>             -->
-                                                    <!-- <xsd:element name="startDate" type="xsd:dateTime"/>                           -->
-                                                    <!-- <xsd:element name="startRecord" nillable="false" type="xsd:int"/>             -->
-                                                    <!-- <xsd:element name="locale" nillable="true" type="xsd:string"/>                -->
                                            </bfex:req>
                                         </bfex:getAccountStatement>"""
 
