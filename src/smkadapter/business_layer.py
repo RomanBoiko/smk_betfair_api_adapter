@@ -58,9 +58,9 @@ class BusinessUnit(object):
         client = self.getClientIfTokenIsValid(sessionToken)
         return client.getAccountState()
 
-    def placeBet(self, sessionToken, marketId, contractId, quantity, price):
+    def placeBet(self, sessionToken, marketId, contractId, quantity, price, isBetTypeBuy):
         client = self.getClientIfTokenIsValid(sessionToken)
-        return client.placeBet(marketId, contractId, quantity, price)
+        return client.placeBet(marketId, contractId, quantity, price, isBetTypeBuy)
 
     def cancelBet(self, sessionToken, orderId):
         client = self.getClientIfTokenIsValid(sessionToken)

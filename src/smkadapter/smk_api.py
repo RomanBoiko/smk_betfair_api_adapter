@@ -69,7 +69,7 @@ class BetCancel(object):
         return self.__str__()
 
 class BetDetails(object):
-    def __init__(self, id, marketId, contractId, price, status, quantity, createdDateInMillis):
+    def __init__(self, id, marketId, contractId, price, status, quantity, createdDateInMillis, isBetTypeBuy):
         self.id = id
         self.marketId = marketId
         self.contractId = contractId
@@ -77,8 +77,9 @@ class BetDetails(object):
         self.status = orderStatusCodeToString(status)
         self.quantity = quantity
         self.createdDateInMillis = createdDateInMillis
+        self.isBetTypeBuy = isBetTypeBuy
     def __str__(self):
-        return ("BetDetails(id=%s, market=%s, contractId=%s, price=%s, status=%s, quantity=%s, createdDateInMillis=%s)"%(self.id, self.marketId, self.contractId, self.price, self.status, self.quantity, self.createdDateInMillis))
+        return ("BetDetails(id=%s, market=%s, contractId=%s, price=%s, status=%s, quantity=%s, createdDateInMillis=%s, isBetTypeBuy=%s)"%(self.id, self.marketId, self.contractId, self.price, self.status, self.quantity, self.createdDateInMillis, self.isBetTypeBuy))
     def __repr__(self):
         return self.__str__()
 
@@ -96,7 +97,15 @@ class BetsForAccount(object):
                         status = order.status
                         quantity = order.quantity
                         createdDateInMillis = order.created_microseconds
-                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis))
+                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, True))
+                for bid in contract.offers:
+                    price = bid.price
+                    for order in bid.orders:
+                        orderId = uuidToInteger(order.order)
+                        status = order.status
+                        quantity = order.quantity
+                        createdDateInMillis = order.created_microseconds
+                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, False))
     def __str__(self):
         return ("BetsForAccount(bets=%s)"%(pprint.pformat(self.bets)))
     def __repr__(self):
@@ -338,12 +347,14 @@ class SmkClient(object):
     def getBetsForAccount(self):
         return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount).result
 
-    def placeBet(self, marketId, contractId, quantity, price):
+    def placeBet(self, marketId, contractId, quantity, price, isBetTypeBuy):
         order = smarkets.Order()
         order.quantity = realCashAmountToSmk(quantity)
         order.price = price#procents*100
-        order.side = smarkets.Order.BUY
-        
+        if isBetTypeBuy:
+            order.side = smarkets.Order.BUY
+        else:
+            order.side = smarkets.Order.SELL
         order.market = integerToUuid(marketId)
         order.contract = integerToUuid(contractId)
         
@@ -373,7 +384,7 @@ class SmkClient(object):
             eventsMessages = []
             eventsMessagesUrls = []
             datePlusDelta = lambda daysDelta: (todaysDate()+timedelta(days=daysDelta))
-            for dayDelta in range(7):
+            for dayDelta in range(1):
                 day = datePlusDelta(dayDelta)
                 eventsMessagesUrls.append(self.getEventsUrls(smarkets.events.FootballByDate(day)))
             for eventsUrl in eventsMessagesUrls:

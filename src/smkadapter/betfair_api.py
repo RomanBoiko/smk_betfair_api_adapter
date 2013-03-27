@@ -186,10 +186,11 @@ def placeBets(soapBinding, typeDefinition, request, response):
             priceInProcentsMultipliedBy100 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
+            isBetTypeBuy = (betRequest._betType == "B")
             
             placeBetResult._averagePriceMatched = sizeInPounds#???
             placeBetResult._sizeMatched = sizeInPounds#???
-            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100))
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100), isBetTypeBuy)
             if betResult.succeeded:
                 placeBetResult._resultCode = ERROR_CODE_OK
                 placeBetResult._success = True
@@ -246,7 +247,10 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
             bet._avgPrice=betDetails.price#?
             bet._betId=betDetails.id
             bet._betStatus = "U"#change
-            bet._betType = "B"#or L, change
+            if betDetails.isBetTypeBuy:
+                bet._betType = "B"#BUYER
+            else:
+                bet._betType = "L"#SELLER
             bet._betCategoryType="NONE"
             bet._betPersistenceType="NONE"
             
