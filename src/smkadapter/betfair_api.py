@@ -119,6 +119,53 @@ def market(marketDTO, soapBinding, typeDefinition):
     market._exchangeId = 1 # <exchangeId xsi:type="xsd:int">1</exchangeId>
     return market
 
+def fillCommonBetFields(bet, betDTO):
+    bet._asianLineId=0#change
+    bet._betId=betDTO.id
+    bet._betStatus = betDTO.status
+    if betDTO.isBetTypeBuy:
+        bet._betType = "B"#BUYER
+    else:
+        bet._betType = "L"#SELLER
+    bet._betCategoryType="NONE"
+    bet._betPersistenceType="NONE"
+    bet._marketId = betDTO.marketId
+    bet._matchedDate = currentDateTime()
+    bet._bspLiability = betDTO.quantity#?
+    bet._placedDate = currentDateTime()
+    bet._price = betDTO.price
+    bet._selectionId = betDTO.contractId
+    bet._handicap = 0.00#change
+    return bet
+
+def createMUBetFrom(betDTO, soapBinding, typeDefinition):
+    bet = bfe.MUBet_Def(soapBinding, typeDefinition)
+    bet = fillCommonBetFields(bet, betDTO)
+
+    bet._transactionId=1111111# ???Looks like it is Betfair Internal <xsd:element name="transactionId" type="xsd:long"/>
+    bet._size = betDTO.quantity#??? <xsd:element name="size" nillable="false" type="xsd:double"/>
+    return bet
+
+def createBetFrom(betDTO, soapBinding, typeDefinition):
+    bet = bfe.Bet_Def(soapBinding, typeDefinition)
+    bet = fillCommonBetFields(bet, betDTO)
+
+    bet._cancelledDate = currentDateTime()
+    bet._lapsedDate = currentDateTime()
+    # bet._marketName = "someName"#optional
+    # bet._fullMarketName = "someName"#change
+    bet._marketType = "NOT_APPLICABLE"
+    bet._marketTypeVariant = "D"#Default
+    bet._matchedSize = betDTO.quantity#?
+    bet._matches = None
+    bet._profitAndLoss = 00000.00#nillable
+    bet._selectionName = None
+    bet._settledDate = currentDateTime()
+    bet._remainingSize = betDTO.quantity#?
+    bet._avgPrice=betDTO.price#?
+    bet._requestedSize = betDTO.quantity#?
+    bet._voidedDate = currentDateTime()
+    return bet
 
 def getEvents(soapBinding, typeDefinition, request, response):
     resp = bfg.GetEventsResp_Def(soapBinding, typeDefinition)
@@ -242,45 +289,30 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
         resp._bets._Bet = []
         betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
         for betDetails in betsForAccount.bets:
-            bet = bfe.Bet_Def(soapBinding, typeDefinition)
-            bet._asianLineId=0#change
-            bet._avgPrice=betDetails.price#?
-            bet._betId=betDetails.id
-            bet._betStatus = betDetails.status
-            if betDetails.isBetTypeBuy:
-                bet._betType = "B"#BUYER
-            else:
-                bet._betType = "L"#SELLER
-            bet._betCategoryType="NONE"
-            bet._betPersistenceType="NONE"
-            
-            bet._cancelledDate = currentDateTime()
-            bet._lapsedDate = currentDateTime()
-            bet._marketId = betDetails.marketId
-            # bet._marketName = "someName"#optional
-            # bet._fullMarketName = "someName"#change
-            bet._marketType = "NOT_APPLICABLE"
-            bet._marketTypeVariant = "D"#Default
-            bet._matchedDate = currentDateTime()
-            bet._matchedSize = betDetails.quantity#?
-            bet._matches = None
-            bet._placedDate = currentDateTime()
-            bet._price = betDetails.price
-            bet._bspLiability = betDetails.quantity#?
-            bet._profitAndLoss = 00000.00#nillable
-            bet._selectionId = betDetails.contractId
-            bet._selectionName = None
-            bet._settledDate = currentDateTime()
-            bet._remainingSize = betDetails.quantity#?
-            bet._requestedSize = betDetails.quantity#?
-            bet._voidedDate = currentDateTime()
-            bet._handicap = 0.00#change
-            
+            bet = createBetFrom(betDetails, soapBinding, typeDefinition)
             resp._bets._Bet.append(bet)
-        
     
     resp._totalRecordCount = 0
     resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+def getMUBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetMUBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        resp._bets = bfe.ArrayOfMUBet_Def(soapBinding, typeDefinition)
+        resp._bets._MUBet = []
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        for betDetails in betsForAccount.bets:
+            bet = createMUBetFrom(betDetails, soapBinding, typeDefinition)
+            resp._bets._MUBet.append(bet)
+        resp._totalRecordCount = len(resp._bets._MUBet)
+        resp._errorCode = ERROR_CODE_OK
+    else:
+        resp._totalRecordCount = 0
+        resp._errorCode = ERROR_NO_SESSION
     response._Result = resp
     return response
 
@@ -397,18 +429,6 @@ def updateBets(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
         resp._betResults._UpdateBetsResult = []
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
-
-def getMUBets(soapBinding, typeDefinition, request, response):
-    resp = bfe.GetMUBetsResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        resp._bets = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
-        resp._bets._Bet = []
-        resp._totalRecordCount = len(resp._bets._Bet) # '<xsd:element name="totalRecordCount" nillable="false" type="xsd:int"/>
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response

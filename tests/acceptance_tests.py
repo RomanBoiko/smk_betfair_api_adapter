@@ -520,6 +520,12 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
     def tearDownClass(cls):
         getLogoutResponseDom(RequestsResponsesValidationTest.validSessionToken)
 
+    def test_exchange_service_getMUBets(self):
+        request = soapMessage(getMUBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMUBets: %s"%responseXml
+        responseDom = parseString(responseXml)
+
     def test_exchange_service_cancelBetsByMarket(self):
         testMarket1 = 1111111
         testMarket2 = 1111111
@@ -570,12 +576,6 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         request = soapMessage(updateBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============updateBets: %s"%responseXml
-        responseDom = parseString(responseXml)
-
-    def test_exchange_service_getMUBets(self):
-        request = soapMessage(getMUBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
-        responseXml = getExchangeServiceReply(request)
-        print "============getMUBets: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getBet(self):
