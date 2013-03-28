@@ -1,4 +1,5 @@
 from xmlrpclib import datetime
+import logging
 
 from betfair.BFGlobalService_types import bfg
 from betfair.BFExchangeService_types import bfe
@@ -331,10 +332,30 @@ def getBet(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+def getBetHistory(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetBetHistoryResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        resp._betHistoryItems = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
+        resp._betHistoryItems._Bet = []
+        marketId = int(request._request._marketId)
+        betTypesIncluded = request._request._betTypesIncluded
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        for betDetails in betsForAccount.bets:#unoptimised: case of a lot of bets available it would be painful
+            if (betDetails.marketId == marketId) and (betDetails.status == betTypesIncluded):
+                bet = createBetFrom(betDetails, soapBinding, typeDefinition)
+                resp._betHistoryItems._Bet.append(bet)
+
+    resp._totalRecordCount = len(resp._betHistoryItems._Bet)
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
+
 ######################
 #DUMMY IMPLEMENTATIONS
 ######################
-
 
 def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     resp = bfe.CancelBetsByMarketResp_Def(soapBinding, typeDefinition)
@@ -456,18 +477,6 @@ def getAllMarkets(soapBinding, typeDefinition, request, response):
 
     if sessionToken:
         resp._marketData = '<xsd:element name="marketData" nillable="true" type="xsd:string"/>'
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
-
-def getBetHistory(soapBinding, typeDefinition, request, response):
-    resp = bfe.GetBetHistoryResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        resp._betHistoryItems = bfe.ArrayOfBet_Def(soapBinding, typeDefinition)
-        resp._betHistoryItems._Bet = []
-    resp._totalRecordCount = len(resp._betHistoryItems._Bet)
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response

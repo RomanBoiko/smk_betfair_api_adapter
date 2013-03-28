@@ -17,7 +17,7 @@
 |14 |Logout                    | Yes | No  | No  | Ready |                                   |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |                                   |
 |16 |GetAllMarkets             | No  | Yes | Yes |  --   |Delimited response                 |
-|17 |GetBetsHistory            | No  | Yes | Yes |  --   |                                   |
+|17 |GetBetsHistory            | No  | Yes | Yes | Ready |                                   |
 |18 |GetEventTypes             | No  | No  | Yes | Ready |                                   |
 |19 |GetInPlayMarkets          | No  | No  | Yes |  --   |Lower priority                     |
 |20 |GetAccountStatement       | No  | No  | Yes |  --   |Lower priority                     |

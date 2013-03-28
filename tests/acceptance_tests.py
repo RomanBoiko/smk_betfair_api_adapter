@@ -286,13 +286,13 @@ getBetHistoryRequestTemplate = """<bfex:getBetHistory>
                                            <clientStamp>0</clientStamp>
                                            <sessionToken>%s</sessionToken>
                                         </header>
-                                        <betTypesIncluded>MU</betTypesIncluded> <!-- <xsd:element name="betTypesIncluded" type="types:BetStatusEnum"/> -->
+                                        <betTypesIncluded>%s</betTypesIncluded> <!-- <xsd:element name="betTypesIncluded" type="types:BetStatusEnum"/> -->
                                         <detailed>false</detailed>
                                         <eventTypeIds>
                                            <!--Zero or more repetitions:-->
                                            <!--<v5:int>?</v5:int>-->
                                         </eventTypeIds>
-                                        <marketId>111111</marketId>
+                                        <marketId>%s</marketId>
                                         <locale>en_UK</locale>
                                         <timezone/>
                                         <marketTypesIncluded>
@@ -533,6 +533,15 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         print "============getBet: %s"%responseXml
         responseDom = parseString(responseXml)
 
+    def test_exchange_service_getBetHistory(self):
+        betTypesIncluded = "M"
+        marketId = 276267
+        request = soapMessage(getBetHistoryRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, betTypesIncluded, marketId))
+        responseXml = getExchangeServiceReply(request)
+        print "============getBetHistory: %s"%responseXml
+        responseDom = parseString(responseXml)
+
+
     def test_exchange_service_cancelBetsByMarket(self):
         testMarket1 = 1111111
         testMarket2 = 1111111
@@ -589,12 +598,6 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         request = soapMessage(getAllMarketsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============getAllMarkets: %s"%responseXml
-        responseDom = parseString(responseXml)
-
-    def test_exchange_service_getBetHistory(self):
-        request = soapMessage(getBetHistoryRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
-        responseXml = getExchangeServiceReply(request)
-        print "============getBetHistory: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getInPlayMarkets(self):
