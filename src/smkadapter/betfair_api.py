@@ -316,9 +316,26 @@ def getMUBets(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+def getBet(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetBetResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        betId = int(request._request._betId)
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        for betDetails in betsForAccount.bets:#unoptimised: case of a lot of bets available it would be painful
+            if betDetails.id == betId:
+                resp._bet = createBetFrom(betDetails, soapBinding, typeDefinition)
+                break
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
 ######################
 #DUMMY IMPLEMENTATIONS
 ######################
+
+
 def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     resp = bfe.CancelBetsByMarketResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
@@ -429,16 +446,6 @@ def updateBets(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
         resp._betResults._UpdateBetsResult = []
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
-
-def getBet(soapBinding, typeDefinition, request, response):
-    resp = bfe.GetBetResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        resp._bet = None # bfe.Bet_Def(soapBinding, typeDefinition)
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response

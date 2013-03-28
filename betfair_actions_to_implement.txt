@@ -13,7 +13,7 @@
 |10 |UpdateBet                 | Yes | Yes | Yes |  --   |                                   |
 |11 |CancelBetsByMarket        | Yes | Yes | No  |  --   |Dummy                              |
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |GetMatchedUnmatchedBets            |
-|13 |GetBetDetails             | Yes | No  | Yes |  --   |?? maybe "getBet" ??               |
+|13 |GetBetDetails             | Yes | No  | Yes | Ready |?? maybe "getBet" ??               |
 |14 |Logout                    | Yes | No  | No  | Ready |                                   |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |                                   |
 |16 |GetAllMarkets             | No  | Yes | Yes |  --   |Delimited response                 |
