@@ -17,6 +17,13 @@ import adapter_context
 LOGGER = logging.getLogger('[smk.api]')
 FOOTBALL_EVENT_TYPE_ID = 121005
 SMK_CASH_MULTIPLIER = 10000
+SMK_STATUS_TO_BETFAIR_STATUS_MAP = {
+    "LIVE":"U",
+    "PARTIALLY_FILLED":"MU",
+    "FILLED":"M",
+    "PARTIALLY_CANCELLED":"M",
+    "CANCELLED":"C"
+}
 
 FOOTBALL_EVENTS_AVAILABILITY_IN_FUTURE_DAYS = 6
 
@@ -32,11 +39,15 @@ def extractCurrencyFromAccountStateMessage(currencyCode):
             return (str(currency.name))[-3:]
     raise Exception("CURRENCY NOT RECOGNISED(%s)"%str(currencyCode))
 
-def orderStatusCodeToString(orderStatusCode):
+def smkOrderStatusCodeToString(orderStatusCode):
     for statusCode in seto._ORDERSTATUS.values:
         if statusCode.number == orderStatusCode:
             return (str(statusCode.name))[len("ORDER_STATUS_"):]
-    raise Exception("ORDER_STATUS_CODE NOT RECOGNISED(%s)"%str(currencyCode))
+    raise Exception("ORDER_STATUS_CODE NOT RECOGNISED(%s)"%str(orderStatusCode))
+
+def smkOrderStatusToBetfairBetStatus(smkOrderStatus):
+    smkOrderStatusAsString = smkOrderStatusCodeToString(smkOrderStatus)
+    return SMK_STATUS_TO_BETFAIR_STATUS_MAP[smkOrderStatusAsString]
 
 
 class AccountState(object):
@@ -74,7 +85,7 @@ class BetDetails(object):
         self.marketId = marketId
         self.contractId = contractId
         self.price = price
-        self.status = orderStatusCodeToString(status)
+        self.status = smkOrderStatusToBetfairBetStatus(status)
         self.quantity = quantity
         self.createdDateInMillis = createdDateInMillis
         self.isBetTypeBuy = isBetTypeBuy

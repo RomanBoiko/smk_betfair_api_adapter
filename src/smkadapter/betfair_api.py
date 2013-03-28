@@ -246,7 +246,7 @@ def getCurrentBets(soapBinding, typeDefinition, request, response):
             bet._asianLineId=0#change
             bet._avgPrice=betDetails.price#?
             bet._betId=betDetails.id
-            bet._betStatus = "U"#change
+            bet._betStatus = betDetails.status
             if betDetails.isBetTypeBuy:
                 bet._betType = "B"#BUYER
             else:

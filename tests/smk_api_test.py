@@ -47,11 +47,18 @@ class SmkApiUnitTest(unittest.TestCase):
         self.assertEqual(smk_api.extractCurrencyFromAccountStateMessage(2), "EUR")
 
     def test_that_order_status_convertion_is_correct(self):
-        self.assertEqual(smk_api.orderStatusCodeToString(1), "LIVE")
-        self.assertEqual(smk_api.orderStatusCodeToString(2), "PARTIALLY_FILLED")
-        self.assertEqual(smk_api.orderStatusCodeToString(3), "FILLED")
-        self.assertEqual(smk_api.orderStatusCodeToString(4), "PARTIALLY_CANCELLED")
-        self.assertEqual(smk_api.orderStatusCodeToString(5), "CANCELLED")
+        self.assertEqual(smk_api.smkOrderStatusCodeToString(1), "LIVE")
+        self.assertEqual(smk_api.smkOrderStatusCodeToString(2), "PARTIALLY_FILLED")
+        self.assertEqual(smk_api.smkOrderStatusCodeToString(3), "FILLED")
+        self.assertEqual(smk_api.smkOrderStatusCodeToString(4), "PARTIALLY_CANCELLED")
+        self.assertEqual(smk_api.smkOrderStatusCodeToString(5), "CANCELLED")
+
+    def test_that_smk_order_status_converts_correctly_to_betfair_status(self):
+        self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(1), "U")#Unmatched
+        self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(2), "MU")#Matched and Unmatched
+        self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(3), "M")#Matched
+        self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(4), "M")#Matched? or better Settled or Voided?
+        self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(5), "C")#Cancelled
 
     def eventsPayloadFromFile(self, pathToFile):
         fileStream = urllib2.urlopen("file://%s"%os.path.abspath(pathToFile))
