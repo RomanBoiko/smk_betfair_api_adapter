@@ -384,7 +384,8 @@ class SmkClient(object):
             eventsMessages = []
             eventsMessagesUrls = []
             datePlusDelta = lambda daysDelta: (todaysDate()+timedelta(days=daysDelta))
-            for dayDelta in range(1):
+            numberOfDaysToGetEventsFor = 1 if adapter_context.isAdapterRunningInTestContext() else 7
+            for dayDelta in range(numberOfDaysToGetEventsFor):
                 day = datePlusDelta(dayDelta)
                 eventsMessagesUrls.append(self.getEventsUrls(smarkets.events.FootballByDate(day)))
             for eventsUrl in eventsMessagesUrls:
