@@ -16,6 +16,9 @@ ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
 
 BUSINESS_UNIT = BusinessUnit()
 
+def dateTimeAsList(self, dateTime):
+    return list(dateTime.timetuple())
+
 def currentDateTime():
     return list(datetime.datetime.now().timetuple())
 
@@ -99,7 +102,7 @@ def event(eventDTO, soapBinding, typeDefinition):
     event._eventTypeId = eventDTO.eventTypeId
     event._menuLevel = 0#don't know what to use
     event._orderIndex = 0#don't know what to use
-    event._startTime = eventDTO.startTime
+    event._startTime = dateTimeAsList(eventDTO.startTime)
     event._timezone = "Greenwich Mean Time"#constant
     return event
 
@@ -112,7 +115,7 @@ def market(marketDTO, soapBinding, typeDefinition):
     market._marketTypeVariant = "ADL"#<marketTypeVariant xsi:type="n2:MarketTypeVariantEnum">ADL</marketTypeVariant>
     market._menuLevel = 6 # <menuLevel xsi:type="xsd:int">6</menuLevel>
     market._orderIndex = 2638500 # <orderIndex xsi:type="xsd:int">2638500</orderIndex>
-    market._startTime = marketDTO.startTime
+    market._startTime = dateTimeAsList(marketDTO.startTime)
     market._timezone = "GMT" # <timezone xsi:type="xsd:string">GMT</timezone>
     market._betDelay = 0 # <betDelay xsi:type="xsd:int">0</betDelay>
     market._numberOfWinners = 0 # <numberOfWinners xsi:type="xsd:int">0</numberOfWinners>
@@ -377,9 +380,58 @@ def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+def getAllMarkets(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetAllMarketsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        events = BUSINESS_UNIT.getTodaysFootballEvents(sessionToken)
+        resultsTildaSeparated = []
+        for event in events.marketIdToMarket.values():
+            marketData = [event.eventId, event.eventName, event.eventTypeId,# or 'A', type?
+                'ACTIVE', event.startTime.isoformat(),
+                'menuPath', 'eventHierarchy', 'betDelay', 1,#exchangeId
+                ''#ISO of country to host event, empty for international
+                'lastRefresh',
+                2,#numberOfRunners
+                1,#numberOfPossibleWinners in the market
+                0.0,#TotalAmountMatched
+                'N',#Non-BSP market(BetfairStartingPrice)
+                'Y'#Scheduled to be turned in-play
+                ]
+            resultsTildaSeparated.append("~".join(map(str, marketData)))
+        resp._marketData = ":".join(resultsTildaSeparated)
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
 ######################
 #DUMMY IMPLEMENTATIONS
 ######################
+
+def getMarketPrices(soapBinding, typeDefinition, request, response):
+    resp = bfe.GetMarketPricesResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        marketId = request._request._marketId
+        resp._marketPrices = bfe.MarketPrices_Def(soapBinding, typeDefinition)
+        resp._marketPrices._currencyCode = "GBP"# <xsd:element name="currencyCode" nillable="true" type="xsd:string"/>
+        resp._marketPrices._delay = 11111# <xsd:element name="delay" nillable="false" type="xsd:int"/>
+        resp._marketPrices._discountAllowed = False# <xsd:element name="discountAllowed" nillable="false" type="xsd:boolean"/>
+        resp._marketPrices._lastRefresh = 11111# <xsd:element name="lastRefresh" type="xsd:long"/>
+        resp._marketPrices._marketBaseRate = 1.0# <xsd:element name="marketBaseRate" type="xsd:float"/>
+        resp._marketPrices._marketId = marketId# <xsd:element name="marketId" nillable="false" type="xsd:int"/>
+        resp._marketPrices._marketInfo = None# <xsd:element name="marketInfo" nillable="true" type="xsd:string"/>
+        resp._marketPrices._removedRunners = None# <xsd:element name="removedRunners" nillable="true" type="xsd:string"/>
+        resp._marketPrices._marketStatus = "ACTIVE"# <xsd:element name="marketStatus" type="types:MarketStatusEnum"/>
+        resp._marketPrices._numberOfWinners = 1# <xsd:element name="numberOfWinners" nillable="false" type="xsd:int"/>
+        resp._marketPrices._bspMarket = False# <xsd:element name="bspMarket" nillable="false" type="xsd:boolean"/>          
+        resp._marketPrices._runnerPrices = None# <xsd:element name="runnerPrices" nillable="true" type="types:ArrayOfRunnerPrices"/>
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
 
 
 def getMarket(soapBinding, typeDefinition, request, response):
@@ -410,31 +462,6 @@ def getMarket(soapBinding, typeDefinition, request, response):
         resp._market._licenceId = 1 #mandatory
         resp._market._bspMarket = False #mandatory
         
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
-
-
-
-def getMarketPrices(soapBinding, typeDefinition, request, response):
-    resp = bfe.GetMarketPricesResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        marketId = request._request._marketId
-        resp._marketPrices = bfe.MarketPrices_Def(soapBinding, typeDefinition)
-        resp._marketPrices._currencyCode = "GBP"# <xsd:element name="currencyCode" nillable="true" type="xsd:string"/>
-        resp._marketPrices._delay = 11111# <xsd:element name="delay" nillable="false" type="xsd:int"/>
-        resp._marketPrices._discountAllowed = False# <xsd:element name="discountAllowed" nillable="false" type="xsd:boolean"/>
-        resp._marketPrices._lastRefresh = 11111# <xsd:element name="lastRefresh" type="xsd:long"/>
-        resp._marketPrices._marketBaseRate = 1.0# <xsd:element name="marketBaseRate" type="xsd:float"/>
-        resp._marketPrices._marketId = marketId# <xsd:element name="marketId" nillable="false" type="xsd:int"/>
-        resp._marketPrices._marketInfo = None# <xsd:element name="marketInfo" nillable="true" type="xsd:string"/>
-        resp._marketPrices._removedRunners = None# <xsd:element name="removedRunners" nillable="true" type="xsd:string"/>
-        resp._marketPrices._marketStatus = "ACTIVE"# <xsd:element name="marketStatus" type="types:MarketStatusEnum"/>
-        resp._marketPrices._numberOfWinners = 1# <xsd:element name="numberOfWinners" nillable="false" type="xsd:int"/>
-        resp._marketPrices._bspMarket = False# <xsd:element name="bspMarket" nillable="false" type="xsd:boolean"/>          
-        resp._marketPrices._runnerPrices = None# <xsd:element name="runnerPrices" nillable="true" type="types:ArrayOfRunnerPrices"/>
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response
@@ -480,16 +507,6 @@ def updateBets(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
         resp._betResults._UpdateBetsResult = []
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
-
-def getAllMarkets(soapBinding, typeDefinition, request, response):
-    resp = bfe.GetAllMarketsResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        resp._marketData = '<xsd:element name="marketData" nillable="true" type="xsd:string"/>'
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response

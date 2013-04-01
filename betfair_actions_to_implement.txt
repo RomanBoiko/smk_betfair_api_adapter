@@ -16,7 +16,7 @@
 |13 |GetBetDetails             | Yes | No  | Yes | Ready |?? maybe "getBet" ??               |
 |14 |Logout                    | Yes | No  | No  | Ready |                                   |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |                                   |
-|16 |GetAllMarkets             | No  | Yes | Yes |  --   |Delimited response                 |
+|16 |GetAllMarkets             | No  | Yes | Yes | Ready |Delimited response                 |
 |17 |GetBetsHistory            | No  | Yes | Yes | Ready |                                   |
 |18 |GetEventTypes             | No  | No  | Yes | Ready |                                   |
 |19 |GetInPlayMarkets          | No  | No  | Yes |  --   |Lower priority                     |
@@ -24,12 +24,13 @@
 ==============================================================================================
 
 
-
-to make DISTINCT in cancelBetsByMarket response
-change bet._size in bet details result into quantityFilled from smk
-test for buy/sell on bets placing
-is price in placeBet converted correctly?
-test bet type in getBetsForAccount response
-get NotActive events for previous days in getEvents response
-
-fix performance and remove adapter_context.isTestingEnv
+==TODO:
+-to make DISTINCT in cancelBetsByMarket response
+-change bet._size in bet details result into quantityFilled from smk
+-test for buy/sell on bets placing
+-is price in placeBet converted correctly?
+-test bet type in getBetsForAccount response
+-get NotActive events for previous days in getEvents response
+-fix path to market in menu and eventId hierarchy in getAllMarkets
+-change date to be in millis since Unix Epoch in delimited responses?
+-fix performance and remove adapter_context.isTestingEnv

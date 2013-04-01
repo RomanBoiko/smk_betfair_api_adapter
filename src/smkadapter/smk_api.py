@@ -131,11 +131,15 @@ class HttpUrl(object):
 class Events(object):
     def __init__(self):
         self.parentToEvent={}
+        self.marketIdToMarket={}
         self.marketToContract={}
     def putEvent(self, parentIdInt, event):
         if str(parentIdInt) not in self.parentToEvent:
             self.parentToEvent[str(parentIdInt)] = []
         self.parentToEvent[str(parentIdInt)].append(event)
+    def putMarket(self, marketId, market):
+        if str(marketId) not in self.marketIdToMarket:
+            self.marketIdToMarket[str(marketId)] = market
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
             self.marketToContract[str(parentMarketIdInt)] = []
@@ -160,12 +164,12 @@ class Events(object):
 class Event(object):
     def __init__(self, eventId, eventName, eventTypeId, startDateTime):
         self.eventId = eventId
-        self.eventName = eventName
+        self.eventName = eventName.encode("utf-8")
         self.eventTypeId = eventTypeId
         self.startTime = startDateTime
 
     def __str__(self):
-        return ("Event(id=%s, name=%s, typeId=%s)"%(self.eventId, self.eventName.encode("utf-8"), self.eventTypeId))
+        return ("Event(id=%s, name=%s, typeId=%s)"%(self.eventId, self.eventName, self.eventTypeId))
     def __repr__(self):
         return self.__str__()
 
@@ -198,7 +202,7 @@ class EventsParser(object):
         return Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID, startDateTime)
 
     def dateTime(self, year=1970, month=1, day=1, hour=0, minute=0):
-        return list(datetime.datetime(year, month, day, hour, minute).timetuple())
+        return datetime.datetime(year, month, day, hour, minute)
 
     def addParentEvent(self, parent):
         parentIdInt = uuidToInteger(parent.event)
@@ -215,6 +219,7 @@ class EventsParser(object):
 
     def addMarket(self, marketItem, eventIdInt, eventStartTime):
         marketIdInt = uuidToInteger(marketItem.market)
+        self._events.putMarket(marketIdInt, self.footballEvent(marketIdInt, marketItem.name, eventStartTime))
         self._events.putEvent(eventIdInt, self.footballEvent(marketIdInt, marketItem.name, eventStartTime))
         for contract in marketItem.contracts :
             self.addContract(contract, marketIdInt, eventStartTime)
