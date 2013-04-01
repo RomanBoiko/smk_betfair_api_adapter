@@ -541,9 +541,8 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         print "============getBetHistory: %s"%responseXml
         responseDom = parseString(responseXml)
 
-
     def test_exchange_service_cancelBetsByMarket(self):
-        testMarket1 = 1111111
+        testMarket1 = 276267
         testMarket2 = 1111111
 
         request = soapMessage(cancelBetsByMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarket1, testMarket2))

@@ -352,11 +352,6 @@ def getBetHistory(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
-
-######################
-#DUMMY IMPLEMENTATIONS
-######################
-
 def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     resp = bfe.CancelBetsByMarketResp_Def(soapBinding, typeDefinition)
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
@@ -364,10 +359,28 @@ def cancelBetsByMarket(soapBinding, typeDefinition, request, response):
     if sessionToken:
         resp._results = bfe.ArrayOfCancelBetsByMarketResult_Def(soapBinding, typeDefinition)
         resp._results._CancelBetsByMarketResult = []
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        for betDetails in betsForAccount.bets:
+            for marketId in request._request._markets._int:
+                if betDetails.marketId == marketId:
+                    originalCancelBetResult = BUSINESS_UNIT.cancelBet(sessionToken, betDetails.id)
+                    resultForMarket = bfe.CancelBetsByMarketResult_Def(soapBinding, typeDefinition)
+                    resultForMarket._marketId = marketId
+                    if originalCancelBetResult.succeeded:
+                        resultForMarket._resultCode = ERROR_CODE_OK
+                    else:
+                        resultForMarket._resultCode = ERROR_BET_NOT_CANCELLED
+                    resp._results._CancelBetsByMarketResult.append(resultForMarket)
+        marketId
         
     resp._errorCode = ERROR_CODE_OK
     response._Result = resp
     return response
+
+######################
+#DUMMY IMPLEMENTATIONS
+######################
+
 
 def getMarket(soapBinding, typeDefinition, request, response):
     resp = bfe.GetMarketResp_Def(soapBinding, typeDefinition)
