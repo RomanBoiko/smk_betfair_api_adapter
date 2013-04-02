@@ -224,6 +224,24 @@ updateBetsRequestTemplate = """<bfex:updateBets>
                                           <oldBetPersistenceType>NONE</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
                                           <newBetPersistenceType>NONE</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
                                        </v5:UpdateBets>
+                                       <v5:UpdateBets>
+                                          <betId>84181761152778484</betId>                    <!-- <xsd:element name="betId" type="xsd:long"/>                                    -->
+                                          <newPrice>1.0</newPrice>                            <!-- <xsd:element name="newPrice" nillable="true" type="xsd:double"/>               -->
+                                          <newSize>1.0</newSize>                              <!-- <xsd:element name="newSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldPrice>1.0</oldPrice>                            <!-- <xsd:element name="oldPrice" nillable="true" type="xsd:double"/>               -->
+                                          <oldSize>1.0</oldSize>                              <!-- <xsd:element name="oldSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldBetPersistenceType>NONE</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                          <newBetPersistenceType>NONE</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                       </v5:UpdateBets>
+                                       <v5:UpdateBets>
+                                          <betId>84181870249800020</betId>                    <!-- <xsd:element name="betId" type="xsd:long"/>                                    -->
+                                          <newPrice>1000</newPrice>                            <!-- <xsd:element name="newPrice" nillable="true" type="xsd:double"/>               -->
+                                          <newSize>10.0</newSize>                              <!-- <xsd:element name="newSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldPrice>1.0</oldPrice>                            <!-- <xsd:element name="oldPrice" nillable="true" type="xsd:double"/>               -->
+                                          <oldSize>1.0</oldSize>                              <!-- <xsd:element name="oldSize" nillable="false" type="xsd:double"/>               -->
+                                          <oldBetPersistenceType>NONE</oldBetPersistenceType> <!-- <xsd:element name="oldBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                          <newBetPersistenceType>NONE</newBetPersistenceType> <!-- <xsd:element name="newBetPersistenceType" type="types:BetPersistenceTypeEnum"/>-->
+                                       </v5:UpdateBets>
                                     </bets>
                                  </bfex:request>
                               </bfex:updateBets>"""

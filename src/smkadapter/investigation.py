@@ -38,7 +38,7 @@ def main():
             quantity = 22
             price = 2400
             isBuyer = True
-            smkAction(lambda client: client.placeBet(276267, 380942, quantity, price, isBuyer))
+            smkAction(lambda client: client.placeBet(369133, 573521, quantity, price, isBuyer))
         elif option == "cancel":
             smkAction(lambda client: client.cancelBet(84181761152778484))
             smkAction(lambda client: client.cancelBet(84181754822673358))

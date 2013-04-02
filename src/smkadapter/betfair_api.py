@@ -15,8 +15,9 @@ ERROR_CANNOT_ACCEPT_BET = "CANNOT_ACCEPT_BET"
 ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
 
 BUSINESS_UNIT = BusinessUnit()
+LOGGER = logging.getLogger('[betfair.api]')
 
-def dateTimeAsList(self, dateTime):
+def dateTimeAsList(dateTime):
     return list(dateTime.timetuple())
 
 def currentDateTime():
@@ -239,8 +240,8 @@ def placeBets(soapBinding, typeDefinition, request, response):
             contractId = betRequest._selectionId
             isBetTypeBuy = (betRequest._betType == "B")
             
-            placeBetResult._averagePriceMatched = sizeInPounds#???
-            placeBetResult._sizeMatched = sizeInPounds#???
+            placeBetResult._averagePriceMatched = 0.0
+            placeBetResult._sizeMatched = 0.0
             betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100), isBetTypeBuy)
             if betResult.succeeded:
                 placeBetResult._resultCode = ERROR_CODE_OK
@@ -405,6 +406,54 @@ def getAllMarkets(soapBinding, typeDefinition, request, response):
     response._Result = resp
     return response
 
+def updateBets(soapBinding, typeDefinition, request, response):
+    resp = bfe.UpdateBetsResp_Def(soapBinding, typeDefinition)
+    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
+
+    if sessionToken:
+        betsForAccount = BUSINESS_UNIT.getBetsForAccount(sessionToken)
+        resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
+        resp._betResults._UpdateBetsResult = []
+        for updateRequests in request._request._bets._UpdateBets:
+            betId = updateRequests._betId
+            priceInProcentsMultipliedBy100 = updateRequests._newPrice
+            newSizeInPounds = updateRequests._newSize
+            oldPrice = updateRequests._oldPrice
+            oldSize = updateRequests._oldSize
+
+            updateBetResult = bfe.UpdateBetsResult_Def(soapBinding, typeDefinition)
+            updateBetResult._betId = betId
+            betToUpdateFound = False
+            for betDetails in betsForAccount.bets:
+                if str(betDetails.id) == str(betId):
+                    betToUpdateFound = True
+                    betUpdateHasSucceeded = False
+                    if betDetails.status == "U":
+                        originalCancelBetResult = BUSINESS_UNIT.cancelBet(sessionToken, betId)
+                        if originalCancelBetResult.succeeded:
+                            LOGGER.info("cancel succeeded for bet %s"%str(betId))
+                            betResult = BUSINESS_UNIT.placeBet(sessionToken, betDetails.marketId, betDetails.contractId, newSizeInPounds, int(priceInProcentsMultipliedBy100), betDetails.isBetTypeBuy)
+                            if betResult.succeeded:
+                                LOGGER.info("new bet created for bet %s"%str(betResult.result.id))
+                                updateBetResult._newBetId = betResult.result.id
+                                updateBetResult._sizeCancelled = oldSize
+                                updateBetResult._newSize = newSizeInPounds
+                                updateBetResult._newPrice = priceInProcentsMultipliedBy100
+                                updateBetResult._resultCode = ERROR_CODE_OK
+                                updateBetResult._success = True
+                                betUpdateHasSucceeded = True
+                    if not betUpdateHasSucceeded:
+                        updateBetResult._resultCode = "BET_TAKEN_OR_LAPSED"
+                        updateBetResult._success = False
+            if not betToUpdateFound:
+                updateBetResult._resultCode = "INVALID_BET_ID"
+                updateBetResult._success = False
+            resp._betResults._UpdateBetsResult.append(updateBetResult)
+
+    resp._errorCode = ERROR_CODE_OK
+    response._Result = resp
+    return response
+
 ######################
 #DUMMY IMPLEMENTATIONS
 ######################
@@ -500,16 +549,6 @@ def getMarketTradedVolumeCompressed(soapBinding, typeDefinition, request, respon
     response._Result = resp
     return response
 
-def updateBets(soapBinding, typeDefinition, request, response):
-    resp = bfe.UpdateBetsResp_Def(soapBinding, typeDefinition)
-    sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
-
-    if sessionToken:
-        resp._betResults = bfe.ArrayOfUpdateBetsResult_Def(soapBinding, typeDefinition)
-        resp._betResults._UpdateBetsResult = []
-    resp._errorCode = ERROR_CODE_OK
-    response._Result = resp
-    return response
 
 def getInPlayMarkets(soapBinding, typeDefinition, request, response):
     resp = bfe.GetInPlayMarketsResp_Def(soapBinding, typeDefinition)
