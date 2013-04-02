@@ -36,7 +36,7 @@ def main():
             smkAction(lambda client: client.footballActiveEvents())
         elif option == "bet":
             quantity = 22
-            price = 2400
+            price = 240
             isBuyer = True
             smkAction(lambda client: client.placeBet(369133, 573521, quantity, price, isBuyer))
         elif option == "cancel":

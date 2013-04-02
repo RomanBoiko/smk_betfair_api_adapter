@@ -33,6 +33,12 @@ def smkCashAmountToReal(smkCashAmount):
 def realCashAmountToSmk(realCashAmount):
     return int(round(realCashAmount*SMK_CASH_MULTIPLIER))
 
+def smkPriceToBetfairPriceInFormatBetween1and1000(smkPrice):
+    return smkPrice / 10
+
+def betfairPriceInFormatBetween1and1000ToSmkPrice(betfairPrice):
+    return betfairPrice * 10
+
 def extractCurrencyFromAccountStateMessage(currencyCode):
     for currency in seto._CURRENCY.values:
         if currency.number == currencyCode:
@@ -84,7 +90,7 @@ class BetDetails(object):
         self.id = id
         self.marketId = marketId
         self.contractId = contractId
-        self.price = price
+        self.priceInBetfairFormatBetween1and1000 = smkPriceToBetfairPriceInFormatBetween1and1000(price)
         self.status = smkOrderStatusToBetfairBetStatus(status)
         self.quantity = quantity
         self.createdDateInMillis = createdDateInMillis
@@ -329,15 +335,15 @@ class SmkClient(object):
     def actionFailed(self, message):
         self.smkResponse = ActionFailed(message)
         
-    def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct, expectedFailureResponseType=None):
+    def getSmkResponse(self, clientAction, expectedResponseType, classToConstruct, expectedFailureResponseTypes=[]):
         self.smkResponse = None
         callbackPositive = lambda message: self.actionSucceeded(message)
-        callbackNegative = lambda message: self.actionFailed(message)
         callbacks = {expectedResponseType: callbackPositive}
         self.clientLock.acquire()
         try:
             self.client.add_handler(expectedResponseType, callbackPositive)
-            if expectedFailureResponseType is not None:
+            for expectedFailureResponseType in expectedFailureResponseTypes:
+                callbackNegative = lambda message: self.actionFailed(message)
                 self.client.add_handler(expectedFailureResponseType, callbackNegative)
                 callbacks[expectedFailureResponseType] = callbackNegative
 
@@ -366,7 +372,7 @@ class SmkClient(object):
     def placeBet(self, marketId, contractId, quantity, price, isBetTypeBuy):
         order = smarkets.Order()
         order.quantity = realCashAmountToSmk(quantity)
-        order.price = price#procents*100
+        order.price = betfairPriceInFormatBetween1and1000ToSmkPrice(price)
         if isBetTypeBuy:
             order.side = smarkets.Order.BUY
         else:
@@ -374,11 +380,11 @@ class SmkClient(object):
         order.market = integerToUuid(marketId)
         order.contract = integerToUuid(contractId)
         
-        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet, 'seto.order_rejected')
+        return self.getSmkResponse(lambda: self.client.order(order), 'seto.order_accepted', Bet, ['seto.order_rejected', 'seto.order_invalid'])
 
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
-        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel, 'seto.order_cancel_rejected')
+        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel, ['seto.order_cancel_rejected'])
     
     def getPayloadViaHttp(self, serviceUrl):
         content_type, result = smarkets.urls.fetch(serviceUrl)
@@ -390,7 +396,7 @@ class SmkClient(object):
         return "return nothing - fix"
 
     def getEventsUrls(self, eventRequest):
-        httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl, 'seto.invalid_request')
+        httpUrl = self.getSmkResponse(lambda: self.client.request_events(eventRequest), 'seto.http_found', HttpUrl, ['seto.invalid_request'])
         if httpUrl.succeeded:
             return httpUrl.result.url
         raise Exception("No events for %s"%eventRequest)

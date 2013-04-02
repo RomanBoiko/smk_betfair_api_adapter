@@ -133,7 +133,6 @@ getCurrentBetsRequestTemplate = """<bfex:getCurrentBets>
                                      </bfex:request>
                                   </bfex:getCurrentBets>"""
 
-#Planned
 cancelBetsByMarketRequestTemplate = """<bfex:cancelBetsByMarket>
                                    <bfex:request>
                                       <header>
@@ -160,8 +159,6 @@ getMarketRequestTemplate = """<bfex:getMarket>
                                </bfex:request>
                             </bfex:getMarket>"""
 
-##########################
-################TO REPLACE
 getMarketPricesRequestTemplate = """<bfex:getMarketPrices>
                                        <bfex:request>
                                           <header>
@@ -462,10 +459,10 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
 
     def check_that_exchange_service_placesBets(self, marketId, contractId):
-        priceInProcents=2500
+        priceInBetfairFormatBetween1and1000=250
         quantityInPounds = 3
 
-        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInProcents, contractId, quantityInPounds, quantityInPounds))
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInBetfairFormatBetween1and1000, contractId, quantityInPounds, quantityInPounds))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
@@ -490,12 +487,12 @@ class WorkflowTest(AdapterAcceptanceTest):
         self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
 
     def test_that_placeBets_with_unexisting_marketId_returns_action_failed_response(self):
-        priceInProcents=2500
+        priceInBetfairFormatBetween1and1000=250
         quantityInPounds = 3
 
         unexistingMarketId = 0
         unexistingContractId = 0
-        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingMarketId, priceInProcents, unexistingContractId, quantityInPounds, quantityInPounds))
+        request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingMarketId, priceInBetfairFormatBetween1and1000, unexistingContractId, quantityInPounds, quantityInPounds))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_CANNOT_ACCEPT_BET)

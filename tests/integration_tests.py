@@ -46,7 +46,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             self.assertTrue(accountState.startswith("AccountState(id=13700964455177639, currency=GBP, cash=10.0, bonus=0.0, exposure="))
             
             isBetTypeBuy = True
-            bet = client.placeBet(market.eventId, contract.marketId, 22, 2400, isBetTypeBuy).result
+            bet = client.placeBet(market.eventId, contract.marketId, 22, 240, isBetTypeBuy).result
             print "======>Bet: "+str(bet)
             self.assertEqual(initialAmountOfMarkets+1, len(client.getBetsForAccount().bets))
             cancelBetResponse = client.cancelBet(bet.id).result

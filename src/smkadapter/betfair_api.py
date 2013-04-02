@@ -138,7 +138,7 @@ def fillCommonBetFields(bet, betDTO):
     bet._matchedDate = currentDateTime()
     bet._bspLiability = betDTO.quantity#?
     bet._placedDate = currentDateTime()
-    bet._price = betDTO.price
+    bet._price = betDTO.priceInBetfairFormatBetween1and1000
     bet._selectionId = betDTO.contractId
     bet._handicap = 0.00#change
     return bet
@@ -167,7 +167,7 @@ def createBetFrom(betDTO, soapBinding, typeDefinition):
     bet._selectionName = None
     bet._settledDate = currentDateTime()
     bet._remainingSize = betDTO.quantity#?
-    bet._avgPrice=betDTO.price#?
+    bet._avgPrice=betDTO.priceInBetfairFormatBetween1and1000#?
     bet._requestedSize = betDTO.quantity#?
     bet._voidedDate = currentDateTime()
     return bet
@@ -235,14 +235,14 @@ def placeBets(soapBinding, typeDefinition, request, response):
         for betRequest in request._request._bets._PlaceBets:
             placeBetResult = bfe.PlaceBetsResult_Def(soapBinding, typeDefinition)
             sizeInPounds = betRequest._size
-            priceInProcentsMultipliedBy100 = betRequest._price
+            priceInBetfairFormatBetween1and1000 = betRequest._price
             marketId = betRequest._marketId
             contractId = betRequest._selectionId
             isBetTypeBuy = (betRequest._betType == "B")
             
             placeBetResult._averagePriceMatched = 0.0
             placeBetResult._sizeMatched = 0.0
-            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInProcentsMultipliedBy100), isBetTypeBuy)
+            betResult = BUSINESS_UNIT.placeBet(sessionToken, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
             if betResult.succeeded:
                 placeBetResult._resultCode = ERROR_CODE_OK
                 placeBetResult._success = True
@@ -416,7 +416,7 @@ def updateBets(soapBinding, typeDefinition, request, response):
         resp._betResults._UpdateBetsResult = []
         for updateRequests in request._request._bets._UpdateBets:
             betId = updateRequests._betId
-            priceInProcentsMultipliedBy100 = updateRequests._newPrice
+            priceInBetfairFormatBetween1and1000 = updateRequests._newPrice
             newSizeInPounds = updateRequests._newSize
             oldPrice = updateRequests._oldPrice
             oldSize = updateRequests._oldSize
@@ -432,13 +432,13 @@ def updateBets(soapBinding, typeDefinition, request, response):
                         originalCancelBetResult = BUSINESS_UNIT.cancelBet(sessionToken, betId)
                         if originalCancelBetResult.succeeded:
                             LOGGER.info("cancel succeeded for bet %s"%str(betId))
-                            betResult = BUSINESS_UNIT.placeBet(sessionToken, betDetails.marketId, betDetails.contractId, newSizeInPounds, int(priceInProcentsMultipliedBy100), betDetails.isBetTypeBuy)
+                            betResult = BUSINESS_UNIT.placeBet(sessionToken, betDetails.marketId, betDetails.contractId, newSizeInPounds, int(priceInBetfairFormatBetween1and1000), betDetails.isBetTypeBuy)
                             if betResult.succeeded:
                                 LOGGER.info("new bet created for bet %s"%str(betResult.result.id))
                                 updateBetResult._newBetId = betResult.result.id
                                 updateBetResult._sizeCancelled = oldSize
                                 updateBetResult._newSize = newSizeInPounds
-                                updateBetResult._newPrice = priceInProcentsMultipliedBy100
+                                updateBetResult._newPrice = priceInBetfairFormatBetween1and1000
                                 updateBetResult._resultCode = ERROR_CODE_OK
                                 updateBetResult._success = True
                                 betUpdateHasSucceeded = True

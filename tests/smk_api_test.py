@@ -60,6 +60,16 @@ class SmkApiUnitTest(unittest.TestCase):
         self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(4), "M")#Matched? or better Settled or Voided?
         self.assertEqual(smk_api.smkOrderStatusToBetfairBetStatus(5), "C")#Cancelled
 
+    def test_that_smk_price_and_betfair_price_are_converted_symmetrically(self):
+        self.assertEqual(1000, smk_api.smkPriceToBetfairPriceInFormatBetween1and1000(smk_api.betfairPriceInFormatBetween1and1000ToSmkPrice(1000)))
+        self.assertEqual(1000, smk_api.betfairPriceInFormatBetween1and1000ToSmkPrice(smk_api.smkPriceToBetfairPriceInFormatBetween1and1000(1000)))
+
+    def test_that_betfair_price_is_multiplied_by_10_while_converting_to_smk_price(self):
+        self.assertEqual(2500, smk_api.betfairPriceInFormatBetween1and1000ToSmkPrice(250))
+
+    def test_that_smk_price_is_divided_by_10_while_converting_to_betfair_price(self):
+        self.assertEqual(250, smk_api.smkPriceToBetfairPriceInFormatBetween1and1000(2500))
+
     def eventsPayloadFromFile(self, pathToFile):
         fileStream = urllib2.urlopen("file://%s"%os.path.abspath(pathToFile))
         data = fileStream.read()

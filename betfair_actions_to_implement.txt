@@ -28,8 +28,6 @@
 -to make DISTINCT in cancelBetsByMarket response
 -change bet._size in bet details result into quantityFilled from smk
 -test for buy/sell on bets placing
--is price in placeBet and updateBet converted correctly?
--test bet type in getBetsForAccount response
 -get NotActive events for previous days in getEvents response
 -fix path to market in menu and eventId hierarchy in getAllMarkets
 -change date to be in millis since Unix Epoch in delimited responses?
