@@ -2,6 +2,7 @@ import httplib
 import time
 import unittest
 from xml.dom.minidom import parseString
+from lxml import etree
 
 import smkadapter.adapter_context as adapter_context
 import smkadapter.betfair_api as betfair_api
@@ -468,13 +469,13 @@ class WorkflowTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), str(quantityInPounds)+".000000")
-        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), str(quantityInPounds)+".000000")
+        self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), "0.000000")
+        self.assertEqual(textFromElement(responseDom, "sizeMatched", 0), "0.000000")
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         betId = textFromElement(responseDom, "betId", 0)
         self.assertTrue(len(betId)>0)
 
-        getBetsResponseDom = self.getListOfBetsForAccount()
+        getBetsResponseDom,responseTree = self.getListOfBetsForAccount()
         self.assertEqual(textFromElement(getBetsResponseDom, "betId", 0), betId)
         self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_CODE_OK)
 
@@ -519,13 +520,15 @@ class WorkflowTest(AdapterAcceptanceTest):
             self.assertEqual(textFromElement(responseDom, balanceField, 0), "10.000000")
 
     def test_that_list_of_bets_is_returned_for_account(self):
-        responseDom = self.getListOfBetsForAccount()
+        responseDom,responseTree = self.getListOfBetsForAccount()
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual("M", responseTree.xpath("//*[local-name()='betId'][text()='84181744266264497']/../*[local-name()='betStatus']/text()")[0])
 
     def getListOfBetsForAccount(self):
         request = soapMessage(getCurrentBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
-        return parseString(responseXml)
+        responseTree = etree.XML(responseXml)
+        return parseString(responseXml),responseTree
 
 class RequestsResponsesValidationTest(AdapterAcceptanceTest):
 
