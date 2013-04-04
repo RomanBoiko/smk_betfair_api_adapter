@@ -96,7 +96,7 @@ class BetDetails(object):
         self.createdDateInMillis = createdDateInMillis
         self.isBetTypeBuy = isBetTypeBuy
     def __str__(self):
-        return ("BetDetails(id=%s, market=%s, contractId=%s, price=%s, status=%s, quantity=%s, createdDateInMillis=%s, isBetTypeBuy=%s)"%(self.id, self.marketId, self.contractId, self.price, self.status, self.quantity, self.createdDateInMillis, self.isBetTypeBuy))
+        return ("BetDetails(id=%s, market=%s, contractId=%s, priceInBetfairFormatBetween1and1000=%s, status=%s, quantity=%s, createdDateInMillis=%s, isBetTypeBuy=%s)"%(self.id, self.marketId, self.contractId, self.priceInBetfairFormatBetween1and1000, self.status, self.quantity, self.createdDateInMillis, self.isBetTypeBuy))
     def __repr__(self):
         return self.__str__()
 
