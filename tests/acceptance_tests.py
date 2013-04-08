@@ -568,6 +568,26 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         print "============CANCEL_BY_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
 
+    def test_exchange_service_getMarketPricesCompressed(self):
+        marketId = 369133#with prices
+        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        self.assertEqual("MarketPrices(price=1000)", responseTree.xpath("//*[local-name()='marketPrices']/text()")[0])
+
+    def test_exchange_service_getMarketPricesCompressed_returns_invalid_marker_error_on_unexisting_market(self):
+        marketId = 36913111#invalid
+        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_INVALID_MARKET)
+        self.assertEqual([], responseTree.xpath("//*[local-name()='marketPrices']/text()"))
+
+    def executeGetMarketPricesCompressed(self, marketId):
+        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketPricesCompressed: %s"%responseXml
+        responseDom = parseString(responseXml)
+        responseTree = etree.XML(responseXml)
+        return responseDom,responseTree
+
     def test_exchange_service_getMarket(self):
         testMarketId = 1111111
 
@@ -583,12 +603,6 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         print "============getMarketPrices: %s"%responseXml
         responseDom = parseString(responseXml)
 
-    def test_exchange_service_getMarketPricesCompressed(self):
-        marketId = 1111111
-        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
-        responseXml = getExchangeServiceReply(request)
-        print "============getMarketPricesCompressed: %s"%responseXml
-        responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketTradedVolume(self):
         marketId = 1111111

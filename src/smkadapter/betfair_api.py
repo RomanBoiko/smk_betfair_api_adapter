@@ -13,6 +13,7 @@ ERROR_NO_SESSION = "NO_SESSION"
 ERROR_API_ERROR = "API_ERROR"
 ERROR_CANNOT_ACCEPT_BET = "CANNOT_ACCEPT_BET"
 ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
+ERROR_INVALID_MARKET = "INVALID_MARKET"
 
 BUSINESS_UNIT = BusinessUnit()
 LOGGER = logging.getLogger('[betfair.api]')
@@ -520,8 +521,14 @@ def getMarketPricesCompressed(soapBinding, typeDefinition, request, response):
     sessionToken = addHeaderToResponseAndValidateSession(request, resp, soapBinding, typeDefinition)
 
     if sessionToken:
-        resp._marketPrices = "COMPRESSED_STRING"
-    resp._errorCode = ERROR_CODE_OK
+        marketId = request._request._marketId
+        getPricesResult = BUSINESS_UNIT.getMarketPrices(sessionToken, marketId)
+        if getPricesResult.succeeded:
+            resp._marketPrices = str(getPricesResult.result)
+            resp._errorCode = ERROR_CODE_OK
+        else:
+            resp._errorCode = ERROR_INVALID_MARKET
+
     response._Result = resp
     return response
 

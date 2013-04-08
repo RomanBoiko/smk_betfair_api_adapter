@@ -19,7 +19,7 @@ def smkAction(action):
     client.client.add_global_handler(global_callback)
 
     try:
-        print "===========>"+str(action(client))
+        print "===========>"+str(action(client).result)
     except:
         LOGGER.error("**********error occured")
         LOGGER.error("Unexpected error: %s", traceback.format_exc())
@@ -47,6 +47,8 @@ def main():
             smkAction(lambda client: client.getAccountState())
         elif option == "bets":
             smkAction(lambda client: client.getBetsForAccount())
+        elif option == "prices":
+            smkAction(lambda client: client.getMarketPrices(369133))
         else:
             print "==>invalid command line argument: %s" % option
 

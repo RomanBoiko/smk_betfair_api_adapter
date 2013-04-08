@@ -70,3 +70,7 @@ class BusinessUnit(object):
         client = self.getClientIfTokenIsValid(sessionToken)
         return client.getBetsForAccount()
 
+    def getMarketPrices(self, sessionToken, marketId):
+        client = self.getClientIfTokenIsValid(sessionToken)
+        return client.getMarketPrices(marketId)
+

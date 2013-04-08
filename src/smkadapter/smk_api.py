@@ -179,6 +179,17 @@ class Event(object):
     def __repr__(self):
         return self.__str__()
 
+class MarketPrices(object):
+    def __init__(self, marketQuotesMessage):
+        self.price = 0
+        for contractQuotes in marketQuotesMessage.market_quotes.contract_quotes:
+            for bid in contractQuotes.bids:
+                self.price = bid.price
+    def __str__(self):
+        return ("MarketPrices(price=%s)"%(self.price))
+    def __repr__(self):
+        return self.__str__()
+
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
         self.marketId = marketId
@@ -414,3 +425,10 @@ class SmkClient(object):
                 eventsMessages.append(self.getPayloadViaHttp(eventsUrl))
             self.footballEventsCache.updateEvents(EventsParser().parseEvents(eventsMessages))
         return self.footballEventsCache.getEvents()
+
+    def getMarketPrices(self, marketId):
+        events = self.footballActiveEvents()
+        if events.marketIdToMarket.get(str(marketId)) is None:
+            return ActionFailed(("Market with id %s not found"%marketId))
+        else:
+            return self.getSmkResponse(lambda: self.client.subscribe(integerToUuid(marketId)), 'seto.market_quotes', MarketPrices)
