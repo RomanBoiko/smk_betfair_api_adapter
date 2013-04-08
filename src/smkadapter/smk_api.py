@@ -179,16 +179,6 @@ class Event(object):
     def __repr__(self):
         return self.__str__()
 
-class MarketPrices(object):
-    def __init__(self, marketQuotesMessage):
-        self.price = 0
-        for contractQuotes in marketQuotesMessage.market_quotes.contract_quotes:
-            for bid in contractQuotes.bids:
-                self.price = bid.price
-    def __str__(self):
-        return ("MarketPrices(price=%s)"%(self.price))
-    def __repr__(self):
-        return self.__str__()
 
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
@@ -209,6 +199,28 @@ def integerToUuid(sourceInt):
     resultedUuid.high = sourceUuid.high
     return resultedUuid
 
+class MarketPrice(object):
+    def __init__(self, price, quantity):
+        self.price = price
+        self.quantity = quantity
+
+class MarketPrices(object):
+    def __init__(self, marketQuotesMessage):
+        self.price = 0
+        self.marketId = uuidToInteger(marketQuotesMessage.market_quotes.market)
+        self.bids = []
+        self.offers = []
+
+        for contractQuotes in marketQuotesMessage.market_quotes.contract_quotes:
+            for bid in contractQuotes.bids:
+                self.bids.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(bid.price), smkCashAmountToReal(bid.quantity)))
+            for offer in contractQuotes.offers:
+                self.offers.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(offer.price), smkCashAmountToReal(offer.quantity)))
+
+    def __str__(self):
+        return ("MarketPrices(price=%s)"%(self.price))
+    def __repr__(self):
+        return self.__str__()
 
 class EventsParser(object):
 
