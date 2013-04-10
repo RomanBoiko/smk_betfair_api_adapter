@@ -4,6 +4,9 @@ Dependencies:
 	- ZSI
 		http://sourceforge.net/projects/pywebsvcs/files/latest/download?source=files
 		sudo python setup.py build install
+	- requests
+		sudo pip install requests
+		sudo pip install requests_oauthlib
 	- smk_python_sdk
 		https://github.com/smarkets/smk_python_sdk
 		sudo python setup.py build install

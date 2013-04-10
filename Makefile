@@ -25,7 +25,7 @@ unit_tests: create_test_dir
 	$(TEST_COMMAND) tests/*_test.py
 
 integration_tests: create_test_dir
-	$(TEST_COMMAND) tests/integration_tests.py
+	$(TEST_COMMAND) tests/*integration_tests.py
 
 acceptance_tests_suit: create_test_dir
 	$(TEST_COMMAND) tests/acceptance_tests.py
