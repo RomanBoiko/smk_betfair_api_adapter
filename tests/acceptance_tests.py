@@ -569,10 +569,11 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketPricesCompressed(self):
-        marketId = 369133#with prices
+        marketId = 399165#with prices
         responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        self.assertEqual("MarketPrices(price=0)", responseTree.xpath("//*[local-name()='marketPrices']/text()")[0])
+        marketPrices = responseTree.xpath("//*[local-name()='marketPrices']/text()")[0]
+        self.assertTrue(marketPrices.startswith("%s~GBP~ACTIVE~0~1~None~False~comission~0~~N"%str(marketId)))
 
     def test_exchange_service_getMarketPricesCompressed_returns_invalid_marker_error_on_unexisting_market(self):
         marketId = 36913111#invalid

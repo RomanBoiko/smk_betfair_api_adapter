@@ -172,7 +172,6 @@ class MarketPrices(object):
             layPricesStrings.append("|".join([str(price.price),str(price.amount), price.oposingTypeToBeMatchedAgainst, str(price.depth) ]))
         layPricesCompressed = "|".join(layPricesStrings)
 
-        layPricesCompressed = ""
         return "~".join(map(str, [self.marketId, self.currency, self.marketStatus,self.inPlayDelay, self.numberOfWinners, self.marketInformation,
             self.isDiscountAllowed, self.marketBaseRate, self.refreshTimeInMilliseconds, self.removedRunnersInformationComposed,
             self.bspMarket, self.runnerInformationFields, backPricesCompressed, layPricesCompressed]))
@@ -576,7 +575,7 @@ def getMarketPricesCompressed(soapBinding, typeDefinition, request, response):
         marketId = request._request._marketId
         getPricesResult = BUSINESS_UNIT.getMarketPrices(sessionToken, marketId)
         if getPricesResult.succeeded:
-            resp._marketPrices = str(getPricesResult.result)
+            resp._marketPrices = MarketPrices(getPricesResult.result).compress()
             resp._errorCode = ERROR_CODE_OK
         else:
             resp._errorCode = ERROR_INVALID_MARKET

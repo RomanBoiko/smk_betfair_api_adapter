@@ -3,7 +3,7 @@
 ==============================================================================================
 |1  |Login                     | Yes | Yes | Yes | Ready |                                   |
 |2  |GetMarketPrices           | Yes | No  | No  |  --   |                                   |
-|3  |GetMarketPricesCompressed | Yes | Yes | Yes |  --   |Delimited response                 |
+|3  |GetMarketPricesCompressed | Yes | Yes | Yes | Ready |Delimited response                 |
 |4  |GetTradedVolume           | Yes | No  | Yes |  --   |"getMarketTradedVolume"??          |
 |5  |GetTradedVolumeCompressed | Yes | No  | No  |  --   |"getMarketTradedVolumeCompressed"??|
 |6  |GetMarket                 | Yes | No  | Yes |  --   |                                   |
@@ -34,3 +34,4 @@
 -fix performance and remove adapter_context.isTestingEnv
 -test for updateBets
 -how to find selectionId=contractId from Market details? maybe wrong level of market==contract in getEvents?
+-Delimited response in GetMarketPricesCompressed - test prices and currency
