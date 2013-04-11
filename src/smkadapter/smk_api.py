@@ -15,7 +15,7 @@ from smarkets.exceptions import SocketDisconnected
 import adapter_context
 
 LOGGER = logging.getLogger('[smk.api]')
-FOOTBALL_EVENT_TYPE_ID = 121005
+FOOTBALL_EVENT_TYPE_ID = 125062
 SMK_CASH_MULTIPLIER = 10000
 SMK_STATUS_TO_BETFAIR_STATUS_MAP = {
     "LIVE":"U",
@@ -131,8 +131,10 @@ class BetsForAccount(object):
 class HttpUrl(object):
     def __init__(self, httpUrlMessage):
         urlFetched = httpUrlMessage.http_found.url
-        normalizedUrl = urlFetched.replace("vagrant-dev.corp", "api-sandbox")
-        self.url = normalizedUrl
+        if "api-sandbox" in adapter_context.SMK_API_HOST:
+            self.url = urlFetched.replace("vagrant-dev.corp", "api-sandbox")
+        else:
+            self.url = urlFetched
 
 class Events(object):
     def __init__(self):
@@ -235,7 +237,7 @@ class EventsParser(object):
 
     def addParentEvent(self, parent):
         parentIdInt = uuidToInteger(parent.event)
-        if parentIdInt!=FOOTBALL_EVENT_TYPE_ID :
+        if parent.name!="Football" :
             eventStartTime = self.dateTime(parent.start_date.year, parent.start_date.month, parent.start_date.day)
             self._events.putEvent(FOOTBALL_EVENT_TYPE_ID, self.footballEvent(parentIdInt, parent.name, eventStartTime))
 
