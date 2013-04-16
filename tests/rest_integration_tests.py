@@ -45,9 +45,13 @@ class RestApiAuthenticationIntegrationTest(unittest.TestCase):
         html = br.open(authorisationUrlToFollow)
         resultsBeforeApprove = html.read().decode("ascii", "ignore")
         br.select_form(nr=0)
-        resultsAfterApprove = br.submit(name='action', label='Approve').read().decode("ascii", "ignore")
-        m = re.search("(?<=<p>Please enter the code )(.+?)(?= into Client Name in order to grant it access.</p>)", resultsAfterApprove)
-        return m.group(0)
+        try:
+            resultsAfterApprove = br.submit(name='action', label='Approve').read().decode("ascii", "ignore")
+            m = re.search("(?<=<p>Please enter the code )(.+?)(?= into Client Name in order to grant it access.</p>)", resultsAfterApprove)
+            return m.group(0)
+        except ControlNotFoundError:
+            print "You need to login and accept Smarkets's terms and conditions"
+            raise
 
 if __name__ == "__main__":
     RestApiAuthenticationIntegrationTest().test_rest_authentication_on_local_smk_env()
