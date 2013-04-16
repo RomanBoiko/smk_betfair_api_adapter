@@ -50,6 +50,7 @@ class SmkApiIntegrationTest(unittest.TestCase):
             print "======>Bet: "+str(bet)
             self.assertEqual(initialAmountOfMarkets+1, len(client.getBetsForAccount().bets))
             cancelBetResponse = client.cancelBet(bet.id).result
+            time.sleep(1)
             self.assertEqual(initialAmountOfMarkets, len(client.getBetsForAccount().bets))
             print "======>CancelBet: "+str(cancelBetResponse)
             

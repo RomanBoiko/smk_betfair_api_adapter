@@ -2886,7 +2886,7 @@ No exclusion or limitation set out in this Agreement shall apply in the case of 
   </wsdl:binding>
   <wsdl:service name="BFGlobalService">
     <wsdl:port binding="tns:BFGlobalService" name="BFGlobalService">
-      <soap:address location="http://127.0.0.1:8080/BFGlobalService"/>
+      <soap:address location="http://127.0.0.1:8888/BFGlobalService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

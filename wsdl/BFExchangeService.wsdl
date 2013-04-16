@@ -2975,7 +2975,7 @@ No exclusion or limitation set out in this Agreement shall apply in the case of 
   </wsdl:binding>
   <wsdl:service name="BFExchangeService">
     <wsdl:port binding="tns:BFExchangeService" name="BFExchangeService">
-      <soap:address location="http://127.0.0.1:8080/BFExchangeService"/>
+      <soap:address location="http://127.0.0.1:8888/BFExchangeService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

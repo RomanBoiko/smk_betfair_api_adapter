@@ -1,6 +1,5 @@
 import logging
 import threading
-import time
 import pprint
 from xmlrpclib import datetime
 from datetime import timedelta
@@ -416,7 +415,7 @@ class SmkClient(object):
         if content_type == 'application/x-protobuf':
             incoming_payload = seto.Events()
             incoming_payload.ParseFromString(result)
-            self.LOGGER.debug("Response from %s: %s"%(serviceUrl, text_format.MessageToString(incoming_payload)))
+            self.LOGGER.debug("Response from %s received"%(serviceUrl))
             return incoming_payload
         return "return nothing - fix"
 
@@ -431,7 +430,7 @@ class SmkClient(object):
             eventsMessages = []
             eventsMessagesUrls = []
             datePlusDelta = lambda daysDelta: (todaysDate()+timedelta(days=daysDelta))
-            numberOfDaysToGetEventsFor = 1 if adapter_context.isAdapterRunningInTestContext() else 7
+            numberOfDaysToGetEventsFor = 7
             for dayDelta in range(numberOfDaysToGetEventsFor):
                 day = datePlusDelta(dayDelta)
                 eventsMessagesUrls.append(self.getEventsUrls(smarkets.events.FootballByDate(day)))
