@@ -470,7 +470,6 @@ def updateBets(soapBinding, typeDefinition, request, response):
             betId = updateRequests._betId
             priceInBetfairFormatBetween1and1000 = updateRequests._newPrice
             newSizeInPounds = updateRequests._newSize
-            oldPrice = updateRequests._oldPrice
             oldSize = updateRequests._oldSize
 
             updateBetResult = bfe.UpdateBetsResult_Def(soapBinding, typeDefinition)
