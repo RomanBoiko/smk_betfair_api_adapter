@@ -4,6 +4,14 @@ TEST_COMMAND = nosetests --with-xunit --quiet --nocapture --nologcapture --xunit
 all: clean
 
 
+dependencies:
+	rm -Rf dependencies
+	mkdir dependencies
+	git clone https://code.google.com/p/bfpy/ dependencies/bfpy
+	sed -i.bak 's/https:\/\/api.betfair.com\/global\/v3\/BFGlobalService/http:\/\/localhost:8888\/BFGlobalService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	sed -i.bak 's/<?xml/</g' dependencies/bfpy/src/bfpy/bftransport.py
+
+
 clean:
 	rm -Rf build
 	find . -name "*.pyc" | xargs rm
@@ -36,3 +44,7 @@ test: unit_tests integration_tests acceptance_tests
 
 try:
 	python src/smkadapter/investigation.py ${action}
+
+
+external_client_test: dependencies
+	python tests/bfpybot.py

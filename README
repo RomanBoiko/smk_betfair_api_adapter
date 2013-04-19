@@ -7,6 +7,8 @@ Dependencies:
 	- requests
 		sudo pip install requests
 		sudo pip install requests_oauthlib
+	- Jinja2 template engine
+		sudo pip install Jinja2
 	- smk_python_sdk
 		https://github.com/smarkets/smk_python_sdk
 		sudo python setup.py build install
@@ -14,6 +16,7 @@ Dependencies:
 
 Running:
 	- edit config (config/devenv.cfg) to include your env's specific properties
+	- run "make dependencies" to download test dependencies
 	- run "make test" to ensure everything works fine
 	- run "make start" to start the adapter
 	- run "make stop" to stop the adapter
