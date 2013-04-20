@@ -1,0 +1,6 @@
+273a274
+>         print "=====7>"+str(self.pyclass)+"=="+str(self.ofwhat[0].type[1])+"=="+str(len(kw))
+275a277
+>             print "====INL===>"+str(name)
+289a292
+>         print "====6>"+str(objid)+"====>"+str(ns)+"====>"+str(n)
