@@ -9,6 +9,8 @@ Dependencies:
 		sudo pip install requests_oauthlib
 	- Jinja2 template engine
 		sudo pip install Jinja2
+	- lxml
+		sudo apt-get install python-lxml
 	- smk_python_sdk
 		https://github.com/smarkets/smk_python_sdk
 		sudo python setup.py build install

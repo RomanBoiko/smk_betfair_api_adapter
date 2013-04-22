@@ -6,11 +6,11 @@
             <header xsi:type="n2:APIResponseHeader">
                <errorCode xsi:type="n2:APIErrorEnum">OK</errorCode>
                <minorErrorCode xsi:nil="1"/>
-               <sessionToken xsi:type="xsd:string">{{ sessionid }}</sessionToken>
+               <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
                <timestamp xsi:type="xsd:dateTime">2013-02-11T17:29:18.440Z</timestamp>
             </header>
-            <currency xsi:type="xsd:string">GBP</currency>
-            <errorCode xsi:type="n2:LoginErrorEnum">OK</errorCode>
+            <currency xsi:type="xsd:string">{{ currency }}</currency>
+            <errorCode xsi:type="n2:LoginErrorEnum">{{ errorCode }}</errorCode>
             <minorErrorCode xsi:type="xsd:string">age.verification.required</minorErrorCode>
             <validUntil xsi:type="xsd:dateTime">0001-01-01T00:00:00.000Z</validUntil>
          </n:Result>
