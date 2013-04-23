@@ -1,17 +1,23 @@
 import sys
+import unittest
 sys.path.append('dependencies/bfpy/src')
 
 import bfpy.bfclient as bfpy
 from bfpy.bferror import BfError
 
-bf = bfpy.BfClient()
+import smkadapter.adapter_context as adapter_context
 
-try:
-    bfrespLogin = bf.login(username='username', password='password')
-    print bfrespLogin
-    bfrespEventTypes = bf.getAllEventTypes()
-    print bfrespEventTypes
-except BfError, e:
-    print "login error: %s" % str(e)
-else:
-    print "Test succeeded"
+class AdapterExternalAcceptanceTest(unittest.TestCase):
+    def test_adapter_flow(self):
+        bf = bfpy.BfClient()
+
+        try:
+            bfrespLogin = bf.login(username=adapter_context.TEST_SMK_LOGIN, password=adapter_context.TEST_SMK_PASSWORD)
+            print bfrespLogin
+            bfrespEventTypes = bf.getAllEventTypes()
+            print bfrespEventTypes
+        except BfError, e:
+            print "adapter error: %s" % str(e)
+            raise
+        else:
+            print "Test succeeded"

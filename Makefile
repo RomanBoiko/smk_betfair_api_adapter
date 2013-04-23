@@ -51,4 +51,4 @@ try:
 
 
 external_client_test: dependencies
-	python tests/bfpybot.py
+	$(TEST_COMMAND) tests/bfpybot.py
