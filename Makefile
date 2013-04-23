@@ -8,7 +8,9 @@ dependencies:
 	rm -Rf dependencies
 	mkdir dependencies
 	git clone https://code.google.com/p/bfpy/ dependencies/bfpy
-	sed -i.bak 's/https:\/\/api.betfair.com\/global\/v3\/BFGlobalService/http:\/\/localhost:8888\/BFGlobalService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	sed -i.bak 's/https:\/\/api.betfair.com\/global\/v3\/BFGlobalService/http:\/\/localhost:8889\/BFGlobalService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	sed -i.bak 's/https:\/\/api.betfair.com\/exchange\/v5\/BFExchangeService/http:\/\/localhost:8889\/BFExchangeService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	
 	#ZSI-2.1_a1
 	#sudo patch /usr/local/lib/python2.7/dist-packages/ZSI/writer.py patches/ZSI.writer.patch
 	#sudo patch /usr/local/lib/python2.7/dist-packages/ZSI/wstools/c14n.py patches/ZSI.wstools.c14n.patch

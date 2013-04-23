@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:n2="http://www.betfair.com/publicapi/types/global/v3/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <n:getAllEventTypesResponse xmlns:n="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+         <n:Result xsi:type="n2:GetEventTypesResp">
+            <header xsi:type="n2:APIResponseHeader">
+               <errorCode xsi:type="n2:APIErrorEnum">OK</errorCode>
+               <minorErrorCode xsi:nil="1"/>
+               <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+               <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
+            </header>
+            <eventTypeItems xsi:type="n2:ArrayOfEventType">
+               <n2:EventType xsi:type="n2:EventType">
+                  <id xsi:type="xsd:int">{{ eventTypeId }}</id>
+                  <name xsi:type="xsd:string">{{ eventTypeName }}</name>
+                  <nextMarketId xsi:type="xsd:int">0</nextMarketId>
+                  <exchangeId xsi:type="xsd:int">0</exchangeId>
+               </n2:EventType>
+            </eventTypeItems>
+            <minorErrorCode xsi:nil="1"/>
+            <errorCode xsi:type="n2:GetEventsErrorEnum">OK</errorCode>
+         </n:Result>
+      </n:getAllEventTypesResponse>
+   </soap:Body>
+</soap:Envelope>

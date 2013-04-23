@@ -7,8 +7,11 @@ from bfpy.bferror import BfError
 bf = bfpy.BfClient()
 
 try:
-    bfresp = bf.login(username='login', password='pass')
+    bfrespLogin = bf.login(username='username', password='password')
+    print bfrespLogin
+    bfrespEventTypes = bf.getAllEventTypes()
+    print bfrespEventTypes
 except BfError, e:
     print "login error: %s" % str(e)
 else:
-    print bfresp
+    print "Test succeeded"

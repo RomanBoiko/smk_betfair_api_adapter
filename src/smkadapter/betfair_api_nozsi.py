@@ -30,6 +30,8 @@ def dispatchRequest(request):
     requestType = etree.XML(request).xpath("local-name(//*[local-name()='Body']/*[1])")
     if requestType=="login":
         return login(request)
+    elif requestType=="getAllEventTypes":
+        return getAllEventTypes(request)
     else:
         LOGGER.error("reqyest type %s could not be dispatched"%requestType)
         return "noAction"
@@ -48,3 +50,9 @@ def login(request):
         return template.render(sessionId=sessionToken, errorCode=ERROR_CODE_OK, currency=currency)
     else:
         return template.render(sessionId="", errorCode=ERROR_INVALID_USERNAME_OR_PASSWORD, currency="")
+
+def getAllEventTypes(request):
+    requestTree = etree.XML(request)
+    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    template = Template(readFile("templates/getAllEventTypes.response.xml"))
+    return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(smk_api.FOOTBALL_EVENT_TYPE_ID))
