@@ -449,7 +449,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         firstMarketId = textFromElement(responseDom, "marketId", 0)
         self.assertGreater(len(firstMarketId), 0)
 
-        self.check_exchange_service_getMarketPricesCompressed(firstMarketId)
+        # self.check_exchange_service_getMarketPricesCompressed(firstMarketId)
         self.check_that_exchange_service_placesBets(parentEventId, firstMarketId)
 
     def firstEventId(self, responseDom):
@@ -550,26 +550,15 @@ class WorkflowTest(AdapterAcceptanceTest):
         responseTree = etree.XML(responseXml)
         return parseString(responseXml),responseTree
 
-class RequestsResponsesValidationTest(AdapterAcceptanceTest):
-
-    @classmethod
-    def setUpClass(cls):
-        loginResponseDom = getLoginResponseDom(adapter_context.TEST_SMK_PASSWORD, adapter_context.TEST_SMK_LOGIN)
-        RequestsResponsesValidationTest.validSessionToken = sessionTokenFrom(loginResponseDom)
-
-    @classmethod
-    def tearDownClass(cls):
-        getLogoutResponseDom(RequestsResponsesValidationTest.validSessionToken)
-
     def test_exchange_service_getMUBets(self):
-        request = soapMessage(getMUBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        request = soapMessage(getMUBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============getMUBets: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getBet(self):
         betId = 84181761152778484
-        request = soapMessage(getBetRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, betId))
+        request = soapMessage(getBetRequestTemplate%(WorkflowTest.validSessionToken, betId))
         responseXml = getExchangeServiceReply(request)
         print "============getBet: %s"%responseXml
         responseDom = parseString(responseXml)
@@ -577,7 +566,7 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
     def test_exchange_service_getBetHistory(self):
         betTypesIncluded = "M"
         marketId = 276267
-        request = soapMessage(getBetHistoryRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, betTypesIncluded, marketId))
+        request = soapMessage(getBetHistoryRequestTemplate%(WorkflowTest.validSessionToken, betTypesIncluded, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getBetHistory: %s"%responseXml
         responseDom = parseString(responseXml)
@@ -586,7 +575,7 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         testMarket1 = 276267
         testMarket2 = 1111111
 
-        request = soapMessage(cancelBetsByMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarket1, testMarket2))
+        request = soapMessage(cancelBetsByMarketRequestTemplate%(WorkflowTest.validSessionToken, testMarket1, testMarket2))
         responseXml = getExchangeServiceReply(request)
         print "============CANCEL_BY_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
@@ -594,14 +583,14 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
     def test_exchange_service_getMarket(self):
         testMarketId = 1111111
 
-        request = soapMessage(getMarketRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, testMarketId))
+        request = soapMessage(getMarketRequestTemplate%(WorkflowTest.validSessionToken, testMarketId))
         responseXml = getExchangeServiceReply(request)
         print "============GET_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketPrices(self):
         marketId = 1111111
-        request = soapMessage(getMarketPricesRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
+        request = soapMessage(getMarketPricesRequestTemplate%(WorkflowTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketPrices: %s"%responseXml
         responseDom = parseString(responseXml)
@@ -610,38 +599,38 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
     def test_exchange_service_getMarketTradedVolume(self):
         marketId = 1111111
         contractId = 1111111
-        request = soapMessage(getMarketTradedVolumeRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId, contractId))
+        request = soapMessage(getMarketTradedVolumeRequestTemplate%(WorkflowTest.validSessionToken, marketId, contractId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketTradedVolume: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getMarketTradedVolumeCompressed(self):
         marketId = 1111111
-        request = soapMessage(getMarketTradedVolumeCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
+        request = soapMessage(getMarketTradedVolumeCompressedRequestTemplate%(WorkflowTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
         print "============getMarketTradedVolumeCompressed: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_updateBets(self):
-        request = soapMessage(updateBetsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        request = soapMessage(updateBetsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============updateBets: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getAllMarkets(self):
-        request = soapMessage(getAllMarketsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        request = soapMessage(getAllMarketsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============getAllMarkets: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getInPlayMarkets(self):
-        request = soapMessage(getInPlayMarketsRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        request = soapMessage(getInPlayMarketsRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============getInPlayMarkets: %s"%responseXml
         responseDom = parseString(responseXml)
 
     def test_exchange_service_getAccountStatement(self):
-        request = soapMessage(getAccountStatementRequestTemplate%(RequestsResponsesValidationTest.validSessionToken))
+        request = soapMessage(getAccountStatementRequestTemplate%(WorkflowTest.validSessionToken))
         responseXml = getExchangeServiceReply(request)
         print "============getAccountStatement: %s"%responseXml
         responseDom = parseString(responseXml)
