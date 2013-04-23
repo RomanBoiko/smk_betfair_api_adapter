@@ -449,6 +449,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         firstMarketId = textFromElement(responseDom, "marketId", 0)
         self.assertGreater(len(firstMarketId), 0)
 
+        self.check_exchange_service_getMarketPricesCompressed(firstMarketId)
         self.check_that_exchange_service_placesBets(parentEventId, firstMarketId)
 
     def firstEventId(self, responseDom):
@@ -457,6 +458,28 @@ class WorkflowTest(AdapterAcceptanceTest):
     def validateEventTypeAndParentIds(self, responseDom, eventTypeId, parentEventId):
         self.assertEqual(textFromElement(responseDom, "eventParentId", 0), parentEventId)
         self.assertEqual(textFromElement(responseDom, "eventTypeId", 0), eventTypeId)
+
+    def check_exchange_service_getMarketPricesCompressed(self, marketId):
+        print "====MARKET->"+marketId
+        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
+        marketPrices = responseTree.xpath("//*[local-name()='marketPrices']/text()")[0]
+        self.assertTrue(marketPrices.startswith("%s~GBP~ACTIVE~0~1~None~False~comission~0~~N"%str(marketId)))
+
+    def test_exchange_service_getMarketPricesCompressed_returns_invalid_marker_error_on_unexisting_market(self):
+        marketId = 36913111#invalid
+        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
+        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_INVALID_MARKET)
+        self.assertEqual([], responseTree.xpath("//*[local-name()='marketPrices']/text()"))
+
+    def executeGetMarketPricesCompressed(self, marketId):
+        request = soapMessage(getMarketPricesCompressedRequestTemplate%(WorkflowTest.validSessionToken, marketId))
+        responseXml = getExchangeServiceReply(request)
+        print "============getMarketPricesCompressed: %s"%responseXml
+        responseDom = parseString(responseXml)
+        responseTree = etree.XML(responseXml)
+        return responseDom,responseTree
+
 
     def check_that_exchange_service_placesBets(self, marketId, contractId):
         priceInBetfairFormatBetween1and1000=250
@@ -567,27 +590,6 @@ class RequestsResponsesValidationTest(AdapterAcceptanceTest):
         responseXml = getExchangeServiceReply(request)
         print "============CANCEL_BY_MARKET: %s"%responseXml
         responseDom = parseString(responseXml)
-
-    def test_exchange_service_getMarketPricesCompressed(self):
-        marketId = 133320#with prices
-        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
-        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
-        marketPrices = responseTree.xpath("//*[local-name()='marketPrices']/text()")[0]
-        self.assertTrue(marketPrices.startswith("%s~GBP~ACTIVE~0~1~None~False~comission~0~~N"%str(marketId)))
-
-    def test_exchange_service_getMarketPricesCompressed_returns_invalid_marker_error_on_unexisting_market(self):
-        marketId = 36913111#invalid
-        responseDom,responseTree = self.executeGetMarketPricesCompressed(marketId)
-        self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_INVALID_MARKET)
-        self.assertEqual([], responseTree.xpath("//*[local-name()='marketPrices']/text()"))
-
-    def executeGetMarketPricesCompressed(self, marketId):
-        request = soapMessage(getMarketPricesCompressedRequestTemplate%(RequestsResponsesValidationTest.validSessionToken, marketId))
-        responseXml = getExchangeServiceReply(request)
-        print "============getMarketPricesCompressed: %s"%responseXml
-        responseDom = parseString(responseXml)
-        responseTree = etree.XML(responseXml)
-        return responseDom,responseTree
 
     def test_exchange_service_getMarket(self):
         testMarketId = 1111111
