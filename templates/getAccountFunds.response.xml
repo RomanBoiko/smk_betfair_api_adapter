@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+        <ns1:getAccountFundsResponse>
+            <ns1:Result>
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
+                </header>
+                <availBalance xsi:type="xsd:double">10.000000</availBalance>
+                <balance xsi:type="xsd:double">10.000000</balance>
+                <commissionRetain xsi:type="xsd:double">0.000000</commissionRetain>
+                <creditLimit xsi:type="xsd:double">0.000000</creditLimit>
+                <currentBetfairPoints xsi:type="xsd:int">0</currentBetfairPoints>
+                <expoLimit xsi:type="xsd:double">0.000000</expoLimit>
+                <exposure xsi:type="xsd:double">-0.126900</exposure>
+                <holidaysAvailable xsi:type="xsd:int">0</holidaysAvailable>
+                <minorErrorCode xsi:nil="1"/>
+                <nextDiscount xsi:type="xsd:double">0.000000</nextDiscount>
+                <withdrawBalance xsi:type="xsd:double">10.000000</withdrawBalance>
+                <errorCode xsi:type="ns2:GetAccountFundsErrorEnum">OK</errorCode>
+            </ns1:Result>
+        </ns1:getAccountFundsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

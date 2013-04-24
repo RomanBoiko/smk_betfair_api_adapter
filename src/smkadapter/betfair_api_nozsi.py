@@ -28,7 +28,8 @@ def readFile(path):
 
 actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
-           "logout": lambda x:logout(x)}
+           "logout": lambda x:logout(x),
+           "getAccountFunds": lambda x:getAccountFunds(x)}
 
 def dispatchRequest(request):
     requestType = etree.XML(request).xpath("local-name(//*[local-name()='Body']/*[1])")
@@ -70,3 +71,8 @@ def logout(request):
         errorCode = ERROR_API_ERROR
     return Template(readFile("templates/logout.response.xml")).render(errorCode=errorCode)
 
+def getAccountFunds(request):
+    requestTree = etree.XML(request)
+    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    getAccountFundsResult = BUSINESS_UNIT.getAccountFunds(sessionId)
+    return Template(readFile("templates/getAccountFunds.response.xml")).render(sessionId=sessionId)

@@ -14,7 +14,7 @@
 |11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |          |
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |          |
 |13 |GetBetDetails             | Yes | No  | Yes | Ready |          |
-|14 |Logout                    | Yes | No  | No  | Ready |          |
+|14 |Logout                    | Yes | No  | No  | Ready |   YES    |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |          |
 |16 |GetAllMarkets             | No  | Yes | Yes | Ready |          |
 |17 |GetBetsHistory            | No  | Yes | Yes | Ready |          |
