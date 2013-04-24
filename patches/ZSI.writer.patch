@@ -1,4 +1,0 @@
-52c52
-<         return str(self.dom)
----
->         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+str(self.dom)

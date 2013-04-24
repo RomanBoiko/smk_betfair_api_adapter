@@ -1,2 +1,0 @@
-303a304
->         print "======4>"+str(node)+"==pr==>"+str(node.prefix)+"===type==>"+str(node.namespaceURI)+"====attributes===>"+str(node.attributes.values())
