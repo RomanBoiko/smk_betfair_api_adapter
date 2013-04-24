@@ -7,7 +7,7 @@ from ConfigParser import SafeConfigParser
 class Config(object):
     def __init__(self):
         self.configParser = SafeConfigParser()
-        self.configParser.read('config/devenv.cfg')
+        self.configParser.read('config/sandbox.cfg')
 
     def defaultProperty(self, configKey):
         return self.configParser.get('default', configKey)

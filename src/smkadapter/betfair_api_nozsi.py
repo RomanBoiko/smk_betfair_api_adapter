@@ -26,12 +26,15 @@ def readFile(path):
     fileStream.close()
     return data
 
+actions = {"login": lambda x:login(x),
+           "getAllEventTypes": lambda x:getAllEventTypes(x),
+           "logout": lambda x:logout(x)}
+
 def dispatchRequest(request):
     requestType = etree.XML(request).xpath("local-name(//*[local-name()='Body']/*[1])")
-    if requestType=="login":
-        return login(request)
-    elif requestType=="getAllEventTypes":
-        return getAllEventTypes(request)
+    action = actions.get(requestType)
+    if action is not None:
+        return action(request)
     else:
         LOGGER.error("reqyest type %s could not be dispatched"%requestType)
         return "noAction"
@@ -56,3 +59,14 @@ def getAllEventTypes(request):
     sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
     template = Template(readFile("templates/getAllEventTypes.response.xml"))
     return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(smk_api.FOOTBALL_EVENT_TYPE_ID))
+
+def logout(request):
+    requestTree = etree.XML(request)
+    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    logoutActionResult = BUSINESS_UNIT.logUserOutAndReturnResultOfAction(sessionId)
+    if logoutActionResult:
+        errorCode = ERROR_CODE_OK
+    else:
+        errorCode = ERROR_API_ERROR
+    return Template(readFile("templates/logout.response.xml")).render(errorCode=errorCode)
+

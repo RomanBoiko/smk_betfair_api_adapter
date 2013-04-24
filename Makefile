@@ -37,7 +37,7 @@ unit_tests: create_test_dir
 	$(TEST_COMMAND) tests/*_test.py
 
 integration_tests: create_test_dir
-	$(TEST_COMMAND) tests/*integration_tests.py
+	$(TEST_COMMAND) tests/integration_tests.py
 
 acceptance_tests_suit: create_test_dir
 	$(TEST_COMMAND) tests/acceptance_tests.py
@@ -49,6 +49,8 @@ test: unit_tests integration_tests acceptance_tests
 try:
 	python src/smkadapter/investigation.py ${action}
 
-
-external_client_test: dependencies
+bfpy: dependencies
 	$(TEST_COMMAND) tests/bfpybot.py
+
+#external client test
+# make stop; make start; echo "press Enter to start test...";read; make bfpy; make stop

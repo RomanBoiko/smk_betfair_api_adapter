@@ -14,8 +14,12 @@ class AdapterExternalAcceptanceTest(unittest.TestCase):
         try:
             bfrespLogin = bf.login(username=adapter_context.TEST_SMK_LOGIN, password=adapter_context.TEST_SMK_PASSWORD)
             print bfrespLogin
+
             bfrespEventTypes = bf.getAllEventTypes()
             print bfrespEventTypes
+
+            bfLogout = bf.logout()
+            print bfLogout
         except BfError, e:
             print "adapter error: %s" % str(e)
             raise

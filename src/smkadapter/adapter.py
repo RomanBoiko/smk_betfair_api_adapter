@@ -23,7 +23,7 @@ class WsdlSOAPRequestHandler(SOAPRequestHandler):
         LOGGER.info("Responding with wsdl ( %s ) on http GET request( %s )" % (wsdlfile, self.requestline))
         wsdl = open(wsdlfile).read()
         self.send_xml(wsdl)
-        
+
 def start_zsi_server(port=80, services=(), RequestHandlerClass=SOAPRequestHandler):
     address = ('127.0.0.1', port)
     sc = ServiceContainer(address, RequestHandlerClass=RequestHandlerClass)
@@ -40,10 +40,7 @@ class NoZsiPostHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         length = int(self.headers.getheader('content-length'))
         request_string = self.rfile.read(length)
         print "====>"+request_string
-        # try:
         result = betfair_api_nozsi.dispatchRequest(request_string)
-        # except:
-        #     result = 'error'
         self.wfile.write(result)
 
 
