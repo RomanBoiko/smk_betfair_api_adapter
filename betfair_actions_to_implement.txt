@@ -15,7 +15,7 @@
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |          |
 |13 |GetBetDetails             | Yes | No  | Yes | Ready |          |
 |14 |Logout                    | Yes | No  | No  | Ready |   YES    |
-|15 |GetAccountFunds           | No  | Yes | Yes | Ready |          |
+|15 |GetAccountFunds           | No  | Yes | Yes | Ready |   YES    |
 |16 |GetAllMarkets             | No  | Yes | Yes | Ready |          |
 |17 |GetBetsHistory            | No  | Yes | Yes | Ready |          |
 |18 |GetEventTypes             | No  | No  | Yes | Ready |   YES    |

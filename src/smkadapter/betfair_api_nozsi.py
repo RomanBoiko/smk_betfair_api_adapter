@@ -75,4 +75,4 @@ def getAccountFunds(request):
     requestTree = etree.XML(request)
     sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
     getAccountFundsResult = BUSINESS_UNIT.getAccountFunds(sessionId)
-    return Template(readFile("templates/getAccountFunds.response.xml")).render(sessionId=sessionId)
+    return Template(readFile("templates/getAccountFunds.response.xml")).render(sessionId=sessionId, funds=getAccountFundsResult)
