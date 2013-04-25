@@ -22,6 +22,9 @@ class AdapterExternalAcceptanceTest(unittest.TestCase):
             bfrespEventTypes = bf.getAllEventTypes()
             print bfrespEventTypes
 
+            currentBets = bf.getCurrentBets(bfpy.ExchangeUK)
+            print currentBets
+
             bfLogout = bf.logout()
             print bfLogout
         except BfError, e:

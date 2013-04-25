@@ -29,7 +29,8 @@ def readFile(path):
 actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
            "logout": lambda x:logout(x),
-           "getAccountFunds": lambda x:getAccountFunds(x)}
+           "getAccountFunds": lambda x:getAccountFunds(x),
+           "getCurrentBets": lambda x: getCurrentBets(x)}
 
 def dispatchRequest(request):
     requestType = etree.XML(request).xpath("local-name(//*[local-name()='Body']/*[1])")
@@ -76,3 +77,10 @@ def getAccountFunds(request):
     sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
     getAccountFundsResult = BUSINESS_UNIT.getAccountFunds(sessionId)
     return Template(readFile("templates/getAccountFunds.response.xml")).render(sessionId=sessionId, funds=getAccountFundsResult)
+
+def getCurrentBets(request):
+    requestTree = etree.XML(request)
+    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    currentBets = BUSINESS_UNIT.getBetsForAccount(sessionId)
+    return Template(readFile("templates/getCurrentBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)
+
