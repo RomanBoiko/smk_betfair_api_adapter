@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+        <ns1:placeBetsResponse>
+            <ns1:Result>
+                <header>
+                    <errorCode>OK</errorCode>
+                    <minorErrorCode xsi:nil="1"></minorErrorCode>
+                    <sessionToken>9fb148b2fb154e84a61073bf9cef670a</sessionToken>
+                    <timestamp>2013-04-28T14:01:09.006Z</timestamp>
+                </header>
+                <betResults xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+                    <ns2:PlaceBetsResult>
+                        <averagePriceMatched>0.000000</averagePriceMatched>
+                        <betId>75162014172928551</betId>
+                        <resultCode>OK</resultCode>
+                        <sizeMatched>0.000000</sizeMatched>
+                        <success>true</success>
+                    </ns2:PlaceBetsResult>
+                </betResults>
+                <errorCode>OK</errorCode>
+                <minorErrorCode xsi:nil="1"></minorErrorCode>
+            </ns1:Result>
+        </ns1:placeBetsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

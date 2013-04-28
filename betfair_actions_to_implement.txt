@@ -36,3 +36,4 @@
 -test for updateBets
 -how to find selectionId=contractId from Market details? maybe wrong level of market==contract in getEvents?
 -Delimited response in GetMarketPricesCompressed - test prices and currency
+-getEventTypes - replace hardcoded Football with one from getEvents

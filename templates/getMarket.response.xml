@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+        <ns1:getMarketResponse>
+            <ns1:Result>
+                <header>
+                    <errorCode>OK</errorCode>
+                    <minorErrorCode xsi:nil="1"></minorErrorCode>
+                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
+                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
+                </header>
+                <errorCode>OK</errorCode>
+                <market>
+                    <countryISO3>xsd:string</countryISO3>
+                    <discountAllowed>false</discountAllowed>
+                    <eventTypeId>1</eventTypeId>
+                    <lastRefresh>2</lastRefresh>
+                    <marketBaseRate>1.000000</marketBaseRate>
+                    <marketDescription>xsd:string</marketDescription>
+                    <marketDescriptionHasDate>false</marketDescriptionHasDate>
+                    <marketDisplayTime>2013-04-28T14:13:07.006Z</marketDisplayTime>
+                    <marketId>1111111</marketId>
+                    <marketStatus>ACTIVE</marketStatus>
+                    <marketSuspendTime>2013-04-28T14:13:07.006Z</marketSuspendTime>
+                    <marketTime>2013-04-28T14:13:07.006Z</marketTime>
+                    <marketType>NOT_APPLICABLE</marketType>
+                    <marketTypeVariant>D</marketTypeVariant>
+                    <menuPath xsi:nil="1"></menuPath>
+                    <eventHierarchy xsi:nil="1"></eventHierarchy>
+                    <name>xsd:string</name>
+                    <numberOfWinners>1</numberOfWinners>
+                    <parentEventId>1</parentEventId>
+                    <runners xsi:nil="1"></runners>
+                    <unit xsi:nil="1"></unit>
+                    <maxUnitValue xsi:nil="1"></maxUnitValue>
+                    <minUnitValue xsi:nil="1"></minUnitValue>
+                    <interval xsi:nil="1"></interval>
+                    <runnersMayBeAdded>false</runnersMayBeAdded>
+                    <timezone xsi:nil="1"></timezone>
+                    <licenceId>1</licenceId>
+                    <couponLinks xsi:nil="1"></couponLinks>
+                    <bspMarket>false</bspMarket>
+                </market>
+                <minorErrorCode xsi:nil="1"></minorErrorCode>
+            </ns1:Result>
+        </ns1:getMarketResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

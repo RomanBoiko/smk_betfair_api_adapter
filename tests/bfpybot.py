@@ -24,6 +24,8 @@ class AdapterExternalAcceptanceTest(unittest.TestCase):
 
             currentBets = bf.getCurrentBets(bfpy.ExchangeUK)
             print currentBets
+            
+            self.placeBets(bf)
 
             bfLogout = bf.logout()
             print bfLogout
@@ -32,3 +34,24 @@ class AdapterExternalAcceptanceTest(unittest.TestCase):
             raise
         else:
             print "Test succeeded"
+            
+    def placeBets(self, bf):
+        placeBet = bf.createPlaceBets()
+
+        placeBet.asianLineId = 0
+        # Man City = 47999
+        # Chelsea = 55190
+        placeBet.selectionId = 200153
+        placeBet.price = 500.0
+        placeBet.size = 2.0
+        placeBet.bspLiability = 0.0
+        placeBet.betType = 'B'
+        placeBet.betCategoryType = 'E'
+        placeBet.betPersistenceType = 'NONE'
+        # English Premier League Winner 2011/2012
+        placeBet.marketId = 135615
+        
+        response = bf.placeBets(bfpy.ExchangeUK, bets=[placeBet])
+        print response
+#        print 'sleeping 5 seconds'
+#        bet = response.betResults[0]

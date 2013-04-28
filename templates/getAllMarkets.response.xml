@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+        <ns1:getAllMarketsResponse>
+            <ns1:Result>
+                <header>
+                    <errorCode>OK</errorCode>
+                    <minorErrorCode xsi:nil="1"></minorErrorCode>
+                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
+                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
+                </header>
+                <errorCode>OK</errorCode>
+                <marketData>135629~Panthrakikos to score in both
+                    halves~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135628~Over/under
+                    6.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135625~Over/under
+                    3.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135624~Over/under
+                    2.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135627~Over/under
+                    5.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135626~Over/under
+                    4.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135621~Half
+                    time score for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135620~Half
+                    time winner for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135623~Over/under
+                    1.5 for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135622~Total
+                    Goals for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135615~Winner
+                    of Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135663~Asian
+                    handicap Olympiakos CFP
+                    +3.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135662~Asian
+                    handicap Olympiakos CFP
+                    +3.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135658~Asian
+                    handicap Olympiakos CFP
+                    +2.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135659~Asian
+                    handicap Olympiakos CFP
+                    +2.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135654~Asian
+                    handicap Olympiakos CFP
+                    +1.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135655~Asian
+                    handicap Olympiakos CFP
+                    +1.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135656~Asian
+                    handicap Olympiakos CFP
+                    +1.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135657~Asian
+                    handicap Olympiakos CFP
+                    +2.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135650~Asian
+                    handicap Olympiakos CFP
+                    +0.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135651~Asian
+                    handicap Olympiakos CFP
+                    +0.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135652~Asian
+                    handicap Olympiakos CFP
+                    +0.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135653~Asian
+                    handicap Olympiakos CFP
+                    +1.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135618~Correct
+                    Score for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135619~Panthrakikos
+                    vs. Olympiakos Piraeus: both
+                    score~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135638~Asian
+                    handicap Panthrakikos FC
+                    +1.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135639~Asian
+                    handicap Panthrakikos FC
+                    +1.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135636~Asian
+                    handicap Panthrakikos FC
+                    +0.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135637~Asian
+                    handicap Panthrakikos FC
+                    +1.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135634~Asian
+                    handicap Panthrakikos FC
+                    +0.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135635~Asian
+                    handicap Panthrakikos FC
+                    +0.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135632~Olympiakos
+                    Piraeus to keep a clean
+                    sheet~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135633~Asian
+                    handicap Panthrakikos FC
+                    +0.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135630~Panthrakikos
+                    to keep a clean
+                    sheet~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135631~Olympiakos
+                    Piraeus to score in both
+                    halves~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135616~Draw
+                    no
+                    bet~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135617~Half-time/full-time
+                    winners for Panthrakikos vs. Olympiakos
+                    Piraeus~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135661~Asian
+                    handicap Olympiakos CFP
+                    +3.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135660~Asian
+                    handicap Olympiakos CFP
+                    +2.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135649~Asian
+                    handicap Panthrakikos FC +INFO:smarkets.smarkets:dispatching
+                    callback seto.orders_for_account
+                    localhost - - [28/Apr/2013 14:13:07] "POST /BFExchangeService HTTP/1.0" 200
+                    -
+                    INFO:smarkets.smarkets:dispatching callback seto.orders_for_account
+                    localhost - - [28/Apr/2013 14:13:07] "POST /BFExchangeService HTTP/1.0" 200
+                    -
+                    localhost - - [28/Apr/2013 14:13:07] "POST /BFExchangeService HTTP/1.0" 200
+                    -
+                    4.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135648~Asian
+                    handicap Panthrakikos FC
+                    +3.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135665~Asian
+                    handicap Olympiakos CFP
+                    +4.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135664~Asian
+                    handicap Olympiakos CFP
+                    +3.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135643~Asian
+                    handicap Panthrakikos FC
+                    +2.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135642~Asian
+                    handicap Panthrakikos FC
+                    +2.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135641~Asian
+                    handicap Panthrakikos FC
+                    +2.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135640~Asian
+                    handicap Panthrakikos FC
+                    +1.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135647~Asian
+                    handicap Panthrakikos FC
+                    +3.50~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135646~Asian
+                    handicap Panthrakikos FC
+                    +3.25~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135645~Asian
+                    handicap Panthrakikos FC
+                    +3.00~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y:135644~Asian
+                    handicap Panthrakikos FC
+                    +2.75~125062~ACTIVE~2013-04-28T17:00:00~menuPath~eventHierarchy~betDelay~1~lastRefresh~2~1~0.0~N~Y
+                </marketData>
+                <minorErrorCode xsi:nil="1"></minorErrorCode>
+            </ns1:Result>
+        </ns1:getAllMarketsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

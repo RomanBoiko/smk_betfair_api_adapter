@@ -30,21 +30,36 @@ actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
            "logout": lambda x:logout(x),
            "getAccountFunds": lambda x:getAccountFunds(x),
-           "getCurrentBets": lambda x: getCurrentBets(x)}
+           "getCurrentBets": lambda x: getCurrentBets(x),
+           "placeBets": lambda x: placeBets(x)}
+
+class BetfairRequest(object):
+    def __init__(self, request):
+        self.requestTree = etree.XML(request)
+
+    def actionName(self):
+        return self.requestTree.xpath("local-name(//*[local-name()='Body']/*[1])")
+
+    def sessionId(self):
+        return self.requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+
+    def xpath(self, xpathValue):
+        return self.requestTree.xpath(xpathValue)\
 
 def dispatchRequest(request):
-    requestType = etree.XML(request).xpath("local-name(//*[local-name()='Body']/*[1])")
+    betfairRequest = BetfairRequest(request)
+    requestType = betfairRequest.actionName()
     action = actions.get(requestType)
     if action is not None:
-        return action(request)
+        return action(betfairRequest)
     else:
-        LOGGER.error("reqyest type %s could not be dispatched"%requestType)
-        return "noAction"
+        errorMessage = "reqyest type %s could not be dispatched"%requestType
+        LOGGER.error(errorMessage)
+        return errorMessage
 
 def login(request):
-    requestTree = etree.XML(request)
-    username = requestTree.xpath("//*[local-name()='username']/text()")[0]
-    password = requestTree.xpath("//*[local-name()='password']/text()")[0]
+    username = request.xpath("//*[local-name()='username']/text()")[0]
+    password = request.xpath("//*[local-name()='password']/text()")[0]
     template = Template(readFile("templates/login.response.xml"))
 
     loginResult = BUSINESS_UNIT.authenticateUserAndReturnHisSessionToken(username, password)
@@ -57,8 +72,7 @@ def login(request):
         return template.render(sessionId="", errorCode=ERROR_INVALID_USERNAME_OR_PASSWORD, currency="")
 
 def getAllEventTypes(request):
-    requestTree = etree.XML(request)
-    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    sessionId = request.session_id()
     template = Template(readFile("templates/getAllEventTypes.response.xml"))
     return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(smk_api.FOOTBALL_EVENT_TYPE_ID))
 
@@ -73,14 +87,17 @@ def logout(request):
     return Template(readFile("templates/logout.response.xml")).render(errorCode=errorCode)
 
 def getAccountFunds(request):
-    requestTree = etree.XML(request)
-    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    sessionId = request.session_id()
     getAccountFundsResult = BUSINESS_UNIT.getAccountFunds(sessionId)
     return Template(readFile("templates/getAccountFunds.response.xml")).render(sessionId=sessionId, funds=getAccountFundsResult)
 
 def getCurrentBets(request):
-    requestTree = etree.XML(request)
-    sessionId = requestTree.xpath("//*[local-name()='sessionToken']/text()")[0]
+    sessionId = request.session_id()
     currentBets = BUSINESS_UNIT.getBetsForAccount(sessionId)
     return Template(readFile("templates/getCurrentBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)
 
+def placeBets(request):
+    sessionId = request.session_id()
+    placeBets = sessionId = requestTree.xpath("//*[local-name()='PlaceBets']")
+#    betResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
+    return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)

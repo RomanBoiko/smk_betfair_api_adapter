@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+        <ns1:cancelBetsResponse>
+            <ns1:Result>
+                <header>
+                    <errorCode>OK</errorCode>
+                    <minorErrorCode xsi:nil="1"></minorErrorCode>
+                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
+                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
+                </header>
+                <betResults xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+                    <ns2:CancelBetsResult>
+                        <betId>75162022836770359</betId>
+                        <resultCode>OK</resultCode>
+                        <sizeCancelled>0.000000</sizeCancelled>
+                        <sizeMatched>0.000000</sizeMatched>
+                        <success>true</success>
+                    </ns2:CancelBetsResult>
+                </betResults>
+                <errorCode>OK</errorCode>
+                <minorErrorCode xsi:nil="1"></minorErrorCode>
+            </ns1:Result>
+        </ns1:cancelBetsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
