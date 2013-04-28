@@ -21,13 +21,14 @@
 |18 |GetEventTypes             | No  | No  | Yes | Ready |   YES    |
 |19 |GetInPlayMarkets          | No  | No  | Yes |  --   |          |
 |20 |GetAccountStatement       | No  | No  | Yes |  --   |          |
+|21 |GetCurrentBets            | No  | No  | No  | Ready |   YES    |
 =====================================================================
 
 
 ==TODO:
 -to make DISTINCT in cancelBetsByMarket response
 -change bet._size in bet details result into quantityFilled from smk
--test for buy/sell on bets placing
+-show market name in getBets
 -get NotActive events for previous days in getEvents response
 -fix path to market in menu and eventId hierarchy in getAllMarkets
 -change date to be in millis since Unix Epoch in delimited responses?

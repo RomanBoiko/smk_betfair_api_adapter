@@ -1,230 +1,56 @@
 <?xml version="1.0"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <SOAP-ENV:Header/>
-    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/">
+    <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
         <ns1:getCurrentBetsResponse>
-            <ns1:Result>
-                <header>
-                    <errorCode>OK</errorCode>
-                    <minorErrorCode xsi:nil="1"/>
-                    <sessionToken>{{sessionId}}</sessionToken>
-                    <timestamp>2013-04-25T22:42:02.003Z</timestamp>
+            <ns1:Result xsi:type="ns2:GetCurrentBetsResp">
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
-                <bets xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>250.000000</avgPrice>
-                        <betId>84181882988117912</betId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>382892</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>30000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>250.000000</price>
-                        <bspLiability>30000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>602082</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>30000.000000</remainingSize>
-                        <requestedSize>30000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>250.000000</avgPrice>
-                        <betId>84610865409198292</betId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>377282</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>30000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>250.000000</price>
-                        <bspLiability>30000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>590422</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>30000.000000</remainingSize>
-                        <requestedSize>30000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>100.000000</avgPrice>
-                        <betId>84181877003547231</betId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>369133</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>100000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>100.000000</price>
-                        <bspLiability>100000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>573521</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>100000.000000</remainingSize>
-                        <requestedSize>100000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>100.000000</avgPrice>
-                        <betId>84181869174073641</betId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>369133</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>100000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>100.000000</price>
-                        <bspLiability>100000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>573521</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>100000.000000</remainingSize>
-                        <requestedSize>100000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>240.000000</avgPrice>
-                        <betId>84181761152778484</betId>
-                        <betStatus>M</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>276267</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>220000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>240.000000</price>
-                        <bspLiability>220000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>380942</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>220000.000000</remainingSize>
-                        <requestedSize>220000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>240.000000</avgPrice>
-                        <betId>84181754822673358</betId>
-                        <betStatus>M</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>276267</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>220000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>240.000000</price>
-                        <bspLiability>220000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>380942</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>220000.000000</remainingSize>
-                        <requestedSize>220000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
-                    <ns2:Bet>
-                        <asianLineId>0</asianLineId>
-                        <avgPrice>240.000000</avgPrice>
-                        <betId>84181744266264497</betId>
-                        <betStatus>M</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <cancelledDate>2013-04-25T22:42:03.003Z</cancelledDate>
-                        <lapsedDate>2013-04-25T22:42:03.003Z</lapsedDate>
-                        <marketId>276267</marketId>
-                        <marketName xsi:nil="1"/>
-                        <fullMarketName xsi:nil="1"/>
-                        <marketType>NOT_APPLICABLE</marketType>
-                        <marketTypeVariant>D</marketTypeVariant>
-                        <matchedDate>2013-04-25T22:42:03.003Z</matchedDate>
-                        <matchedSize>220000.000000</matchedSize>
-                        <matches xsi:nil="1"/>
-                        <placedDate>2013-04-25T22:42:03.003Z</placedDate>
-                        <price>240.000000</price>
-                        <bspLiability>220000.000000</bspLiability>
-                        <profitAndLoss>0.000000</profitAndLoss>
-                        <selectionId>380942</selectionId>
-                        <selectionName xsi:nil="1"/>
-                        <settledDate>2013-04-25T22:42:03.003Z</settledDate>
-                        <remainingSize>220000.000000</remainingSize>
-                        <requestedSize>220000.000000</requestedSize>
-                        <voidedDate>2013-04-25T22:42:03.003Z</voidedDate>
-                        <handicap>0.000000</handicap>
-                    </ns2:Bet>
+                <bets xsi:type="ns2:ArrayOfBet" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+                    {% for bet in bets %}
+                        <ns2:Bet xsi:type="ns2:Bet">
+                            <asianLineId xsi:type="xsd:int">0</asianLineId>
+                            <avgPrice xsi:type="xsd:double">{{bet.priceInBetfairFormatBetween1and1000}}</avgPrice>
+                            <betId xsi:type="xsd:long">{{bet.id}}</betId>
+                            <betStatus xsi:type="ns2:BetStatusEnum">{{bet.status}}</betStatus>
+                            {% if bet.isBetTypeBuy %}
+                                <betType xsi:type="ns2:BetTypeEnum">B</betType>
+                            {% else %}
+                                <betType xsi:type="ns2:BetTypeEnum">L</betType>
+                            {% endif %}
+                            <betCategoryType xsi:type="ns2:BetCategoryTypeEnum">NONE</betCategoryType>
+                            <betPersistenceType xsi:type="ns2:BetPersistenceTypeEnum">NONE</betPersistenceType>
+                            <cancelledDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</cancelledDate>
+                            <lapsedDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</lapsedDate>
+                            <marketId xsi:type="xsd:int">{{bet.marketId}}</marketId>
+                            <marketName xsi:type="xsd:string">optional</marketName>
+                            <fullMarketName xsi:type="xsd:string">optional</fullMarketName>
+                            <marketType xsi:type="ns2:MarketTypeEnum">NOT_APPLICABLE</marketType>
+                            <marketTypeVariant xsi:type="ns2:MarketTypeVariantEnum">D</marketTypeVariant>
+                            <matchedDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</matchedDate>
+                            <matchedSize  xsi:type="xsd:double">{{bet.quantity}}</matchedSize>
+                            <matches xsi:nil="1"/>
+                            <placedDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</placedDate>
+                            <price xsi:type="xsd:double">{{bet.priceInBetfairFormatBetween1and1000}}</price>
+                            <bspLiability xsi:type="xsd:double">0000.000000</bspLiability>
+                            <profitAndLoss xsi:type="xsd:double">0.000000</profitAndLoss>
+                            <selectionId xsi:type="xsd:int">{{bet.contractId}}</selectionId>
+                            <selectionName xsi:nil="1"/>
+                            <settledDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</settledDate>
+                            <remainingSize xsi:type="xsd:double">{{bet.quantity}}</remainingSize>
+                            <requestedSize xsi:type="xsd:double">{{bet.quantity}}</requestedSize>
+                            <voidedDate xsi:type="xsd:dateTime">2013-04-25T22:42:03.003Z</voidedDate>
+                            <handicap xsi:type="xsd:double">0.000000</handicap>
+                        </ns2:Bet>
+                    {% endfor %}
                 </bets>
-                <errorCode>OK</errorCode>
+                <errorCode xsi:type="ns2:GetCurrentBetsErrorEnum">OK</errorCode>
                 <minorErrorCode xsi:nil="1"/>
-                <totalRecordCount>0</totalRecordCount>
+                <totalRecordCount xsi:type="xsd:int">0</totalRecordCount>
             </ns1:Result>
         </ns1:getCurrentBetsResponse>
     </SOAP-ENV:Body>
