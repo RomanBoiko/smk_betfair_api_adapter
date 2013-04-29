@@ -18,7 +18,7 @@ ERROR_BET_NOT_CANCELLED = "BET_NOT_CANCELLED"
 ERROR_INVALID_MARKET = "INVALID_MARKET"
 
 BUSINESS_UNIT = BusinessUnit()
-LOGGER = logging.getLogger('[betfair.api]')
+LOG = logging.getLogger('[betfair.api]')
 
 def businessUnit():
     return BUSINESS_UNIT
@@ -60,7 +60,7 @@ def dispatchRequest(request):
         return action(betfairRequest)
     else:
         errorMessage = "request type %s could not be dispatched"%requestType
-        LOGGER.error(errorMessage)
+        LOG.error(errorMessage)
         return errorMessage
 
 def login(request):
@@ -103,6 +103,6 @@ def getCurrentBets(request):
 
 def placeBets(request):
     sessionId = request.sessionId()
-    placeBets = sessionId = requestTree.xpath("//*[local-name()='PlaceBets']")
-#    betResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
-    return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)
+    placeBets = request.xpath("//*[local-name()='PlaceBets']")
+#    betsResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
+#    return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)

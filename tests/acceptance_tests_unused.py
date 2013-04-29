@@ -413,6 +413,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         footballEventTypeId = str(smk_api.FOOTBALL_EVENT_TYPE_ID)
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, footballEventTypeId))
         responseXml = getGlobalServiceReply(request)
+        print "============resp>getEvents: %s"%responseXml
         responseDom = parseString(responseXml)
 
         self.validateEventTypeAndParentIds(responseDom, footballEventTypeId, footballEventTypeId)
@@ -433,6 +434,7 @@ class WorkflowTest(AdapterAcceptanceTest):
     def check_that_markets_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
+        print "============resp>getEvents: %s"%responseXml
         responseDom = parseString(responseXml)
 
         self.validateEventTypeAndParentIds(responseDom, eventTypeId, parentEventId)
@@ -442,6 +444,7 @@ class WorkflowTest(AdapterAcceptanceTest):
     def check_that_contracts_can_be_retreived_by_getEvents_request(self, parentEventId, eventTypeId):
         request = soapMessage(getEventsRequestTemplate%(WorkflowTest.validSessionToken, parentEventId))
         responseXml = getGlobalServiceReply(request)
+        print "============resp>getEventsForContracts: %s"%responseXml
         responseDom = parseString(responseXml)
 
         self.validateEventTypeAndParentIds(responseDom, eventTypeId, parentEventId)
@@ -475,7 +478,7 @@ class WorkflowTest(AdapterAcceptanceTest):
     def executeGetMarketPricesCompressed(self, marketId):
         request = soapMessage(getMarketPricesCompressedRequestTemplate%(WorkflowTest.validSessionToken, marketId))
         responseXml = getExchangeServiceReply(request)
-        print "============getMarketPricesCompressed: %s"%responseXml
+        print "============resp>getMarketPricesCompressed: %s"%responseXml
         responseDom = parseString(responseXml)
         responseTree = etree.XML(responseXml)
         return responseDom,responseTree
@@ -487,6 +490,7 @@ class WorkflowTest(AdapterAcceptanceTest):
 
         request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, marketId, priceInBetfairFormatBetween1and1000, contractId, quantityInPounds, quantityInPounds))
         responseXml = getExchangeServiceReply(request)
+        print "============resp>placeBets: %s"%responseXml
         responseDom = parseString(responseXml)
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertEqual(textFromElement(responseDom, "averagePriceMatched", 0), "0.000000")
@@ -505,6 +509,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, betId))
         responseXml = getExchangeServiceReply(request)
         responseDom = parseString(responseXml)
+        print "============resp>cancelBets: %s"%responseXml
         self.assertResultErrorCodeIs(responseDom, betfair_api.ERROR_CODE_OK)
         self.assertEqual(textFromElement(responseDom, "success", 0), "true")
         self.assertEqual(textFromElement(responseDom, "betId", 0), str(betId))
@@ -517,6 +522,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         unexistingContractId = 0
         request = soapMessage(placeBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingMarketId, priceInBetfairFormatBetween1and1000, unexistingContractId, quantityInPounds, quantityInPounds))
         responseXml = getExchangeServiceReply(request)
+        print "============resp>placeBetsUnsuccessful: %s"%responseXml
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_CANNOT_ACCEPT_BET)
         self.assertEqual(textFromElement(responseDom, "success", 0), "false")
@@ -526,6 +532,7 @@ class WorkflowTest(AdapterAcceptanceTest):
         unexistingBetId = 0
         request = soapMessage(cancelBetsRequestTemplate%(WorkflowTest.validSessionToken, unexistingBetId))
         responseXml = getExchangeServiceReply(request)
+        print "============resp>cancelBetsUnsuccessful: %s"%responseXml
         responseDom = parseString(responseXml)
         self.assertEqual(textFromElement(responseDom, "success", 0), "false")
         self.assertEqual(textFromElement(responseDom, "resultCode", 0), betfair_api.ERROR_BET_NOT_CANCELLED)

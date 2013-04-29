@@ -4,8 +4,6 @@ import pprint
 from xmlrpclib import datetime
 from datetime import timedelta
 
-from google.protobuf import text_format
-
 import smarkets
 import smarkets.seto.piqi_pb2 as seto
 from smarkets.uuid import Uuid, uuid_to_int
@@ -13,7 +11,7 @@ from smarkets.exceptions import SocketDisconnected
 
 import adapter_context
 
-LOGGER = logging.getLogger('[smk.api]')
+LOG = logging.getLogger('[smk.api]')
 FOOTBALL_EVENT_TYPE_ID = 125062
 SMK_CASH_MULTIPLIER = 10000
 SMK_STATUS_TO_BETFAIR_STATUS_MAP = {
@@ -85,8 +83,8 @@ class BetCancel(object):
         return self.__str__()
 
 class BetDetails(object):
-    def __init__(self, id, marketId, contractId, price, status, quantity, createdDateInMillis, isBetTypeBuy):
-        self.id = id
+    def __init__(self, betId, marketId, contractId, price, status, quantity, createdDateInMillis, isBetTypeBuy):
+        self.id = betId
         self.marketId = marketId
         self.contractId = contractId
         self.priceInBetfairFormatBetween1and1000 = smkPriceToBetfairPriceInFormatBetween1and1000(price)
@@ -322,7 +320,7 @@ class EventsCache(object):
 
 
 class SmkClient(object):
-    LOGGER = logging.getLogger('[smk.client]')
+    LOG = logging.getLogger('[smk.client]')
     
     def __init__(self, client):
         self.smkResponse = None
@@ -336,14 +334,14 @@ class SmkClient(object):
 
     def periodicalFlush(self):
         while not self.threadStopEvent.is_set():
-            LOGGER.info("periodicalFlush: wake up")
+            LOG.info("periodicalFlush: wake up")
             self.clientLock.acquire()
             try:
                 self.client.read()
                 self.client.flush()
             finally:
                 self.clientLock.release()
-            LOGGER.info("periodicalFlush: go to sleep")
+            LOG.info("periodicalFlush: go to sleep")
             self.threadStopEvent.wait(10)
         
     def logout(self):
@@ -415,7 +413,7 @@ class SmkClient(object):
         if content_type == 'application/x-protobuf':
             incoming_payload = seto.Events()
             incoming_payload.ParseFromString(result)
-            self.LOGGER.debug("Response from %s received"%(serviceUrl))
+            self.LOG.debug("Response from %s received"%(serviceUrl))
             return incoming_payload
         return "return nothing - fix"
 

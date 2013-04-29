@@ -29,7 +29,7 @@ create_test_dir:
 	mkdir -p build/test
 
 
-unit_tests: create_test_dir
+unit_tests: create_test_dir dependencies
 	$(TEST_COMMAND) tests/*_test.py
 
 integration_tests: create_test_dir
@@ -40,17 +40,8 @@ acceptance_tests_suit: create_test_dir
 
 acceptance_tests: start acceptance_tests_suit stop
 
-test: unit_tests integration_tests acceptance_tests
+#test: unit_tests integration_tests acceptance_tests
+test: unit_tests
 
 try:
 	python src/smkadapter/investigation.py ${action}
-
-bfpy: dependencies
-	$(TEST_COMMAND) tests/bfpybot.py
-
-api_test:
-	$(TEST_COMMAND) tests/betfair_api_test.py
-
-
-#external client test
-# make stop; make start; echo "press Enter to start test...";read; make bfpy; make stop

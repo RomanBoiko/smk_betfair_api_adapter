@@ -1,5 +1,4 @@
 import logging
-import datetime
 import traceback
 import sys
 from google.protobuf import text_format
@@ -7,10 +6,10 @@ from google.protobuf import text_format
 import smk_api
 import adapter_context
 
-LOGGER = logging.getLogger('[investigation]')
+LOG = logging.getLogger('[investigation]')
 
 def global_callback(message_name, message):
-    LOGGER.error("============> [global] Received a %s: %s" % 
+    LOG.error("[global] Received a %s: %s" % 
                  (message_name,
                   text_format.MessageToString(message)))
 
@@ -19,17 +18,17 @@ def smkAction(action):
     client.client.add_global_handler(global_callback)
 
     try:
-        print "===========>"+str(action(client).result)
+        LOG.info("[action result] %s"%str(action(client).result))
     except:
-        LOGGER.error("**********error occured")
-        LOGGER.error("Unexpected error: %s", traceback.format_exc())
+        LOG.error("**********error occured")
+        LOG.error("Unexpected error: %s", traceback.format_exc())
         
     finally:
         client.logout()
 
 def main():
     if len(sys.argv) < 2:
-        print "==>command line argument not specified"
+        LOG.error("==>command line argument not specified")
     else:
         option = sys.argv[1]
         if option == "events":

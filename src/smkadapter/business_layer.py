@@ -1,17 +1,16 @@
 import uuid
 import logging
-import datetime
 
 import smk_api
 
 class SessionStorage(object):
     "Encapsulates client authentication actions and active clients storage"
     SESSION_TOKEN_LENGTH=32
-    LOGGER = logging.getLogger('[session.storage]')
+    LOG = logging.getLogger('[session.storage]')
 
     def __init__(self):
         self.authenticatedClients = {}
-        self.LOGGER.info("empty Smarkets SessionStorage started ")
+        self.LOG.info("empty Smarkets SessionStorage started ")
 
     def newSessionId(self):
         return uuid.uuid4().hex
@@ -41,14 +40,14 @@ class SessionStorage(object):
             return False
 
 class BusinessUnit(object):
-    LOGGER = logging.getLogger('[business.unit]')
+    LOG = logging.getLogger('[business.unit]')
     
     def __init__(self):
         self.sessionStorage = SessionStorage()
         self.authenticateUserAndReturnHisSessionToken = self.sessionStorage.authenticateUserAndReturnHisSessionToken
         self.logUserOutAndReturnResultOfAction = self.sessionStorage.logUserOutAndReturnResultOfAction
         self.getClientIfTokenIsValid = self.sessionStorage.getClientIfTokenIsValid
-        self.LOGGER.info("BusinessUnit started ")
+        self.LOG.info("BusinessUnit started ")
         
     def getTodaysFootballEvents(self, sessionToken):
         client = self.getClientIfTokenIsValid(sessionToken)
