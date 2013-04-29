@@ -8,8 +8,8 @@ dependencies:
 	rm -Rf dependencies
 	mkdir dependencies
 	git clone https://code.google.com/p/bfpy/ dependencies/bfpy
-	sed -i.bak 's/https:\/\/api.betfair.com\/global\/v3\/BFGlobalService/http:\/\/localhost:8889\/BFGlobalService/g' dependencies/bfpy/src/bfpy/bfglobals.py
-	sed -i.bak 's/https:\/\/api.betfair.com\/exchange\/v5\/BFExchangeService/http:\/\/localhost:8889\/BFExchangeService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	sed -i.bak 's/https:\/\/api.betfair.com\/global\/v3\/BFGlobalService/http:\/\/localhost:8888\/BFGlobalService/g' dependencies/bfpy/src/bfpy/bfglobals.py
+	sed -i.bak 's/https:\/\/api.betfair.com\/exchange\/v5\/BFExchangeService/http:\/\/localhost:8888\/BFExchangeService/g' dependencies/bfpy/src/bfpy/bfglobals.py
 
 
 clean:
@@ -47,6 +47,10 @@ try:
 
 bfpy: dependencies
 	$(TEST_COMMAND) tests/bfpybot.py
+
+api_test:
+	$(TEST_COMMAND) tests/betfair_api_test.py
+
 
 #external client test
 # make stop; make start; echo "press Enter to start test...";read; make bfpy; make stop
