@@ -12,7 +12,7 @@ import bfpy
 import bfpy.bfclient as bfclient
 from bfpy.bferror import BfError
 
-from smkadapter import smk_api,betfair_api_nozsi, adapter, adapter_context
+from smkadapter import smk_api,betfair_api, adapter, adapter_context
 
 SOAP_ENVELOPE = """<?xml version="1.0"?>
                     <soapenv:Envelope 
@@ -40,7 +40,7 @@ SESSION_TOKEN="someSessionToken"
 LOG = logging.getLogger('[betfair.api.test]')
 
 def xmlElement(xml, elementName):
-    return etree.XML(betfair_api_nozsi.unicodeXml(xml)).xpath("//*[local-name()='%s']"%elementName)
+    return etree.XML(betfair_api.unicodeXml(xml)).xpath("//*[local-name()='%s']"%elementName)
 
 def mockGetAccountFundsResponse(businessUnitMock):
     accountFundsResponseMock = businessUnitMock.getAccountFunds.return_value
@@ -51,20 +51,20 @@ def mockSuccessfulLoginResponse(businessUnitMock):
     
 
 class BetfairApiUnitTest(unittest.TestCase):
-    @patch('smkadapter.betfair_api_nozsi.businessUnit')
+    @patch('smkadapter.betfair_api.businessUnit')
     def test_login_action_to_be_dispatched_and_to_return_session_token(self, BusinessUnitMock):
         businessUnitMock = BusinessUnitMock.return_value
         mockSuccessfulLoginResponse(businessUnitMock)
         mockGetAccountFundsResponse(businessUnitMock)
 
-        result = betfair_api_nozsi.dispatchRequest(SOAP_ENVELOPE%loginRequest)
+        result = betfair_api.dispatchRequest(SOAP_ENVELOPE%loginRequest)
 
         LOG.debug("login result: %s"%result)
         businessUnitMock.authenticateUserAndReturnHisSessionToken.assert_called_with("username", "password")
         self.assertEqual(xmlElement(result, "sessionToken")[0].text, SESSION_TOKEN)
 
 class BetfairApiIntegrationTest(unittest.TestCase):
-    @patch('smkadapter.betfair_api_nozsi.businessUnit')
+    @patch('smkadapter.betfair_api.businessUnit')
     def test_flow_using_bfpy(self, BusinessUnitMock):
         businessUnitMock = BusinessUnitMock.return_value
         

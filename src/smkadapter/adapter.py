@@ -4,7 +4,7 @@ import BaseHTTPServer
 import SimpleHTTPServer
 
 import adapter_context
-import betfair_api_nozsi
+import betfair_api
 
 LOG = logging.getLogger('[adapter]')
 
@@ -13,7 +13,7 @@ class NoZsiPostHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         length = int(self.headers.getheader('content-length'))
         adapterRequest = self.rfile.read(length)
         LOG.debug("adapter_request: [%s]"%adapterRequest)
-        adapterResponse = betfair_api_nozsi.dispatchRequest(adapterRequest)
+        adapterResponse = betfair_api.dispatchRequest(adapterRequest)
         LOG.debug("adapter_response: [%s]"%adapterResponse)
         self.wfile.write(adapterResponse)
 
