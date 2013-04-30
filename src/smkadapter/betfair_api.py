@@ -104,5 +104,14 @@ def getCurrentBets(request):
 def placeBets(request):
     sessionId = request.sessionId()
     placeBets = request.xpath("//*[local-name()='PlaceBets']")
-#    betsResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
-#    return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=currentBets.bets)
+    betResults = []
+    for bet in placeBets:
+        betType = bet.find('betType').text
+        marketId = bet.find('marketId').text
+        contractId = bet.find('selectionId').text
+        sizeInPounds = bet.find('size').text
+        priceInBetfairFormatBetween1and1000 = bet.find('price').text
+        isBetTypeBuy = ("B" == betType)
+        betResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
+        betResults.append(betResult)
+    return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=betResults)

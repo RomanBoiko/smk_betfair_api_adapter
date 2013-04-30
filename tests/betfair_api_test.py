@@ -44,7 +44,9 @@ def xmlElement(xml, elementName):
 
 def mockGetAccountFundsResponse(businessUnitMock):
     accountFundsResponseMock = businessUnitMock.getAccountFunds.return_value
-    accountFundsResponseMock.currency="GBP"    accountFundsResponseMock.cash=1111.0    accountFundsResponseMock.exposure=222.0
+    accountFundsResponseMock.currency="GBP"
+    accountFundsResponseMock.cash=1111.0
+    accountFundsResponseMock.exposure=222.0
     
 def mockSuccessfulLoginResponse(businessUnitMock):
     businessUnitMock.authenticateUserAndReturnHisSessionToken.return_value = smk_api.ActionSucceeded(SESSION_TOKEN)
@@ -80,6 +82,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_access_account_funds(bfClient, businessUnitMock)
         self.should_access_event_types(bfClient, businessUnitMock)
         self.should_access_current_accounts_bets(bfClient, businessUnitMock)
+        # self.should_place_bets(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
         
         
@@ -125,30 +128,28 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         response.bets.append(smk_api.BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, True))
         response.bets.append(smk_api.BetDetails(orderId+1, marketId, contractId, price, status, quantity, createdDateInMillis, False))
         
+    def should_place_bets(self, bfClient, businessUnitMock):
+        placeBet = bfClient.createPlaceBets()
+        placeBet.asianLineId = 0
+        # Man City = 47999
+        # Chelsea = 55190
+        placeBet.selectionId = 200153
+        placeBet.price = 500
+        placeBet.size = 2.0
+        placeBet.bspLiability = 0.0
+        placeBet.betType = 'B'
+        placeBet.betCategoryType = 'E'
+        placeBet.betPersistenceType = 'NONE'
+        # English Premier League Winner 2011/2012
+        placeBet.marketId = 135615
+        
+        adapterResponse = str(bfClient.placeBets(bfpy.ExchangeUK, bets=[placeBet]))
+        #print 'sleeping 5 seconds'
+        #bet = response.betResults[0]
+        LOG.debug(adapterResponse)
+
     def should_logout_from_session(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.logout())
         LOG.debug(adapterResponse)
         businessUnitMock.logUserOutAndReturnResultOfAction.assert_called_with(SESSION_TOKEN)
         self.assertTrue('errorCode = "OK"' in adapterResponse)
-
-def placeBets(bfClient):
-    placeBet = bfClient.createPlaceBets()
-
-    placeBet.asianLineId = 0
-    # Man City = 47999
-    # Chelsea = 55190
-    placeBet.selectionId = 200153
-    placeBet.price = 500.0
-    placeBet.size = 2.0
-    placeBet.bspLiability = 0.0
-    placeBet.betType = 'B'
-    placeBet.betCategoryType = 'E'
-    placeBet.betPersistenceType = 'NONE'
-    # English Premier League Winner 2011/2012
-    placeBet.marketId = 135615
-    
-    response = bfClient.placeBets(bfpy.ExchangeUK, bets=[placeBet])
-#        print 'sleeping 5 seconds'
-#        bet = response.betResults[0]
-    return response
-

@@ -3,23 +3,23 @@
     <SOAP-ENV:Header/>
     <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
         <ns1:placeBetsResponse>
-            <ns1:Result>
-                <header>
-                    <errorCode>OK</errorCode>
-                    <minorErrorCode xsi:nil="1"></minorErrorCode>
-                    <sessionToken>9fb148b2fb154e84a61073bf9cef670a</sessionToken>
-                    <timestamp>2013-04-28T14:01:09.006Z</timestamp>
+            <ns1:Result xsi:type="ns2:PlaceBetsResp">
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
-                <betResults xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
-                    <ns2:PlaceBetsResult>
-                        <averagePriceMatched>0.000000</averagePriceMatched>
-                        <betId>75162014172928551</betId>
-                        <resultCode>OK</resultCode>
-                        <sizeMatched>0.000000</sizeMatched>
-                        <success>true</success>
+                <betResults xsi:type="ns2:ArrayOfPlaceBetsResult" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+                    <ns2:PlaceBetsResult xsi:type="ns2:PlaceBetsResult">
+                        <averagePriceMatched xsi:type="xsd:double">0.000000</averagePriceMatched>
+                        <betId xsi:type="xsd:long">75162014172928551</betId>
+                        <resultCode xsi:type="ns2:PlaceBetsResultEnum">OK</resultCode>
+                        <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
+                        <success xsi:type="xsd:boolean">true</success>
                     </ns2:PlaceBetsResult>
                 </betResults>
-                <errorCode>OK</errorCode>
+                <errorCode xsi:type="ns2:PlaceBetsErrorEnum">OK</errorCode>
                 <minorErrorCode xsi:nil="1"></minorErrorCode>
             </ns1:Result>
         </ns1:placeBetsResponse>
