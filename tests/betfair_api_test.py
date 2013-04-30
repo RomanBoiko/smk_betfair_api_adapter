@@ -2,7 +2,7 @@ import sys
 import unittest
 import time
 
-from mock import patch
+from mock import patch, Mock
 from lxml import etree
 
 import logging
@@ -82,9 +82,9 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_access_account_funds(bfClient, businessUnitMock)
         self.should_access_event_types(bfClient, businessUnitMock)
         self.should_access_current_accounts_bets(bfClient, businessUnitMock)
-        # self.should_place_bets(bfClient, businessUnitMock)
+        self.should_place_bets(bfClient, businessUnitMock)
+        self.should_cancel_bets(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
-        
         
     def should_login_and_return_bfpy_BfClient(self, businessUnitMock):
         bfClient = bfclient.BfClient()
@@ -129,6 +129,9 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         response.bets.append(smk_api.BetDetails(orderId+1, marketId, contractId, price, status, quantity, createdDateInMillis, False))
         
     def should_place_bets(self, bfClient, businessUnitMock):
+        betResult=Mock()
+        betResult.id=123
+        businessUnitMock.placeBet.return_value = smk_api.ActionSucceeded(betResult)
         placeBet = bfClient.createPlaceBets()
         placeBet.asianLineId = 0
         # Man City = 47999
@@ -147,9 +150,24 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         #print 'sleeping 5 seconds'
         #bet = response.betResults[0]
         LOG.debug(adapterResponse)
+        self.assertTrue('betId = 123' in adapterResponse)
+        businessUnitMock.placeBet.assert_called_with(SESSION_TOKEN, 135615, 200153, 2.0, 500, True)
+        
+    def should_cancel_bets(self, bfClient, businessUnitMock):
+        betResult=Mock()
+        betResult.id=231
+        businessUnitMock.cancelBet.return_value = smk_api.ActionSucceeded(betResult)
+        cancelBet = bfClient.createCancelBets()
+        cancelBet.betId = 231
+        adapterResponse = str(bfClient.cancelBets(bfpy.ExchangeUK, bets=[cancelBet]))
+        LOG.debug(adapterResponse)
+        self.assertTrue('betId = 231' in adapterResponse)
+        businessUnitMock.cancelBet.assert_called_with(SESSION_TOKEN, 231)
 
     def should_logout_from_session(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.logout())
         LOG.debug(adapterResponse)
         businessUnitMock.logUserOutAndReturnResultOfAction.assert_called_with(SESSION_TOKEN)
         self.assertTrue('errorCode = "OK"' in adapterResponse)
+        
+    

@@ -37,7 +37,8 @@ actions = {"login": lambda x:login(x),
            "logout": lambda x:logout(x),
            "getAccountFunds": lambda x:getAccountFunds(x),
            "getCurrentBets": lambda x: getCurrentBets(x),
-           "placeBets": lambda x: placeBets(x)}
+           "placeBets": lambda x: placeBets(x),
+           "cancelBets": lambda x: cancelBets(x)}
 
 class BetfairRequest(object):
     def __init__(self, request):
@@ -107,11 +108,20 @@ def placeBets(request):
     betResults = []
     for bet in placeBets:
         betType = bet.find('betType').text
-        marketId = bet.find('marketId').text
-        contractId = bet.find('selectionId').text
-        sizeInPounds = bet.find('size').text
-        priceInBetfairFormatBetween1and1000 = bet.find('price').text
+        marketId = int(bet.find('marketId').text)
+        contractId = int(bet.find('selectionId').text)
+        sizeInPounds = float(bet.find('size').text)
+        priceInBetfairFormatBetween1and1000 = int(bet.find('price').text)
         isBetTypeBuy = ("B" == betType)
-        betResult = BUSINESS_UNIT.placeBet(sessionId, marketId, contractId, sizeInPounds, int(priceInBetfairFormatBetween1and1000), isBetTypeBuy)
+        betResult = businessUnit().placeBet(sessionId, marketId, contractId, sizeInPounds, priceInBetfairFormatBetween1and1000, isBetTypeBuy)
         betResults.append(betResult)
     return Template(readFile("templates/placeBets.response.xml")).render(sessionId=sessionId, bets=betResults)
+
+def cancelBets(request):
+    sessionId = request.sessionId()
+    cancelBets = request.xpath("//*[local-name()='CancelBets']")
+    betResults = []
+    for bet in cancelBets:
+        betId = bet.find('betId').text
+        betResults.append(businessUnit().cancelBet(sessionId, int(betId)))
+    return Template(readFile("templates/cancelBets.response.xml")).render(sessionId=sessionId, bets=betResults)

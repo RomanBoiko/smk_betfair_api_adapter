@@ -11,13 +11,25 @@
                    <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
                 <betResults xsi:type="ns2:ArrayOfPlaceBetsResult" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
-                    <ns2:PlaceBetsResult xsi:type="ns2:PlaceBetsResult">
-                        <averagePriceMatched xsi:type="xsd:double">0.000000</averagePriceMatched>
-                        <betId xsi:type="xsd:long">75162014172928551</betId>
-                        <resultCode xsi:type="ns2:PlaceBetsResultEnum">OK</resultCode>
-                        <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
-                        <success xsi:type="xsd:boolean">true</success>
-                    </ns2:PlaceBetsResult>
+                    {% for bet in bets %}
+                       {% if bet.succeeded %}
+		                   <ns2:PlaceBetsResult xsi:type="ns2:PlaceBetsResult">
+		                       <averagePriceMatched xsi:type="xsd:double">0.000000</averagePriceMatched>
+		                       <betId xsi:type="xsd:long">{{bet.result.id}}</betId>
+		                       <resultCode xsi:type="ns2:PlaceBetsResultEnum">OK</resultCode>
+		                       <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
+		                       <success xsi:type="xsd:boolean">true</success>
+		                   </ns2:PlaceBetsResult>
+                       {% else %}
+                           <ns2:PlaceBetsResult xsi:type="ns2:PlaceBetsResult">
+		                       <averagePriceMatched xsi:type="xsd:double">0.000000</averagePriceMatched>
+		                       <betId xsi:type="xsd:long">0</betId>
+		                       <resultCode xsi:type="ns2:PlaceBetsResultEnum">CANNOT_ACCEPT_BET</resultCode>
+		                       <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
+		                       <success xsi:type="xsd:boolean">false</success>
+		                   </ns2:PlaceBetsResult>
+                       {% endif %}
+                    {% endfor %}
                 </betResults>
                 <errorCode xsi:type="ns2:PlaceBetsErrorEnum">OK</errorCode>
                 <minorErrorCode xsi:nil="1"></minorErrorCode>
