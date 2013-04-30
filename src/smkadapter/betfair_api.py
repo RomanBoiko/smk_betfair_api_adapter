@@ -38,7 +38,8 @@ actions = {"login": lambda x:login(x),
            "getAccountFunds": lambda x:getAccountFunds(x),
            "getCurrentBets": lambda x: getCurrentBets(x),
            "placeBets": lambda x: placeBets(x),
-           "cancelBets": lambda x: cancelBets(x)}
+           "cancelBets": lambda x: cancelBets(x),
+           "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x)}
 
 class BetfairRequest(object):
     def __init__(self, request):
@@ -125,3 +126,63 @@ def cancelBets(request):
         betId = bet.find('betId').text
         betResults.append(businessUnit().cancelBet(sessionId, int(betId)))
     return Template(readFile("templates/cancelBets.response.xml")).render(sessionId=sessionId, bets=betResults)
+
+def getMarketPricesCompressed(request):
+    sessionId = request.sessionId()
+    marketId = int(request.xpath("//*[local-name()='marketId']/text()")[0])
+    getPricesResult = businessUnit().getMarketPrices(sessionId, marketId)
+    if getPricesResult.succeeded:
+        return Template(readFile("templates/getMarketPricesCompressed.response.xml")).render(sessionId=sessionId, errorCode="OK", marketPricesCompressed=MarketPrices(getPricesResult.result).compress())
+    else:
+        return Template(readFile("templates/getMarketPricesCompressed.response.xml")).render(sessionId=sessionId, errorCode="INVALID_MARKET", marketPricesCompressed="")
+    
+class MarketPrice(object):
+    def __init__(self, price, amount, oposingTypeToBeMatchedAgainst):
+        self.price = price
+        self.amount = amount
+        self.oposingTypeToBeMatchedAgainst = oposingTypeToBeMatchedAgainst
+        self.depth = 1#to implement ordering by price!
+
+class BackPrice(MarketPrice):
+    def __init__(self, price, amount):
+        super(BackPrice, self).__init__(price, amount, 'L')
+
+class LayPrice(MarketPrice):
+    def __init__(self, price, amount):
+        super(LayPrice, self).__init__(price, amount, 'B')
+    
+class MarketPrices(object):
+    def __init__(self, smkMarketPrices):
+        self.marketId = smkMarketPrices.marketId
+        self.currency = "GBP"#???
+        self.marketStatus = "ACTIVE"#???putCorrect
+        self.inPlayDelay = 0#??
+        self.numberOfWinners = 1#??
+        self.marketInformation = None#nullable
+        self.isDiscountAllowed = False
+        self.marketBaseRate = 0.0#"comission"#Base rate of commission on market
+        self.refreshTimeInMilliseconds = 0#deprecated
+        self.removedRunnersInformationComposed = ""#should be three fields per each removed runner
+        self.bspMarket="N"
+        self.runnerInformationFields = ""#info per runner
+        self.backPrices = []
+        for smkBid in smkMarketPrices.bids:
+            self.backPrices.append(BackPrice(smkBid.price, smkBid.quantity))
+        self.layPrices = []
+        for smkOffer in smkMarketPrices.offers:
+            self.layPrices.append(LayPrice(smkOffer.price, smkOffer.quantity))
+
+    def compress(self):
+        backPricesStrings = []
+        for price in self.backPrices:
+            backPricesStrings.append("|".join([str(price.price),str(price.amount), price.oposingTypeToBeMatchedAgainst, str(price.depth) ]))
+        backPricesCompressed = "|".join(backPricesStrings)
+
+        layPricesStrings = []
+        for price in self.layPrices:
+            layPricesStrings.append("|".join([str(price.price),str(price.amount), price.oposingTypeToBeMatchedAgainst, str(price.depth) ]))
+        layPricesCompressed = "|".join(layPricesStrings)
+
+        return "~".join(map(str, [self.marketId, self.currency, self.marketStatus,self.inPlayDelay, self.numberOfWinners, self.marketInformation,
+            self.isDiscountAllowed, self.marketBaseRate, self.refreshTimeInMilliseconds, self.removedRunnersInformationComposed,
+            self.bspMarket, self.runnerInformationFields, backPricesCompressed, layPricesCompressed]))

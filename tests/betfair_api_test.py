@@ -84,6 +84,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_access_current_accounts_bets(bfClient, businessUnitMock)
         self.should_place_bets(bfClient, businessUnitMock)
         self.should_cancel_bets(bfClient, businessUnitMock)
+        self.should_get_compressed_market_prices(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
         
     def should_login_and_return_bfpy_BfClient(self, businessUnitMock):
@@ -163,6 +164,19 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         LOG.debug(adapterResponse)
         self.assertTrue('betId = 231' in adapterResponse)
         businessUnitMock.cancelBet.assert_called_with(SESSION_TOKEN, 231)
+
+    def should_get_compressed_market_prices(self, bfClient, businessUnitMock):
+        marketPricesObject = Mock()
+        marketPricesObject.marketId = 444
+        marketPricesObject.bids = []
+        marketPricesObject.offers = []
+        marketPricesObject.bids.append(smk_api.MarketPrice(200, 23.2))
+        marketPricesObject.offers.append(smk_api.MarketPrice(201, 23.3))
+        businessUnitMock.getMarketPrices.return_value = smk_api.ActionSucceeded(marketPricesObject)
+        adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=144))
+        LOG.debug(adapterResponse)
+        self.assertTrue('marketId = 444' in adapterResponse)
+        
 
     def should_logout_from_session(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.logout())

@@ -32,7 +32,7 @@
                     {% endfor %}
                 </betResults>
                 <errorCode xsi:type="ns2:CancelBetsErrorEnum">OK</errorCode>
-                <minorErrorCode xsi:nil="1"></minorErrorCode>
+                <minorErrorCode xsi:nil="1"/>
             </ns1:Result>
         </ns1:cancelBetsResponse>
     </SOAP-ENV:Body>

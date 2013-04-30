@@ -3,13 +3,13 @@
 =====================================================================
 |1  |Login                     | Yes | Yes | Yes | Ready |   YES    |
 |2  |GetMarketPrices           | Yes | No  | No  |  --   |          |
-|3  |GetMarketPricesCompressed | Yes | Yes | Yes | Ready |          |
+|3  |GetMarketPricesCompressed | Yes | Yes | Yes | Ready |   YES    |
 |4  |GetTradedVolume           | Yes | No  | Yes |  --   |          |
 |5  |GetTradedVolumeCompressed | Yes | No  | No  |  --   |          |
 |6  |GetMarket                 | Yes | No  | Yes |  --   |          |
 |7  |GetEvents                 | Yes | No  | No  | Ready |          |
-|8  |PlaceBets                 | Yes | Yes | Yes | Ready |          |
-|9  |CancelBets                | Yes | Yes | Yes | Ready |          |
+|8  |PlaceBets                 | Yes | Yes | Yes | Ready |   YES    |
+|9  |CancelBets                | Yes | Yes | Yes | Ready |   YES    |
 |10 |UpdateBet                 | Yes | Yes | Yes | Ready |          |
 |11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |          |
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |          |
@@ -35,5 +35,5 @@
 -fix performance and remove adapter_context.isTestingEnv
 -test for updateBets
 -how to find selectionId=contractId from Market details? maybe wrong level of market==contract in getEvents?
--Delimited response in GetMarketPricesCompressed - test prices and currency
+-Delimited response in GetMarketPricesCompressed - test prices and currency!!!
 -getEventTypes - replace hardcoded Football with one from getEvents
