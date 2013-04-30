@@ -1,4 +1,3 @@
-from xmlrpclib import datetime
 import logging
 from lxml import etree
 import os
@@ -39,7 +38,8 @@ actions = {"login": lambda x:login(x),
            "getCurrentBets": lambda x: getCurrentBets(x),
            "placeBets": lambda x: placeBets(x),
            "cancelBets": lambda x: cancelBets(x),
-           "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x)}
+           "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x),
+           "getAllMarkets": lambda x: getAllMarkets(x)}
 
 class BetfairRequest(object):
     def __init__(self, request):
@@ -127,15 +127,37 @@ def cancelBets(request):
         betResults.append(businessUnit().cancelBet(sessionId, int(betId)))
     return Template(readFile("templates/cancelBets.response.xml")).render(sessionId=sessionId, bets=betResults)
 
+def getAllMarkets(request):
+    sessionId = request.sessionId()
+    events = businessUnit().getTodaysFootballEvents(sessionId)
+    resultsTildaSeparated = []
+    for market in events.marketIdToMarket.values():
+        marketData = [market.eventId, market.eventName, market.eventTypeId,# or 'A', type?
+            'ACTIVE', (int(market.startTime.strftime("%s")) * 1000),
+            'menuPath', 'eventHierarchy', 'betDelay', 1,#exchangeId
+            ''#ISO of country to host event, empty for international
+            'lastRefresh',
+            2,#numberOfRunners
+            1,#numberOfPossibleWinners in the market
+            0.0,#TotalAmountMatched
+            'N',#Non-BSP market(BetfairStartingPrice)
+            'Y'#Scheduled to be turned in-play
+            ]
+        resultsTildaSeparated.append("~".join(map(str, marketData)))
+    result = ":".join(resultsTildaSeparated)
+    return Template(readFile("templates/getAllMarkets.response.xml")).render(sessionId=sessionId, marketsData=result)
+
 def getMarketPricesCompressed(request):
     sessionId = request.sessionId()
     marketId = int(request.xpath("//*[local-name()='marketId']/text()")[0])
     getPricesResult = businessUnit().getMarketPrices(sessionId, marketId)
+    responseTemplate = Template(readFile("templates/getMarketPricesCompressed.response.xml"))
     if getPricesResult.succeeded:
-        return Template(readFile("templates/getMarketPricesCompressed.response.xml")).render(sessionId=sessionId, errorCode="OK", marketPricesCompressed=MarketPrices(getPricesResult.result).compress())
+        return responseTemplate.render(sessionId=sessionId, errorCode="OK", marketPricesCompressed=MarketPrices(getPricesResult.result).compress())
     else:
-        return Template(readFile("templates/getMarketPricesCompressed.response.xml")).render(sessionId=sessionId, errorCode="INVALID_MARKET", marketPricesCompressed="")
+        return responseTemplate.render(sessionId=sessionId, errorCode="INVALID_MARKET", marketPricesCompressed="")
     
+
 class MarketPrice(object):
     def __init__(self, price, amount, oposingTypeToBeMatchedAgainst):
         self.price = price

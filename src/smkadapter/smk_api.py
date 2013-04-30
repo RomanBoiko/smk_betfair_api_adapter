@@ -1,7 +1,7 @@
 import logging
 import threading
 import pprint
-from xmlrpclib import datetime
+import datetime
 from datetime import timedelta
 
 import smarkets

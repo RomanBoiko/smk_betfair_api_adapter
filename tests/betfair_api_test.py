@@ -4,6 +4,7 @@ import time
 
 from mock import patch, Mock
 from lxml import etree
+import datetime
 
 import logging
 
@@ -85,6 +86,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_place_bets(bfClient, businessUnitMock)
         self.should_cancel_bets(bfClient, businessUnitMock)
         self.should_get_compressed_market_prices(bfClient, businessUnitMock)
+        self.should_get_all_markets(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
         
     def should_login_and_return_bfpy_BfClient(self, businessUnitMock):
@@ -177,6 +179,16 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         LOG.debug(adapterResponse)
         self.assertTrue('marketId = 444' in adapterResponse)
         
+    def should_get_all_markets(self, bfClient, businessUnitMock):
+        events = smk_api.Events()
+        eventId=12
+        eventName="someEvent"
+        eventTypeId = 1
+        events.putMarket(233, smk_api.Event(eventId, eventName, eventTypeId, datetime.datetime(2012, 12, 22)))
+        businessUnitMock.getTodaysFootballEvents.return_value = events
+        adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
+        LOG.debug(adapterResponse)
+#        self.assertTrue('marketId = 444' in adapterResponse)
 
     def should_logout_from_session(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.logout())
