@@ -3,15 +3,53 @@
     <SOAP-ENV:Header/>
     <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
         <ns1:getBetResponse>
-            <ns1:Result>
-                <header>
-                    <errorCode>OK</errorCode>
-                    <minorErrorCode xsi:nil="1"></minorErrorCode>
-                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
-                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
+            <ns1:Result xsi:type="ns2:GetBetResp">
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
-                <bet xsi:nil="1"></bet>
-                <errorCode>OK</errorCode>
+                {% if bet %}
+                <bet xsi:type="ns2:Bet">
+                    <asianLineId xsi:type="xsd:int">0</asianLineId>
+                    <avgPrice xsi:type="xsd:double">{{bet.priceInBetfairFormatBetween1and1000}}</avgPrice>
+                    <betId xsi:type="xsd:long">{{bet.id}}</betId>
+                    <betStatus xsi:type="ns2:BetStatusEnum">{{bet.status}}</betStatus>
+                    {% if bet.isBetTypeBuy %}
+                        <betType xsi:type="ns2:BetTypeEnum">B</betType>
+                    {% else %}
+                        <betType xsi:type="ns2:BetTypeEnum">L</betType>
+                    {% endif %}
+                    <betCategoryType xsi:type="ns2:BetCategoryTypeEnum">NONE</betCategoryType>
+                    <betPersistenceType xsi:type="ns2:BetPersistenceTypeEnum">NONE</betPersistenceType>
+                    <cancelledDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</cancelledDate>
+                    <lapsedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</lapsedDate>
+                    <marketId xsi:type="xsd:int">{{bet.marketId}}</marketId>
+                    <marketName xsi:type="xsd:string">not_implemented</marketName>
+                    <fullMarketName xsi:type="xsd:string">not_implemented</fullMarketName>
+                    <marketType xsi:type="ns2:MarketTypeEnum">NOT_APPLICABLE</marketType>
+                    <marketTypeVariant xsi:type="ns2:MarketTypeVariantEnum">D</marketTypeVariant>
+                    <matchedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</matchedDate>
+                    <matchedSize xsi:type="xsd:double">0.0</matchedSize>
+                    <matches xsi:type="ns2:ArrayOfMatch"></matches><!-- todo -->
+                    <placedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</placedDate>
+                    <price xsi:type="xsd:double">{{bet.priceInBetfairFormatBetween1and1000}}</price>
+                    <bspLiability xsi:type="xsd:double">{{bet.quantity}}</bspLiability>
+                    <profitAndLoss xsi:type="xsd:double">{{bet.quantity}}</profitAndLoss>
+                    <selectionId xsi:type="xsd:int">{{bet.contractId}}</selectionId>
+                    <selectionName xsi:type="xsd:string">not_implemented</selectionName>
+                    <settledDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</settledDate>
+                    <remainingSize xsi:type="xsd:double">{{bet.quantity}}</remainingSize>
+                    <requestedSize xsi:type="xsd:double">{{bet.quantity}}</requestedSize>
+                    <voidedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</voidedDate>
+                    <handicap xsi:type="xsd:double">0.0</handicap>
+                </bet>
+                <errorCode xsi:type="ns2:GetBetErrorEnum">OK</errorCode>
+                {% else %}
+                <bet xsi:nil="1"/>
+                <errorCode xsi:type="ns2:GetBetErrorEnum">BET_ID_INVALID</errorCode>
+                {% endif %}
             </ns1:Result>
         </ns1:getBetResponse>
     </SOAP-ENV:Body>

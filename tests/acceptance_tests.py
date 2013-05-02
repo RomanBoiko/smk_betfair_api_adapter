@@ -65,6 +65,9 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
             adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=TEST_MARKET_ID))
             LOG.debug(adapterResponse)
+            
+            adapterResponse = str(bfClient.getBet(bfpy.ExchangeUK, betId=84181754822673358))
+            LOG.debug(adapterResponse)
 
             adapterResponse = str(bfClient.getMUBets(bfpy.ExchangeUK, marketId=276267, betStatus='M'))
             LOG.debug(adapterResponse)

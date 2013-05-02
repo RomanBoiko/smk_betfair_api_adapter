@@ -89,6 +89,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_get_all_markets(bfClient, businessUnitMock)
         self.should_cancel_bets_by_market(bfClient, businessUnitMock)
         self.should_get_MUBets(bfClient, businessUnitMock)
+        self.should_get_bet(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
         
     def should_login_and_return_bfpy_BfClient(self, businessUnitMock):
@@ -208,4 +209,12 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         adapterResponse = str(bfClient.getMUBets(bfpy.ExchangeUK, marketId=135615, betStatus='MU'))
         LOG.debug(adapterResponse)
         self.assertTrue('errorCode = "OK"' in adapterResponse)
+
+    def should_get_bet(self, bfClient, businessUnitMock):
+        self.mockGetBetsForAccount(businessUnitMock)
+        adapterResponse = str(bfClient.getBet(bfpy.ExchangeUK, betId=123))
+        LOG.debug(adapterResponse)
+        self.assertTrue('errorCode = "OK"' in adapterResponse)
+        self.assertTrue('remainingSize = 0.0244' in adapterResponse)
+
 

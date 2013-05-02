@@ -42,7 +42,8 @@ actions = {"login": lambda x:login(x),
            "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x),
            "getAllMarkets": lambda x: getAllMarkets(x),
            "cancelBetsByMarket": lambda x: cancelBetsByMarket(x),
-           "getMUBets": lambda x: getMUBets(x)}
+           "getMUBets": lambda x: getMUBets(x),
+           "getBet": lambda x: getBet(x)}
 
 class BetfairRequest(object):
     def __init__(self, request):
@@ -186,6 +187,18 @@ def getMUBets(request):
         if betDetails.marketId==marketId and betDetails.status==betStatus:
             muBets.append(betDetails)
     return Template(readFile("templates/getMUBets.response.xml")).render(sessionId=sessionId, bets=muBets, totalRecordCount=len(muBets))
+
+def getBet(request):
+    sessionId = request.sessionId()
+    
+    betId = int(request.xpath("//*[local-name()='betId']/text()")[0])
+
+    betsForAccount = businessUnit().getBetsForAccount(sessionId)
+    betToReturn = None
+    for betDetails in betsForAccount.bets:
+        if betDetails.id==betId:
+            betToReturn = betDetails
+    return Template(readFile("templates/getBet.response.xml")).render(sessionId=sessionId, bet=betToReturn)
 
 class MarketPrice(object):
     def __init__(self, price, amount, oposingTypeToBeMatchedAgainst):
