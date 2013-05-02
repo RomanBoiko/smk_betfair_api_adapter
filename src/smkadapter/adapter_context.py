@@ -1,7 +1,7 @@
 import logging
 
 logging.basicConfig(level=logging.DEBUG)#, filename="server.log", filemode="w"
-logging.getLogger('smarkets').setLevel(logging.INFO)
+logging.getLogger('smarkets').setLevel(logging.DEBUG)
 from ConfigParser import SafeConfigParser
 
 class Config(object):

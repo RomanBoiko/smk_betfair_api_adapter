@@ -2,6 +2,7 @@ import logging
 from lxml import etree
 import os
 import urllib2
+import datetime
 
 from jinja2 import Template
 
@@ -134,9 +135,10 @@ def getAllMarkets(request):
     for market in events.marketIdToMarket.values():
         marketData = [market.eventId, market.eventName, market.eventTypeId,# or 'A', type?
             'ACTIVE', (int(market.startTime.strftime("%s")) * 1000),
-            'menuPath', 'eventHierarchy', 'betDelay', 1,#exchangeId
-            ''#ISO of country to host event, empty for international
-            'lastRefresh',
+            'Football\\%s'%market.eventName, 'eventHierarchy', 0,#betDelay
+            1,#exchangeId
+            '',#ISO of country to host event, empty for international
+            (int(datetime.datetime.now().strftime("%s")) * 1000),
             2,#numberOfRunners
             1,#numberOfPossibleWinners in the market
             0.0,#TotalAmountMatched

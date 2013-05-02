@@ -74,6 +74,14 @@ class Bet(object):
     def __repr__(self):
         return self.__str__()
 
+class NegativeResultAsObjectWithId(object):
+    def __init__(self, objectId):
+        self.id=objectId
+    def __str__(self):
+        return ("NegativeResultAsObjectWithId(id=%s)"%(self.id))
+    def __repr__(self):
+        return self.__str__()
+
 class BetCancel(object):
     def __init__(self, betCancelMessage):
         self.id=uuidToInteger(betCancelMessage.order_cancelled.order)
@@ -144,6 +152,7 @@ class Events(object):
         self.parentToEvent[str(parentIdInt)].append(event)
     def putMarket(self, marketId, market):
         if str(marketId) not in self.marketIdToMarket:
+            LOG.debug("[new market]: id=%s"%marketId)
             self.marketIdToMarket[str(marketId)] = market
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
@@ -406,7 +415,10 @@ class SmkClient(object):
 
     def cancelBet(self, orderId):
         order = integerToUuid(orderId)
-        return self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel, ['seto.order_cancel_rejected'])
+        smkResponse = self.getSmkResponse(lambda: self.client.order_cancel(order), 'seto.order_cancelled', BetCancel, ['seto.order_cancel_rejected'])
+        if not smkResponse.succeeded:
+            smkResponse.result = NegativeResultAsObjectWithId(orderId)
+        return smkResponse
     
     def getPayloadViaHttp(self, serviceUrl):
         content_type, result = smarkets.urls.fetch(serviceUrl)
