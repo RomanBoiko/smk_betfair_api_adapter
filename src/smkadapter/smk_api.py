@@ -97,7 +97,7 @@ class BetDetails(object):
         self.contractId = contractId
         self.priceInBetfairFormatBetween1and1000 = smkPriceToBetfairPriceInFormatBetween1and1000(price)
         self.status = smkOrderStatusToBetfairBetStatus(status)
-        self.quantity = quantity
+        self.quantity = smkCashAmountToReal(quantity)
         self.createdDateInMillis = createdDateInMillis
         self.isBetTypeBuy = isBetTypeBuy
     def __str__(self):

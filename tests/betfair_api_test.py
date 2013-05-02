@@ -88,6 +88,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_get_compressed_market_prices(bfClient, businessUnitMock)
         self.should_get_all_markets(bfClient, businessUnitMock)
         self.should_cancel_bets_by_market(bfClient, businessUnitMock)
+        self.should_get_MUBets(bfClient, businessUnitMock)
         self.should_logout_from_session(bfClient, businessUnitMock)
         
     def should_login_and_return_bfpy_BfClient(self, businessUnitMock):
@@ -202,4 +203,9 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         LOG.debug(adapterResponse)
         self.assertTrue('errorCode = "OK"' in adapterResponse)
         self.assertTrue('marketId = 135615' in adapterResponse)
+
+    def should_get_MUBets(self, bfClient, businessUnitMock):
+        adapterResponse = str(bfClient.getMUBets(bfpy.ExchangeUK, marketId=135615, betStatus='MU'))
+        LOG.debug(adapterResponse)
+        self.assertTrue('errorCode = "OK"' in adapterResponse)
 

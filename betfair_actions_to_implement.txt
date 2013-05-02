@@ -12,7 +12,7 @@
 |9  |CancelBets                | Yes | Yes | Yes | Ready |   YES    |
 |10 |UpdateBet                 | Yes | Yes | Yes | Ready |          |
 |11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |   YES    |
-|12 |GetMUBets                 | Yes | Yes | Yes | Ready |          |
+|12 |GetMUBets                 | Yes | Yes | Yes | Ready |   YES    |
 |13 |GetBetDetails             | Yes | No  | Yes | Ready |          |
 |14 |Logout                    | Yes | No  | No  | Ready |   YES    |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |   YES    |
@@ -26,6 +26,8 @@
 
 
 ==TODO:
+-acceptance and unit test for MUBets
+-real bet creation time in bet details
 -to add statuses to cancelBetsByMarket response
 -change bet._size in bet details result into quantityFilled from smk
 -show market name in getBets

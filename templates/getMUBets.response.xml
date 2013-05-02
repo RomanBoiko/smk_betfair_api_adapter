@@ -3,103 +3,41 @@
     <SOAP-ENV:Header/>
     <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
         <ns1:getMUBetsResponse>
-            <ns1:Result>
-                <header>
-                    <errorCode>OK</errorCode>
-                    <minorErrorCode xsi:nil="1"></minorErrorCode>
-                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
-                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
-                </header>
-                <bets xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
-                    <ns2:MUBet>
-                        <asianLineId>0</asianLineId>
-                        <betId>75162004847393121</betId>
-                        <transactionId>1111111</transactionId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <marketId>135665</marketId>
-                        <matchedDate>2013-04-28T14:13:07.006Z</matchedDate>
-                        <size>220000.000000</size>
-                        <bspLiability>220000.000000</bspLiability>
-                        <placedDate>2013-04-28T14:13:07.006Z</placedDate>
-                        <price>240.000000</price>
-                        <selectionId>200256</selectionId>
-                        <handicap>0.000000</handicap>
+            <ns1:Result xsi:type="ns2:GetMUBetsResp">
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
+                </header>                
+                <bets xsi:type="ns2:ArrayOfMUBet" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
+                    {% for bet in bets %}
+                    <ns2:MUBet xsi:type="ns2:MUBet">
+                        <asianLineId xsi:type="xsd:int">0</asianLineId>
+                        <betId xsi:type="xsd:long">{{bet.id}}</betId>
+                        <transactionId xsi:type="xsd:long">0</transactionId>
+                        <betStatus xsi:type="ns2:BetStatusEnum">{{bet.status}}</betStatus>
+                        {% if bet.isBetTypeBuy %}
+                            <betType xsi:type="ns2:BetTypeEnum">B</betType>
+                        {% else %}
+                            <betType xsi:type="ns2:BetTypeEnum">L</betType>
+                        {% endif %}
+                        <betCategoryType xsi:type="ns2:BetCategoryTypeEnum">NONE</betCategoryType>
+                        <betPersistenceType xsi:type="ns2:BetPersistenceTypeEnum">NONE</betPersistenceType>
+                        <marketId xsi:type="xsd:int">{{bet.marketId}}</marketId>
+                        <matchedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</matchedDate>
+                        <size xsi:type="xsd:double">{{bet.quantity}}</size>
+                        <bspLiability xsi:type="xsd:double">{{bet.quantity}}</bspLiability>
+                        <placedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</placedDate>
+                        <price xsi:type="xsd:double">{{bet.priceInBetfairFormatBetween1and1000}}</price>
+                        <selectionId xsi:type="xsd:int">{{bet.contractId}}</selectionId>
+                        <handicap xsi:type="xsd:double">0.000000</handicap>
                     </ns2:MUBet>
-                    <ns2:MUBet>
-                        <asianLineId>0</asianLineId>
-                        <betId>75161986587799443</betId>
-                        <transactionId>1111111</transactionId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <marketId>130157</marketId>
-                        <matchedDate>2013-04-28T14:13:07.006Z</matchedDate>
-                        <size>220000.000000</size>
-                        <bspLiability>220000.000000</bspLiability>
-                        <placedDate>2013-04-28T14:13:07.006Z</placedDate>
-                        <price>240.000000</price>
-                        <selectionId>188808</selectionId>
-                        <handicap>0.000000</handicap>
-                    </ns2:MUBet>
-                    <ns2:MUBet>
-                        <asianLineId>0</asianLineId>
-                        <betId>75161959550054296</betId>
-                        <transactionId>1111111</transactionId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <marketId>130157</marketId>
-                        <matchedDate>2013-04-28T14:13:07.006Z</matchedDate>
-                        <size>220000.000000</size>
-                        <bspLiability>220000.000000</bspLiability>
-                        <placedDate>2013-04-28T14:13:07.006Z</placedDate>
-                        <price>240.000000</price>
-                        <selectionId>188808</selectionId>
-                        <handicap>0.000000</handicap>
-                    </ns2:MUBet>
-                    <ns2:MUBet>
-                        <asianLineId>0</asianLineId>
-                        <betId>75161957110023266</betId>
-                        <transactionId>1111111</transactionId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <marketId>130157</marketId>
-                        <matchedDate>2013-04-28T14:13:07.006Z</matchedDate>
-                        <size>220000.000000</size>
-                        <bspLiability>220000.000000</bspLiability>
-                        <placedDate>2013-04-28T14:13:07.006Z</placedDate>
-                        <price>240.000000</price>
-                        <selectionId>188808</selectionId>
-                        <handicap>0.000000</handicap>
-                    </ns2:MUBet>
-                    <ns2:MUBet>
-                        <asianLineId>0</asianLineId>
-                        <betId>75161994898749025</betId>
-                        <transactionId>1111111</transactionId>
-                        <betStatus>U</betStatus>
-                        <betType>B</betType>
-                        <betCategoryType>NONE</betCategoryType>
-                        <betPersistenceType>NONE</betPersistenceType>
-                        <marketId>129035</marketId>
-                        <matchedDate>2013-04-28T14:13:07.006Z</matchedDate>
-                        <size>30000.000000</size>
-                        <bspLiability>30000.000000</bspLiability>
-                        <placedDate>2013-04-28T14:13:07.006Z</placedDate>
-                        <price>250.000000</price>
-                        <selectionId>186476</selectionId>
-                        <handicap>0.000000</handicap>
-                    </ns2:MUBet>
+                    {% endfor %}
                 </bets>
-                <errorCode>OK</errorCode>
+                <errorCode xsi:type="ns2:GetMUBetsErrorEnum">OK</errorCode>
                 <minorErrorCode xsi:nil="1"></minorErrorCode>
-                <totalRecordCount>5</totalRecordCount>
+                <totalRecordCount xsi:type="xsd:int">{{totalRecordCount}}</totalRecordCount>
             </ns1:Result>
         </ns1:getMUBetsResponse>
     </SOAP-ENV:Body>
