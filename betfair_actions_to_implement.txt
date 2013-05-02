@@ -13,7 +13,7 @@
 |10 |UpdateBet                 | Yes | Yes | Yes | Ready |          |
 |11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |   YES    |
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |   YES    |
-|13 |GetBetDetails             | Yes | No  | Yes | Ready |          |
+|13 |GetBetDetails             | Yes | No  | Yes | Ready |   YES    |
 |14 |Logout                    | Yes | No  | No  | Ready |   YES    |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |   YES    |
 |16 |GetAllMarkets             | No  | Yes | Yes | Ready |   YES    |
