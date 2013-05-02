@@ -135,7 +135,8 @@ def getAllMarkets(request):
     for market in events.marketIdToMarket.values():
         marketData = [market.eventId, market.eventName, market.eventTypeId,# or 'A', type?
             'ACTIVE', (int(market.startTime.strftime("%s")) * 1000),
-            'Football\\%s'%market.eventName, 'eventHierarchy', 0,#betDelay
+            'Football\\%s'%market.eventName, 'eventHierarchy',
+            0,#betDelay
             1,#exchangeId
             '',#ISO of country to host event, empty for international
             (int(datetime.datetime.now().strftime("%s")) * 1000),
@@ -178,17 +179,17 @@ class LayPrice(MarketPrice):
 class MarketPrices(object):
     def __init__(self, smkMarketPrices):
         self.marketId = smkMarketPrices.marketId
-        self.currency = "GBP"#???
-        self.marketStatus = "ACTIVE"#???putCorrect
-        self.inPlayDelay = 0#??
-        self.numberOfWinners = 1#??
-        self.marketInformation = None#nullable
+        self.currency = "GBP"
+        self.marketStatus = "ACTIVE"
+        self.inPlayDelay = 0
+        self.numberOfWinners = 1
+        self.marketInformation = None
         self.isDiscountAllowed = False
-        self.marketBaseRate = 0.0#"comission"#Base rate of commission on market
+        self.marketBaseRate = 0.0#Base rate of commission on market
         self.refreshTimeInMilliseconds = 0#deprecated
         self.removedRunnersInformationComposed = ""#should be three fields per each removed runner
         self.bspMarket="N"
-        self.runnerInformationFields = ""#info per runner
+        self.runnerInformationFields = ""
         self.backPrices = []
         for smkBid in smkMarketPrices.bids:
             self.backPrices.append(BackPrice(smkBid.price, smkBid.quantity))

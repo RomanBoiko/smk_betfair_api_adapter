@@ -34,8 +34,6 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
             placeBet = bfClient.createPlaceBets()
             placeBet.asianLineId = 0
-            # Man City = 47999
-            # Chelsea = 55190
             placeBet.selectionId = 652546
             placeBet.price = 500
             placeBet.size = 2.0
@@ -43,14 +41,16 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             placeBet.betType = 'B'
             placeBet.betCategoryType = 'E'
             placeBet.betPersistenceType = 'NONE'
-            # English Premier League Winner 2011/2012
             placeBet.marketId = 407213
             
-            adapterResponse = str(bfClient.placeBets(bfpy.ExchangeUK, bets=[placeBet]))
+            placeBetResponse = bfClient.placeBets(bfpy.ExchangeUK, bets=[placeBet])
+            adapterResponse = str(placeBetResponse)
             LOG.debug(adapterResponse)
-            
+
+            bet = placeBetResponse.betResults[0]
+
             cancelBet = bfClient.createCancelBets()
-            cancelBet.betId = 231
+            cancelBet.betId = bet.betId
 
             adapterResponse = str(bfClient.cancelBets(bfpy.ExchangeUK, bets=[cancelBet]))
             LOG.debug(adapterResponse)
