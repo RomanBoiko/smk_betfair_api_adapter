@@ -157,6 +157,7 @@ class Events(object):
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
             self.marketToContract[str(parentMarketIdInt)] = []
+        LOG.debug("[new contract]: id=%s, parentMarket=%s"%(contract.marketId, parentMarketIdInt))
         self.marketToContract[str(parentMarketIdInt)].append(contract)
 
     def parentsCount(self):
