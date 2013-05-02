@@ -11,23 +11,23 @@
                    <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
                 <betResults xsi:type="ns2:ArrayOfCancelBetsResult" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
-	                {% for bet in bets %}
+                    {% for bet in bets %}
                         {% if bet.succeeded %}
-		                    <ns2:CancelBetsResult xsi:type="ns2:CancelBetsResult">
-		                        <betId xsi:type="xsd:long">{{bet.result.id}}</betId>
-		                        <resultCode xsi:type="ns2:CancelBetsResultEnum">OK</resultCode>
-		                        <sizeCancelled xsi:type="xsd:double">0.000000</sizeCancelled>
-		                        <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
-		                        <success xsi:type="xsd:boolean">true</success>
-		                    </ns2:CancelBetsResult>
+                            <ns2:CancelBetsResult xsi:type="ns2:CancelBetsResult">
+                                <betId xsi:type="xsd:long">{{bet.result.id}}</betId>
+                                <resultCode xsi:type="ns2:CancelBetsResultEnum">OK</resultCode>
+                                <sizeCancelled xsi:type="xsd:double">0.000000</sizeCancelled>
+                                <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
+                                <success xsi:type="xsd:boolean">true</success>
+                            </ns2:CancelBetsResult>
                         {% else %}
                             <ns2:CancelBetsResult xsi:type="ns2:CancelBetsResult">
-		                        <betId xsi:type="xsd:long">{{bet.result.id}}</betId>
-		                        <resultCode xsi:type="ns2:CancelBetsResultEnum">BET_NOT_CANCELLED</resultCode>
-		                        <sizeCancelled xsi:type="xsd:double">0.000000</sizeCancelled>
-		                        <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
-		                        <success xsi:type="xsd:boolean">false</success>
-		                    </ns2:CancelBetsResult>
+                                <betId xsi:type="xsd:long">{{bet.result.id}}</betId>
+                                <resultCode xsi:type="ns2:CancelBetsResultEnum">BET_NOT_CANCELLED</resultCode>
+                                <sizeCancelled xsi:type="xsd:double">0.000000</sizeCancelled>
+                                <sizeMatched xsi:type="xsd:double">0.000000</sizeMatched>
+                                <success xsi:type="xsd:boolean">false</success>
+                            </ns2:CancelBetsResult>
                         {% endif %}
                     {% endfor %}
                 </betResults>

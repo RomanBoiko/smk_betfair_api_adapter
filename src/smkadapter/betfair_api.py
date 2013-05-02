@@ -40,7 +40,8 @@ actions = {"login": lambda x:login(x),
            "placeBets": lambda x: placeBets(x),
            "cancelBets": lambda x: cancelBets(x),
            "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x),
-           "getAllMarkets": lambda x: getAllMarkets(x)}
+           "getAllMarkets": lambda x: getAllMarkets(x),
+           "cancelBetsByMarket": lambda x: cancelBetsByMarket(x)}
 
 class BetfairRequest(object):
     def __init__(self, request):
@@ -160,6 +161,17 @@ def getMarketPricesCompressed(request):
     else:
         return responseTemplate.render(sessionId=sessionId, errorCode="INVALID_MARKET", marketPricesCompressed="")
     
+def cancelBetsByMarket(request):
+    sessionId = request.sessionId()
+    marketsToCancel = request.xpath("//*[local-name()='int']/text()")
+    cancelResults = []
+    betsForAccount = businessUnit().getBetsForAccount(sessionId)
+    for marketIdToCancel in marketsToCancel:
+        for betDetails in betsForAccount.bets:
+            if betDetails.marketId == int(marketIdToCancel):
+                businessUnit().cancelBet(sessionId, betDetails.id)
+        cancelResults.append(marketIdToCancel)#append also status of cancel
+    return Template(readFile("templates/cancelBetsByMarket.response.xml")).render(sessionId=sessionId, cancelResults=cancelResults)
 
 class MarketPrice(object):
     def __init__(self, price, amount, oposingTypeToBeMatchedAgainst):

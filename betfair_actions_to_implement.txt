@@ -11,12 +11,12 @@
 |8  |PlaceBets                 | Yes | Yes | Yes | Ready |   YES    |
 |9  |CancelBets                | Yes | Yes | Yes | Ready |   YES    |
 |10 |UpdateBet                 | Yes | Yes | Yes | Ready |          |
-|11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |          |
+|11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |   YES    |
 |12 |GetMUBets                 | Yes | Yes | Yes | Ready |          |
 |13 |GetBetDetails             | Yes | No  | Yes | Ready |          |
 |14 |Logout                    | Yes | No  | No  | Ready |   YES    |
 |15 |GetAccountFunds           | No  | Yes | Yes | Ready |   YES    |
-|16 |GetAllMarkets             | No  | Yes | Yes | Ready |          |
+|16 |GetAllMarkets             | No  | Yes | Yes | Ready |   YES    |
 |17 |GetBetsHistory            | No  | Yes | Yes | Ready |          |
 |18 |GetEventTypes             | No  | No  | Yes | Ready |   YES    |
 |19 |GetInPlayMarkets          | No  | No  | Yes |  --   |          |
@@ -26,12 +26,11 @@
 
 
 ==TODO:
--to make DISTINCT in cancelBetsByMarket response
+-to add statuses to cancelBetsByMarket response
 -change bet._size in bet details result into quantityFilled from smk
 -show market name in getBets
 -get NotActive events for previous days in getEvents response
 -fix path to market in menu and eventId hierarchy in getAllMarkets
--change date to be in millis since Unix Epoch in delimited responses?
 -fix performance and remove adapter_context.isTestingEnv
 -test for updateBets
 -how to find selectionId=contractId from Market details? maybe wrong level of market==contract in getEvents?
