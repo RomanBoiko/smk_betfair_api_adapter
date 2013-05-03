@@ -18,7 +18,7 @@ clean:
 
 
 start:
-	python src/smkadapter/adapter.py  &> server.log &
+	python src/smkadapter/adapter.py ${config} &> server.log &
 
 
 stop:

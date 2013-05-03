@@ -1,5 +1,7 @@
 Adapter to provide Betfair SOAP API users ability to use Smarkets API
 
+It exposes the same SOAP actions as Betfair API does but operates with Smarkets system
+
 Dependencies:
 	- ZSI
 		http://sourceforge.net/projects/pywebsvcs/files/latest/download?source=files
@@ -18,8 +20,11 @@ Dependencies:
 
 Running:
 	- edit config (config/devenv.cfg) to include your env's specific properties
-	- run "make dependencies" to download test dependencies
 	- run "make test" to ensure everything works fine
-	- run "make start" to start the adapter
+	- run "make start" to start the adapter (it will start adapter on port specified in config property "betfair.api.port", 8888 by default)
+		* by default the adapter will use ./config/sandbox.cfg config file.
+		To specify your one please use "make start config=<your_config.cfg>"
 	- run "make stop" to stop the adapter
 
+	External BetfairAPI client library was used to test compatibility of adapter (http://code.google.com/p/bfpy/)
+	Please see tests/acceptance_tests.py for examples

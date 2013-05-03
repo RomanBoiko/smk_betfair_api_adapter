@@ -9,8 +9,6 @@ class AdapterContextTest(unittest.TestCase):
         self.assertNotEqual(propertyValue, "", "property is empty in config")
 
     def test_that_environment_was_set_up_for_testing(self):
-        self.assertPropertyWasSet(OAUTH_CONSUMER_KEY)
-        self.assertPropertyWasSet(OAUTH_CONSUMER_SECRET)
         self.assertPropertyWasSet(SMK_API_HOST)
         self.assertPropertyWasSet(SMK_API_PORT)
         self.assertPropertyWasSet(SMK_REST_API_PORT)
