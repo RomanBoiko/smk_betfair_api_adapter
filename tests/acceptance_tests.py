@@ -12,12 +12,13 @@ from smkadapter import adapter_context
 
 LOG = logging.getLogger('[adapter.test]')
 
-TEST_MARKET_ID = 407213
+TEST_MARKET_ID = 408105
+TEST_CONTRACT_ID = id=654383
 
 class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
     def makePauseToAllowAdapterToStart(self):
-        time.sleep(1)
+        time.sleep(3)
 
     def test_real_flow_using_bfpy(self):
         self.makePauseToAllowAdapterToStart()
@@ -34,9 +35,12 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             adapterResponse = str(bfClient.getCurrentBets(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 
+            adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=TEST_MARKET_ID))
+            LOG.debug(adapterResponse)
+
             placeBet = bfClient.createPlaceBets()
             placeBet.asianLineId = 0
-            placeBet.selectionId = 652546
+            placeBet.selectionId = TEST_CONTRACT_ID
             placeBet.price = 500
             placeBet.size = 2.0
             placeBet.bspLiability = 0.0
@@ -63,8 +67,6 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 
-            adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=TEST_MARKET_ID))
-            LOG.debug(adapterResponse)
             
             adapterResponse = str(bfClient.getBet(bfpy.ExchangeUK, betId=84181754822673358))
             LOG.debug(adapterResponse)

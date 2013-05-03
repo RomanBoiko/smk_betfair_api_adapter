@@ -152,12 +152,12 @@ class Events(object):
         self.parentToEvent[str(parentIdInt)].append(event)
     def putMarket(self, marketId, market):
         if str(marketId) not in self.marketIdToMarket:
-#            LOG.debug("[new market]: id=%s"%marketId)
+            LOG.debug("[new market]: id=%s"%marketId)
             self.marketIdToMarket[str(marketId)] = market
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
             self.marketToContract[str(parentMarketIdInt)] = []
-#        LOG.debug("[new contract]: id=%s, parentMarket=%s"%(contract.marketId, parentMarketIdInt))
+        LOG.debug("[new contract]: id=%s, parentMarket=%s"%(contract.marketId, parentMarketIdInt))
         self.marketToContract[str(parentMarketIdInt)].append(contract)
 
     def parentsCount(self):
@@ -192,7 +192,7 @@ class Event(object):
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
         self.marketId = marketId
-        self.marketName = marketName
+        self.marketName = marketName.encode("utf-8")
         self.marketTypeId = marketTypeId
         self.marketParentEventId = marketParentEventId
         self.startTime = startDateTime
@@ -441,7 +441,7 @@ class SmkClient(object):
             eventsMessages = []
             eventsMessagesUrls = []
             datePlusDelta = lambda daysDelta: (todaysDate()+timedelta(days=daysDelta))
-            numberOfDaysToGetEventsFor = 7
+            numberOfDaysToGetEventsFor = 1
             for dayDelta in range(numberOfDaysToGetEventsFor):
                 day = datePlusDelta(dayDelta)
                 eventsMessagesUrls.append(self.getEventsUrls(smarkets.events.FootballByDate(day)))

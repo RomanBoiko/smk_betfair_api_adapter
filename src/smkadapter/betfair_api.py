@@ -29,8 +29,8 @@ def readFile(path):
     fileStream.close()
     return data
 
-def unicodeXml(xml):
-    return bytes(bytearray(xml, encoding='utf-8'))
+def unicodeString(xml):
+    return str(bytes(bytearray(xml, encoding='utf-8')))
 
 actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
@@ -47,7 +47,7 @@ actions = {"login": lambda x:login(x),
 
 class BetfairRequest(object):
     def __init__(self, request):
-        self.requestTree = etree.XML(unicodeXml(request))
+        self.requestTree = etree.XML(unicodeString(request))
 
     def actionName(self):
         return self.requestTree.xpath("local-name(//*[local-name()='Body']/*[1])")
@@ -149,8 +149,11 @@ def getAllMarkets(request):
             'N',#Non-BSP market(BetfairStartingPrice)
             'Y'#Scheduled to be turned in-play
             ]
-        resultsTildaSeparated.append("~".join(map(str, marketData)))
-    result = ":".join(resultsTildaSeparated)
+        marketDataCompressed = "~".encode("utf-8").join(map(str, marketData))
+        print "===>"+marketDataCompressed
+        resultsTildaSeparated.append(marketDataCompressed)
+    result = ":".encode("utf-8").join(resultsTildaSeparated)
+#    result = result
     return Template(readFile("templates/getAllMarkets.response.xml")).render(sessionId=sessionId, marketsData=result)
 
 def getMarketPricesCompressed(request):
