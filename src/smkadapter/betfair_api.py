@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import logging
 from lxml import etree
 import os
@@ -30,7 +32,7 @@ def readFile(path):
     return data
 
 def unicodeString(xml):
-    return str(bytes(bytearray(xml, encoding='utf-8')))
+    return xml
 
 actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
@@ -149,10 +151,9 @@ def getAllMarkets(request):
             'N',#Non-BSP market(BetfairStartingPrice)
             'Y'#Scheduled to be turned in-play
             ]
-        marketDataCompressed = "~".encode("utf-8").join(map(str, marketData))
-        print "===>"+marketDataCompressed
+        marketDataCompressed = "~".join('%s' % m for m in marketData)
         resultsTildaSeparated.append(marketDataCompressed)
-    result = ":".encode("utf-8").join(resultsTildaSeparated)
+    result = ":".join(resultsTildaSeparated)
 #    result = result
     return Template(readFile("templates/getAllMarkets.response.xml")).render(sessionId=sessionId, marketsData=result)
 

@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import logging
 import threading
 import BaseHTTPServer
@@ -15,7 +17,7 @@ class NoZsiPostHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         LOG.debug("adapter_request: [%s]"%adapterRequest)
         adapterResponse = betfair_api.dispatchRequest(adapterRequest)
         LOG.debug("adapter_response: [%s]"%adapterResponse)
-        self.wfile.write(adapterResponse)
+        self.wfile.write(adapterResponse.encode('utf-8'))
 
 
 def betfairApiServer():

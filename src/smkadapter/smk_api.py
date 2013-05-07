@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import logging
 import threading
 import pprint
@@ -179,7 +181,7 @@ class Events(object):
 class Event(object):
     def __init__(self, eventId, eventName, eventTypeId, startDateTime):
         self.eventId = eventId
-        self.eventName = eventName.encode("utf-8")
+        self.eventName = eventName
         self.eventTypeId = eventTypeId
         self.startTime = startDateTime
 
@@ -192,7 +194,7 @@ class Event(object):
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
         self.marketId = marketId
-        self.marketName = marketName.encode("utf-8")
+        self.marketName = marketName
         self.marketTypeId = marketTypeId
         self.marketParentEventId = marketParentEventId
         self.startTime = startDateTime
