@@ -31,9 +31,6 @@ def readFile(path):
     fileStream.close()
     return data
 
-def unicodeString(xml):
-    return xml
-
 actions = {"login": lambda x:login(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
            "logout": lambda x:logout(x),
@@ -49,7 +46,7 @@ actions = {"login": lambda x:login(x),
 
 class BetfairRequest(object):
     def __init__(self, request):
-        self.requestTree = etree.XML(unicodeString(request))
+        self.requestTree = etree.XML(request)
 
     def actionName(self):
         return self.requestTree.xpath("local-name(//*[local-name()='Body']/*[1])")

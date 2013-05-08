@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import sys
 import unittest
 import time
@@ -41,7 +43,7 @@ SESSION_TOKEN="someSessionToken"
 LOG = logging.getLogger('[betfair.api.test]')
 
 def xmlElement(xml, elementName):
-    return etree.XML(betfair_api.unicodeString(xml)).xpath("//*[local-name()='%s']"%elementName)
+    return etree.XML(str(xml)).xpath("//*[local-name()='%s']"%elementName)
 
 def mockGetAccountFundsResponse(businessUnitMock):
     accountFundsResponseMock = businessUnitMock.getAccountFunds.return_value

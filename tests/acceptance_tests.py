@@ -12,8 +12,8 @@ from smkadapter import adapter_context
 
 LOG = logging.getLogger('[adapter.test]')
 
-TEST_MARKET_ID = 431881
-TEST_CONTRACT_ID = id=703513
+TEST_MARKET_ID = 432903
+TEST_CONTRACT_ID = 705644
 
 class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
