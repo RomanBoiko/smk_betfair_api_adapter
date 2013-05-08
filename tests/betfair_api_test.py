@@ -133,8 +133,8 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         quantity=244.0
         createdDateInMillis="somedate"
         response.bets=[]
-        response.bets.append(smk_api.BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, True))
-        response.bets.append(smk_api.BetDetails(orderId+1, marketId, contractId, price, status, quantity, createdDateInMillis, False))
+        response.bets.append(smk_api.BetDetails(orderId, marketId, "marketName", contractId, "contractName", price, status, quantity, createdDateInMillis, True))
+        response.bets.append(smk_api.BetDetails(orderId+1, marketId, "marketName", contractId, "contractName", price, status, quantity, createdDateInMillis, False))
         
     def should_place_bets(self, bfClient, businessUnitMock):
         betResult=Mock()

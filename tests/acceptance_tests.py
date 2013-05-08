@@ -55,6 +55,11 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
             bet = placeBetResponse.betResults[0]
 
+            adapterResponse = str(bfClient.getBet(bfpy.ExchangeUK, betId=bet.betId))
+            LOG.debug(adapterResponse)
+            self.assertFalse("selectionName = \"Name for" in adapterResponse)
+            self.assertFalse("marketName = \"Name for" in adapterResponse)
+
             cancelBet = bfClient.createCancelBets()
             cancelBet.betId = bet.betId
 
@@ -67,9 +72,6 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 
-            
-            adapterResponse = str(bfClient.getBet(bfpy.ExchangeUK, betId=84181754822673358))
-            LOG.debug(adapterResponse)
 
             adapterResponse = str(bfClient.getMUBets(bfpy.ExchangeUK, marketId=276267, betStatus='M'))
             LOG.debug(adapterResponse)

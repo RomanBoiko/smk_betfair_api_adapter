@@ -26,8 +26,8 @@
                     <cancelledDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</cancelledDate>
                     <lapsedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</lapsedDate>
                     <marketId xsi:type="xsd:int">{{bet.marketId}}</marketId>
-                    <marketName xsi:type="xsd:string">not_implemented</marketName>
-                    <fullMarketName xsi:type="xsd:string">not_implemented</fullMarketName>
+                    <marketName xsi:type="xsd:string">{{bet.marketName}}</marketName>
+                    <fullMarketName xsi:type="xsd:string">{{bet.marketName}}</fullMarketName>
                     <marketType xsi:type="ns2:MarketTypeEnum">NOT_APPLICABLE</marketType>
                     <marketTypeVariant xsi:type="ns2:MarketTypeVariantEnum">D</marketTypeVariant>
                     <matchedDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</matchedDate>
@@ -38,7 +38,7 @@
                     <bspLiability xsi:type="xsd:double">{{bet.quantity}}</bspLiability>
                     <profitAndLoss xsi:type="xsd:double">{{bet.quantity}}</profitAndLoss>
                     <selectionId xsi:type="xsd:int">{{bet.contractId}}</selectionId>
-                    <selectionName xsi:type="xsd:string">not_implemented</selectionName>
+                    <selectionName xsi:type="xsd:string">{{bet.contractName}}</selectionName>
                     <settledDate xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</settledDate>
                     <remainingSize xsi:type="xsd:double">{{bet.quantity}}</remainingSize>
                     <requestedSize xsi:type="xsd:double">{{bet.quantity}}</requestedSize>

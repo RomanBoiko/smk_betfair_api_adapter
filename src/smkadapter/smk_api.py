@@ -93,10 +93,12 @@ class BetCancel(object):
         return self.__str__()
 
 class BetDetails(object):
-    def __init__(self, betId, marketId, contractId, price, status, quantity, createdDateInMillis, isBetTypeBuy):
+    def __init__(self, betId, marketId, marketName, contractId, contractName, price, status, quantity, createdDateInMillis, isBetTypeBuy):
         self.id = betId
         self.marketId = marketId
+        self.marketName = marketName
         self.contractId = contractId
+        self.contractName = contractName
         self.priceInBetfairFormatBetween1and1000 = smkPriceToBetfairPriceInFormatBetween1and1000(price)
         self.status = smkOrderStatusToBetfairBetStatus(status)
         self.quantity = smkCashAmountToReal(quantity)
@@ -107,8 +109,23 @@ class BetDetails(object):
     def __repr__(self):
         return self.__str__()
 
+def getMarketName(marketId, events):
+    market = events.marketIdToMarket.get(str(marketId))
+    if market is None:
+        return "Name for old market can not be retreived"
+    else:
+        return market.eventName
+
+def getContractName(contractId, events):
+    contract = events.contractIdToContract.get(str(contractId))
+    if contract is None:
+        return "Name for old contract can not be retreived"
+    else:
+        return contract.marketName
+
+
 class BetsForAccount(object):
-    def __init__(self, ordersForAccountMessage):
+    def __init__(self, ordersForAccountMessage, events):
         self.bets = []
         for marketOrders in ordersForAccountMessage.orders_for_account.markets:
             marketId = uuidToInteger(marketOrders.market)
@@ -121,7 +138,7 @@ class BetsForAccount(object):
                         status = order.status
                         quantity = order.quantity
                         createdDateInMillis = order.created_microseconds
-                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, True))
+                        self.bets.append(BetDetails(orderId, marketId, getMarketName(marketId, events), contractId, getContractName(contractId, events), price, status, quantity, createdDateInMillis, True))
                 for bid in contract.offers:
                     price = bid.price
                     for order in bid.orders:
@@ -129,7 +146,7 @@ class BetsForAccount(object):
                         status = order.status
                         quantity = order.quantity
                         createdDateInMillis = order.created_microseconds
-                        self.bets.append(BetDetails(orderId, marketId, contractId, price, status, quantity, createdDateInMillis, False))
+                        self.bets.append(BetDetails(orderId, marketId, getMarketName(marketId, events), contractId, getContractName(contractId, events), price, status, quantity, createdDateInMillis, False))
     def __str__(self):
         return ("BetsForAccount(bets=%s)"%(pprint.pformat(self.bets)))
     def __repr__(self):
@@ -148,6 +165,7 @@ class Events(object):
         self.parentToEvent={}
         self.marketIdToMarket={}
         self.marketToContract={}
+        self.contractIdToContract={}
     def putEvent(self, parentIdInt, event):
         if str(parentIdInt) not in self.parentToEvent:
             self.parentToEvent[str(parentIdInt)] = []
@@ -161,6 +179,7 @@ class Events(object):
             self.marketToContract[str(parentMarketIdInt)] = []
         LOG.debug("[new contract]: id=%s, parentMarket=%s"%(contract.marketId, parentMarketIdInt))
         self.marketToContract[str(parentMarketIdInt)].append(contract)
+        self.contractIdToContract[str(contract.marketId)]=contract
 
     def parentsCount(self):
         return len(self.parentToEvent)
@@ -401,7 +420,9 @@ class SmkClient(object):
         return self.getSmkResponse(lambda: self.client.request_account_state(), 'seto.account_state', AccountState).result
 
     def getBetsForAccount(self):
-        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', BetsForAccount).result
+        events = self.footballActiveEvents()
+        betsForAccountConstructor = lambda ordersMessage: BetsForAccount(ordersMessage, events)
+        return self.getSmkResponse(lambda: self.client.request_orders_for_account(), 'seto.orders_for_account', betsForAccountConstructor).result
 
     def placeBet(self, marketId, contractId, quantity, price, isBetTypeBuy):
         order = smarkets.Order()
