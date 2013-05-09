@@ -224,7 +224,7 @@ class MarketPrices(object):
         self.inPlayDelay = 0
         self.numberOfWinners = 1
         self.marketInformation = None
-        self.isDiscountAllowed = False
+        self.isDiscountAllowed = "false"
         self.marketBaseRate = 0.0#Base rate of commission on market
         self.refreshTimeInMilliseconds = 0#deprecated
         self.removedRunnersInformationComposed = ""#should be three fields per each removed runner

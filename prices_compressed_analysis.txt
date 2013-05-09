@@ -1,0 +1,65 @@
+     (MarketItem){
+         marketTime = 2013-05-09 17:00:00
+         exchangeId = 1
+         countryISO3 = ""
+         eventHierarchy[] = <empty>
+         menuPath = "Football\Asian handicap Panathinaikos FC +2.00"
+         marketType = "125062"
+         lastRefresh = 2013-05-09 19:41:18
+         marketId = 446238
+         delay = 0
+         totalAmountMatched = 0.0
+         marketStatus = "ACTIVE"
+         marketName = "Asian handicap Panathinaikos FC +2.00"
+         numberOfWinners = 1
+         numberOfRunners = 2
+         bspMarket = False
+         menuPathParts[] = 
+            "Asian handicap Panathinaikos FC +2.00",
+         turningInPlay = True
+      },
+
+
+      marketPrices = 
+      (MarketPrices){
+         discountAllowed = True
+         lastRefresh = 1970-01-01 00:00:00
+         marketInfo = "None"
+         currencyCode = "GBP"
+         marketBaseRate = 0.0
+         marketId = 439018
+         delay = 0
+         marketStatus = "ACTIVE"
+         removedRunners = ""
+         runnerPrices[] = <empty>
+         numberOfWinners = 1
+         bspMarket = False
+      }
+      
+      
+439018~GBP~ACTIVE~0~1~None~False                                                 ~0.0~0            ~removedrunners~N~~~
+5082333~GBP~ACTIVE~0~1~NR\: (RSA) <br>8. FanMail (0%,11\:07), 6(2.5%,11\:08)~true~5.0~1162835723938~removedrunners~0~6.04~8.4~~11.9~false||:670160~1~6.18~17.5~~4.2~false||:1132008~2~9.78~5.2~~20.4~false||:894820~3~140.02~4.6~~20.4~false||1.01~5.0~B~1~:1414415~4~8.2~6.2~~16.0~false||:575636~5~5.54~11.5~~8.6~false||:1433455~6~0.0~~~0.4~false||:1433456~7~0.0~~~0.9~false||:746753~8~5.54~11.5~~5.2~false||:1433457~9~0.0~~~4.2~false||:1147548~10~0.0~~~2.6~false||:1433458~11~62.46~2.0~~3.5~false||:1433459~12~0.0~~~
+0.9~false||:1433460~13~0.0~~~0.9~false||
+
+5082333~GBP~ACTIVE~0~1~NR\: (RSA) <br>8. FanMail (0%,11\:07), 6(2.5%,11\:08)~true~5.0~1162835723938~ -------------- 1-9 untill long timeMillis
+6. Earlswood,9.08,2.5;
+8. Fan Mail,9.07,2.4;                  -----------------------removed runners
+
+Y                                      -----------------------Betfair Starting Price Information
+
+:1058616~0~6.04~8.4~~11.9~false||
+:670160~1~6.18~17.5~~4.2~false||
+:1132008~2~9.78~5.2~~20.4~false||
+:894820~3~140.02~4.6~~20.4~false||1.01~5.0~B~1~
+:1414415~4~8.2~6.2~~16.0~false||
+:575636~5~5.54~11.5~~8.6~false||
+:1433455~6~0.0~~~0.4~false||
+:1433456~7~0.0~~~0.9~false||
+:746753~8~5.54~11.5~~5.2~false||
+:1433457~9~0.0~~~4.2~false||
+:1147548~10~0.0~~~2.6~false||
+:1433458~11~62.46~2.0~~3.5~false||
+:1433459~12~0.0~~~
+0.9~false||
+:1433460~13~0.0~~~0.9~false||
+
