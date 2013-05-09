@@ -12,8 +12,7 @@ from smkadapter import adapter_context
 
 LOG = logging.getLogger('[adapter.test]')
 
-TEST_MARKET_ID = 432903
-TEST_CONTRACT_ID = 705644
+TEST_CONTRACT_ID = 718348
 
 class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
@@ -35,7 +34,12 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             adapterResponse = str(bfClient.getCurrentBets(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 
-            adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=TEST_MARKET_ID))
+            allMarkets = bfClient.getAllMarkets(bfpy.ExchangeUK)
+            firstMarket = allMarkets.marketData[0]
+            adapterResponse = str(allMarkets)
+            LOG.debug(adapterResponse)
+
+            adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=firstMarket.marketId))
             LOG.debug(adapterResponse)
 
             placeBet = bfClient.createPlaceBets()
@@ -47,7 +51,7 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             placeBet.betType = 'B'
             placeBet.betCategoryType = 'E'
             placeBet.betPersistenceType = 'NONE'
-            placeBet.marketId = TEST_MARKET_ID
+            placeBet.marketId = firstMarket.marketId
             
             placeBetResponse = bfClient.placeBets(bfpy.ExchangeUK, bets=[placeBet])
             adapterResponse = str(placeBetResponse)
@@ -65,13 +69,9 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
 
             adapterResponse = str(bfClient.cancelBets(bfpy.ExchangeUK, bets=[cancelBet]))
             LOG.debug(adapterResponse)
-            
-            adapterResponse = str(bfClient.cancelBetsByMarket(bfpy.ExchangeUK, markets=[TEST_MARKET_ID]))
-            LOG.debug(adapterResponse)
 
-            adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
+            adapterResponse = str(bfClient.cancelBetsByMarket(bfpy.ExchangeUK, markets=[firstMarket.marketId]))
             LOG.debug(adapterResponse)
-
 
             adapterResponse = str(bfClient.getMUBets(bfpy.ExchangeUK, marketId=276267, betStatus='M'))
             LOG.debug(adapterResponse)
