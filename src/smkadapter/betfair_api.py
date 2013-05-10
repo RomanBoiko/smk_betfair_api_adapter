@@ -151,7 +151,7 @@ def getAllMarkets(request):
         marketDataCompressed = "~".join('%s' % m for m in marketData)
         resultsTildaSeparated.append(marketDataCompressed)
     result = ":".join(resultsTildaSeparated)
-#    result = result
+    result = result.replace("&", "&amp;")
     return Template(readFile("templates/getAllMarkets.response.xml")).render(sessionId=sessionId, marketsData=result)
 
 def getMarketPricesCompressed(request):
