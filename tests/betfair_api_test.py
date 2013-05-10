@@ -13,6 +13,7 @@ import logging
 sys.path.append('dependencies/bfpy/src')
 import bfpy
 import bfpy.bfclient as bfclient
+import bfpy.bfprocessors
 from bfpy.bferror import BfError
 
 from smkadapter import smk_api,betfair_api, adapter, adapter_context
@@ -67,6 +68,24 @@ class BetfairApiUnitTest(unittest.TestCase):
         LOG.debug("login result: %s"%result)
         businessUnitMock.authenticateUserAndReturnHisSessionToken.assert_called_with("username", "password")
         self.assertEqual(xmlElement(result, "sessionToken")[0].text, SESSION_TOKEN)
+
+class SmkMarketPricesMock(object):
+    def __init__(self, marketId, contracts):
+        self.marketId = marketId
+        self.contracts = contracts
+
+class MarketPricesCompressionUnitTest(unittest.TestCase):
+    def test_that_market_prices_are_compressing_fine(self):
+        marketId = 123
+        contractId = 333
+        bids = [smk_api.MarketPrice(544, 2.34), smk_api.MarketPrice(541, 2.33)]
+        offers = [smk_api.MarketPrice(12, 1.34)]
+        contracts = [smk_api.ContractPrices(contractId, bids, offers),smk_api.ContractPrices(contractId+1, bids, offers)]
+        smkMarketPrices = SmkMarketPricesMock(marketId, contracts)
+        compressionResult = betfair_api.MarketPrices(smkMarketPrices).compress()
+        self.assertEquals("123~GBP~ACTIVE~0~1~None~false~0.0~0~~N:333~0~0.0~0.0~~0.0~false~0.0~0.0~0.0|12~1.34~L~1|544~2.34~B~1~541~2.33~B~1:334~0~0.0~0.0~~0.0~false~0.0~0.0~0.0|12~1.34~L~1|544~2.34~B~1~541~2.33~B~1",
+                          compressionResult)
+        print str(bfpy.bfprocessors.ProcMarketPricesCompressed().ParseMarketPricesCompressed(compressionResult))
 
 class BetfairApiIntegrationTest(unittest.TestCase):
     @patch('smkadapter.betfair_api.businessUnit')

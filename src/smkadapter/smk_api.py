@@ -234,18 +234,26 @@ class MarketPrice(object):
         self.price = price
         self.quantity = quantity
 
+class ContractPrices(object):
+    def __init__(self, contractId, bids, offers):
+        self.contractId = contractId
+        self.bids = bids
+        self.offers = offers
+
 class MarketPrices(object):
     def __init__(self, marketQuotesMessage):
-        self.price = 0
         self.marketId = uuidToInteger(marketQuotesMessage.market_quotes.market)
-        self.bids = []
-        self.offers = []
+        self.contracts = []
 
         for contractQuotes in marketQuotesMessage.market_quotes.contract_quotes:
+            bids = []
+            offers = []
+            contractId = uuidToInteger(contractQuotes.contract)
             for bid in contractQuotes.bids:
-                self.bids.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(bid.price), smkCashAmountToReal(bid.quantity)))
+                bids.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(bid.price), smkCashAmountToReal(bid.quantity)))
             for offer in contractQuotes.offers:
-                self.offers.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(offer.price), smkCashAmountToReal(offer.quantity)))
+                offers.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(offer.price), smkCashAmountToReal(offer.quantity)))
+            self.contracts.append(ContractPrices(contractId, bids, offers))
 
     def __str__(self):
         return ("MarketPrices(price=%s)"%(self.price))
