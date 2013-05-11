@@ -4,44 +4,58 @@
     <SOAP-ENV:Body xmlns:ns1="http://www.betfair.com/publicapi/v5/BFExchangeService/" xmlns:ns2="http://www.betfair.com/publicapi/types/exchange/v5/">
         <ns1:getMarketResponse>
             <ns1:Result>
-                <header>
-                    <errorCode>OK</errorCode>
-                    <minorErrorCode xsi:nil="1"></minorErrorCode>
-                    <sessionToken>1018fcdd2ce34ea182aaf2e4df3a0d9c</sessionToken>
-                    <timestamp>2013-04-28T14:13:07.006Z</timestamp>
+                <header xsi:type="ns2:APIResponseHeader">
+                   <errorCode xsi:type="ns2:APIErrorEnum">OK</errorCode>
+                   <minorErrorCode xsi:nil="1"/>
+                   <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+                   <timestamp xsi:type="xsd:dateTime">2013-02-19T20:09:58.751Z</timestamp>
                 </header>
-                <errorCode>OK</errorCode>
-                <market>
-                    <countryISO3>xsd:string</countryISO3>
+                {% if market %}
+                <errorCode xsi:type="ns2:GetMarketErrorEnum">OK</errorCode>
+                <market xsi:type="ns2:Market">
+                    <countryISO3 xsi:nil="1"/>
                     <discountAllowed>false</discountAllowed>
-                    <eventTypeId>1</eventTypeId>
-                    <lastRefresh>2</lastRefresh>
-                    <marketBaseRate>1.000000</marketBaseRate>
-                    <marketDescription>xsd:string</marketDescription>
-                    <marketDescriptionHasDate>false</marketDescriptionHasDate>
-                    <marketDisplayTime>2013-04-28T14:13:07.006Z</marketDisplayTime>
-                    <marketId>1111111</marketId>
-                    <marketStatus>ACTIVE</marketStatus>
-                    <marketSuspendTime>2013-04-28T14:13:07.006Z</marketSuspendTime>
-                    <marketTime>2013-04-28T14:13:07.006Z</marketTime>
-                    <marketType>NOT_APPLICABLE</marketType>
-                    <marketTypeVariant>D</marketTypeVariant>
+                    <eventTypeId xsi:type="xsd:int">{{market.eventTypeId}}</eventTypeId>
+                    <lastRefresh xsi:type="xsd:long">0</lastRefresh>
+                    <marketBaseRate xsi:type="xsd:float">0.000000</marketBaseRate>
+                    <marketDescription  xsi:type="xsd:string">{{market.eventName}}</marketDescription>
+                    <marketDescriptionHasDate xsi:type="xsd:boolean">false</marketDescriptionHasDate>
+                    <marketDisplayTime xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</marketDisplayTime>
+                    <marketId xsi:type="xsd:int">{{market.eventId}}</marketId>
+                    <marketStatus xsi:type="ns2:MarketStatusEnum">ACTIVE</marketStatus>
+                    <marketSuspendTime xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</marketSuspendTime>
+                    <marketTime xsi:type="xsd:dateTime">2013-04-28T14:13:07.006Z</marketTime>
+                    <marketType xsi:type="ns2:MarketTypeEnum">NOT_APPLICABLE</marketType>
+                    <marketTypeVariant xsi:type="ns2:MarketTypeVariantEnum">D</marketTypeVariant>
                     <menuPath xsi:nil="1"></menuPath>
                     <eventHierarchy xsi:nil="1"></eventHierarchy>
-                    <name>xsd:string</name>
-                    <numberOfWinners>1</numberOfWinners>
-                    <parentEventId>1</parentEventId>
-                    <runners xsi:nil="1"></runners>
+                    <name xsi:type="xsd:string">{{market.eventName}}</name>
+                    <numberOfWinners xsi:type="xsd:int">0</numberOfWinners>
+                    <parentEventId xsi:type="xsd:int">0</parentEventId>
+                    <runners xsi:type="ns2:ArrayOfRunner">
+                        {% for contract in contracts %}
+                        <Runner xsi:type="ns2:Runner">
+                            <asianLineId xsi:type="xsd:int">0</asianLineId>
+                            <handicap xsi:type="xsd:double">0.0</handicap>
+                            <name xsi:type="xsd:string">{{contract.marketName}}</name>
+                            <selectionId xsi:type="xsd:int">{{contract.marketId}}</selectionId>
+                        </Runner>
+                        {% endfor %}
+                    </runners>
                     <unit xsi:nil="1"></unit>
                     <maxUnitValue xsi:nil="1"></maxUnitValue>
                     <minUnitValue xsi:nil="1"></minUnitValue>
                     <interval xsi:nil="1"></interval>
-                    <runnersMayBeAdded>false</runnersMayBeAdded>
-                    <timezone xsi:nil="1"></timezone>
-                    <licenceId>1</licenceId>
-                    <couponLinks xsi:nil="1"></couponLinks>
-                    <bspMarket>false</bspMarket>
+                    <runnersMayBeAdded xsi:type="xsd:boolean">false</runnersMayBeAdded>
+                    <timezone xsi:nil="1"/>
+                    <licenceId xsi:type="xsd:int">1</licenceId>
+                    <couponLinks xsi:nil="1"/>
+                    <bspMarket xsi:type="xsd:boolean">false</bspMarket>
                 </market>
+                {% else %}
+                <errorCode xsi:type="ns2:GetMarketErrorEnum">INVALID_MARKET</errorCode>
+                <market xsi:nil="1"/>
+                {% endif %}
                 <minorErrorCode xsi:nil="1"></minorErrorCode>
             </ns1:Result>
         </ns1:getMarketResponse>

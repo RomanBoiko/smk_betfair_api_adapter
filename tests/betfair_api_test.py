@@ -116,6 +116,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         self.should_cancel_bets(bfClient, businessUnitMock)
         self.should_get_compressed_market_prices(bfClient, businessUnitMock)
         self.should_get_all_markets(bfClient, businessUnitMock)
+        self.should_get_market_data(bfClient, businessUnitMock)
         self.should_cancel_bets_by_market(bfClient, businessUnitMock)
         self.should_get_MUBets(bfClient, businessUnitMock)
         self.should_get_bet(bfClient, businessUnitMock)
@@ -224,6 +225,20 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
         LOG.debug(adapterResponse)
 #        self.assertTrue('marketId = 444' in adapterResponse)
+        
+    def should_get_market_data(self, bfClient, businessUnitMock):
+        events = smk_api.Events()
+        eventId=12
+        eventName="someEvent"
+        eventTypeId = 1
+        events.putMarket(233, smk_api.Event(eventId, eventName, eventTypeId, datetime.datetime(2012, 12, 22)))
+        events.putContract(233, smk_api.Market(333, "contractN", eventTypeId, 233, datetime.datetime(2012, 12, 22)))
+        businessUnitMock.getTodaysFootballEvents.return_value = events
+        marketData = bfClient.getMarket(bfpy.ExchangeUK, marketId=233)
+        adapterResponse = str(marketData)
+        LOG.debug(adapterResponse)
+        self.assertTrue('marketDescription = "someEvent"' in adapterResponse)
+        self.assertTrue('selectionId = 333' in adapterResponse)
 
     def should_logout_from_session(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.logout())

@@ -1,29 +1,29 @@
-=====================================================================
-|N  |Action                    |Shop1|Shop2|Shop3|Status |ProdReady?|
-=====================================================================
-|1  |Login                     | Yes | Yes | Yes | Ready |   YES    |
-|2  |GetMarketPrices           | Yes | No  | No  |  --   |          |
-|3  |GetMarketPricesCompressed | Yes | Yes | Yes | Ready |   YES    |
-|4  |GetTradedVolume           | Yes | No  | Yes |  --   |          |
-|5  |GetTradedVolumeCompressed | Yes | No  | No  |  --   |          |
-|6  |GetMarket                 | Yes | No  | Yes |  --   |          |
-|7  |GetEvents                 | Yes | No  | No  | Ready |          |
-|8  |PlaceBets                 | Yes | Yes | Yes | Ready |   YES    |
-|9  |CancelBets                | Yes | Yes | Yes | Ready |   YES    |
-|10 |UpdateBet                 | Yes | Yes | Yes | Ready |          |
-|11 |CancelBetsByMarket        | Yes | Yes | No  | Ready |   YES    |
-|12 |GetMUBets                 | Yes | Yes | Yes | Ready |   YES    |
-|13 |GetBetDetails             | Yes | No  | Yes | Ready |   YES    |
-|14 |Logout                    | Yes | No  | No  | Ready |   YES    |
-|15 |GetAccountFunds           | No  | Yes | Yes | Ready |   YES    |
-|16 |GetAllMarkets             | No  | Yes | Yes | Ready |   YES    |
-|17 |GetBetsHistory            | No  | Yes | Yes | Ready |          |
-|18 |GetEventTypes             | No  | No  | Yes | Ready |   YES    |
-|19 |GetInPlayMarkets          | No  | No  | Yes |  --   |          |
-|20 |GetAccountStatement       | No  | No  | Yes |  --   |          |
-|21 |GetCurrentBets            | No  | No  | No  | Ready |   YES    |
-|22 |KeepAlive                 | ?   | ?   | ?   |  --   |   YES    |
-=====================================================================
+=============================================================
+|N  |Action                    |Shop1|Shop2|Shop3|ProdReady?|
+=============================================================
+|1  |Login                     | Yes | Yes | Yes |   YES    |
+|2  |GetMarketPrices           | Yes | No  | No  |          |
+|3  |GetMarketPricesCompressed | Yes | Yes | Yes |   YES    |
+|4  |GetTradedVolume           | Yes | No  | Yes |          |
+|5  |GetTradedVolumeCompressed | Yes | No  | No  |          |
+|6  |GetMarket                 | Yes | No  | Yes |   YES    |
+|7  |GetEvents                 | Yes | No  | No  |          |
+|8  |PlaceBets                 | Yes | Yes | Yes |   YES    |
+|9  |CancelBets                | Yes | Yes | Yes |   YES    |
+|10 |UpdateBet                 | Yes | Yes | Yes |          |
+|11 |CancelBetsByMarket        | Yes | Yes | No  |   YES    |
+|12 |GetMUBets                 | Yes | Yes | Yes |   YES    |
+|13 |GetBetDetails             | Yes | No  | Yes |   YES    |
+|14 |Logout                    | Yes | No  | No  |   YES    |
+|15 |GetAccountFunds           | No  | Yes | Yes |   YES    |
+|16 |GetAllMarkets             | No  | Yes | Yes |   YES    |
+|17 |GetBetsHistory            | No  | Yes | Yes |          |
+|18 |GetEventTypes             | No  | No  | Yes |   YES    |
+|19 |GetInPlayMarkets          | No  | No  | Yes |          |
+|20 |GetAccountStatement       | No  | No  | Yes |          |
+|21 |GetCurrentBets            | No  | No  | No  |   YES    |
+|22 |KeepAlive                 | ?   | ?   | ?   |   YES    |
+=============================================================
 
 
 ==TODO:
@@ -38,3 +38,4 @@
 -test for updateBets
 -getEventTypes - replace hardcoded Football with one from getEvents
 -add matches to getMarketPricesCompressed - use executions 
+-add real market date to getMarket response

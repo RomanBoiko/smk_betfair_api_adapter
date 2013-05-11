@@ -41,6 +41,7 @@ actions = {"login": lambda x:login(x),
            "cancelBets": lambda x: cancelBets(x),
            "getMarketPricesCompressed": lambda x: getMarketPricesCompressed(x),
            "getAllMarkets": lambda x: getAllMarkets(x),
+           "getMarket": lambda x: getMarket(x),
            "cancelBetsByMarket": lambda x: cancelBetsByMarket(x),
            "getMUBets": lambda x: getMUBets(x),
            "getBet": lambda x: getBet(x)}
@@ -159,6 +160,14 @@ def getAllMarkets(request):
     result = ":".join(resultsTildaSeparated)
     result = result.replace("&", "&amp;")
     return Template(readFile("templates/getAllMarkets.response.xml")).render(sessionId=sessionId, marketsData=result)
+
+def getMarket(request):
+    sessionId = request.sessionId()
+    marketId = int(request.xpath("//*[local-name()='marketId']/text()")[0])
+    events = businessUnit().getTodaysFootballEvents(sessionId)
+    market = events.marketIdToMarket.get(str(marketId))
+    contracts = events.marketToContract.get(str(marketId))
+    return Template(readFile("templates/getMarket.response.xml")).render(sessionId=sessionId, market=market, contracts=contracts)
 
 def getMarketPricesCompressed(request):
     sessionId = request.sessionId()
