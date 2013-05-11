@@ -259,8 +259,11 @@ class MarketPrices(object):
             layPricesCompressed = "~".join(layPricesStrings)
             
             contractsOrRunners.append("|".join([contractDetails, layPricesCompressed, backPricesCompressed]))
-        contractsOrRunnersCompressed = ":".join(contractsOrRunners)
 
         marketDetailsCompressed = "~".join(map(str, [self.marketId, self.currency, self.marketStatus,self.inPlayDelay, self.numberOfWinners, self.marketInformation,
             self.isDiscountAllowed, self.marketBaseRate, self.refreshTimeInMilliseconds, self.removedRunnersInformationComposed, self.bspMarket]))
-        return marketDetailsCompressed + ":" + contractsOrRunnersCompressed
+        if len(contractsOrRunners) == 0:
+            return marketDetailsCompressed
+        else:
+            contractsOrRunnersCompressed = ":".join(contractsOrRunners)
+            return marketDetailsCompressed + ":" + contractsOrRunnersCompressed

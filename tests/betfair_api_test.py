@@ -75,7 +75,7 @@ class SmkMarketPricesMock(object):
         self.contracts = contracts
 
 class MarketPricesCompressionUnitTest(unittest.TestCase):
-    def test_that_market_prices_are_compressing_fine(self):
+    def test_that_market_prices_are_compressed_fine_with_contracts_data(self):
         marketId = 123
         contractId = 333
         bids = [smk_api.MarketPrice(544, 2.34), smk_api.MarketPrice(541, 2.33)]
@@ -86,6 +86,13 @@ class MarketPricesCompressionUnitTest(unittest.TestCase):
         self.assertEquals("123~GBP~ACTIVE~0~1~None~false~0.0~0~~N:333~0~0.0~0.0~~0.0~false~0.0~0.0~0.0|12~1.34~L~1|544~2.34~B~1~541~2.33~B~1:334~0~0.0~0.0~~0.0~false~0.0~0.0~0.0|12~1.34~L~1|544~2.34~B~1~541~2.33~B~1",
                           compressionResult)
         print str(bfpy.bfprocessors.ProcMarketPricesCompressed().ParseMarketPricesCompressed(compressionResult))
+
+    def test_that_market_prices_are_compressed_fine_without_contracts_data(self):
+        marketId = 123
+        smkMarketPrices = SmkMarketPricesMock(marketId, [])
+        compressionResult = betfair_api.MarketPrices(smkMarketPrices).compress()
+        self.assertEquals("123~GBP~ACTIVE~0~1~None~false~0.0~0~~N",
+                          compressionResult)
 
 class BetfairApiIntegrationTest(unittest.TestCase):
     @patch('smkadapter.betfair_api.businessUnit')
@@ -194,10 +201,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
     def should_get_compressed_market_prices(self, bfClient, businessUnitMock):
         marketPricesObject = Mock()
         marketPricesObject.marketId = 444
-        marketPricesObject.bids = []
-        marketPricesObject.offers = []
-        marketPricesObject.bids.append(smk_api.MarketPrice(200, 23.2))
-        marketPricesObject.offers.append(smk_api.MarketPrice(201, 23.3))
+        marketPricesObject.contracts = []
         businessUnitMock.getMarketPrices.return_value = smk_api.ActionSucceeded(marketPricesObject)
         adapterResponse = str(bfClient.getMarketPricesCompressed(bfpy.ExchangeUK, marketId=144))
         LOG.debug(adapterResponse)
