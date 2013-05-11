@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:n2="http://www.betfair.com/publicapi/types/global/v3/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <soap:Body>
+      <n:keepAlive xmlns:n="http://www.betfair.com/publicapi/v3/BFGlobalService/">
+         <n:Result xsi:type="n2:KeepAliveResp">
+            <header xsi:type="n2:APIResponseHeader">
+               <errorCode xsi:type="n2:APIErrorEnum">OK</errorCode>
+               <minorErrorCode xsi:nil="1"/>
+               <sessionToken xsi:type="xsd:string">{{ sessionId }}</sessionToken>
+               <timestamp xsi:type="xsd:dateTime">2013-02-11T17:29:18.440Z</timestamp>
+            </header>
+            <apiVersion xsi:type="xsd:string">0</apiVersion>
+            <minorErrorCode xsi:type="xsd:string">session is alive</minorErrorCode>
+         </n:Result>
+      </n:keepAlive>
+   </soap:Body>
+</soap:Envelope>

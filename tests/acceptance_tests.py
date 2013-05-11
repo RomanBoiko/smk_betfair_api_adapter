@@ -25,6 +25,9 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
         adapterResponse = bfClient.login(username=adapter_context.TEST_SMK_LOGIN, password=adapter_context.TEST_SMK_PASSWORD)
         LOG.debug(adapterResponse)
         try:
+            adapterResponse = str(bfClient.keepAlive())
+            LOG.debug(adapterResponse)
+
             adapterResponse = str(bfClient.getAccountFunds(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 

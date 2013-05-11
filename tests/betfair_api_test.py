@@ -108,6 +108,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         LOG.info("starting test")
         
         bfClient = self.should_login_and_return_bfpy_BfClient(businessUnitMock)
+        self.should_handle_keepAlive_call(bfClient)
         self.should_access_account_funds(bfClient, businessUnitMock)
         self.should_access_event_types(bfClient, businessUnitMock)
         self.should_access_current_accounts_bets(bfClient, businessUnitMock)
@@ -127,6 +128,12 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         businessUnitMock.authenticateUserAndReturnHisSessionToken.assert_called_with(adapter_context.TEST_SMK_LOGIN, adapter_context.TEST_SMK_PASSWORD)
         self.assertTrue('sessionToken = "%s"'%SESSION_TOKEN in str(adapterResponse))
         return bfClient
+
+    def should_handle_keepAlive_call(self, bfClient):
+        adapterResponse = str(bfClient.keepAlive())
+        LOG.debug(adapterResponse)
+        self.assertTrue('sessionToken = "someSessionToken"' in adapterResponse)
+        self.assertTrue('minorErrorCode = "session is alive"' in adapterResponse)
     
     def should_access_account_funds(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.getAccountFunds(bfpy.ExchangeUK))

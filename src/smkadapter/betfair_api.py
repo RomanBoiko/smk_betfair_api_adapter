@@ -32,6 +32,7 @@ def readFile(path):
     return data
 
 actions = {"login": lambda x:login(x),
+           "keepAlive": lambda x:keepAlive(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
            "logout": lambda x:logout(x),
            "getAccountFunds": lambda x:getAccountFunds(x),
@@ -81,6 +82,11 @@ def login(request):
         return template.render(sessionId=sessionToken, errorCode=ERROR_CODE_OK, currency=currency)
     else:
         return template.render(sessionId="", errorCode=ERROR_INVALID_USERNAME_OR_PASSWORD, currency="")
+
+def keepAlive(request):
+    sessionId = request.sessionId()
+    template = Template(readFile("templates/keepAlive.response.xml"))
+    return template.render(sessionId=sessionId)
 
 def getAllEventTypes(request):
     sessionId = request.sessionId()

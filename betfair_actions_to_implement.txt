@@ -22,6 +22,7 @@
 |19 |GetInPlayMarkets          | No  | No  | Yes |  --   |          |
 |20 |GetAccountStatement       | No  | No  | Yes |  --   |          |
 |21 |GetCurrentBets            | No  | No  | No  | Ready |   YES    |
+|22 |KeepAlive                 | ?   | ?   | ?   |  --   |   YES    |
 =====================================================================
 
 
@@ -33,8 +34,7 @@
 -show market name in getBets
 -get NotActive events for previous days in getEvents response
 -fix path to market in menu and eventId hierarchy in getAllMarkets
--fix performance and remove adapter_context.isTestingEnv
+-fix performance(make single markets cache for all clients, ...)
 -test for updateBets
--how to find selectionId=contractId from Market details? maybe wrong level of market==contract in getEvents?
 -getEventTypes - replace hardcoded Football with one from getEvents
 -add matches to getMarketPricesCompressed - use executions 
