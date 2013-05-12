@@ -114,14 +114,14 @@ def getMarketName(marketId, events):
     if market is None:
         return "Name for old market can not be retreived"
     else:
-        return market.eventName
+        return market.marketName
 
 def getContractName(contractId, events):
     contract = events.contractIdToContract.get(str(contractId))
     if contract is None:
         return "Name for old contract can not be retreived"
     else:
-        return contract.marketName
+        return contract.contractName
 
 
 class BetsForAccount(object):
@@ -172,14 +172,12 @@ class Events(object):
         self.parentToEvent[str(parentIdInt)].append(event)
     def putMarket(self, marketId, market):
         if str(marketId) not in self.marketIdToMarket:
-            LOG.debug("[new market]: id=%s"%marketId)
             self.marketIdToMarket[str(marketId)] = market
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
             self.marketToContract[str(parentMarketIdInt)] = []
-        LOG.debug("[new contract]: id=%s, parentMarket=%s"%(contract.marketId, parentMarketIdInt))
         self.marketToContract[str(parentMarketIdInt)].append(contract)
-        self.contractIdToContract[str(contract.marketId)]=contract
+        self.contractIdToContract[str(contract.contractId)]=contract
 
     def parentsCount(self):
         return len(self.parentToEvent)
@@ -209,7 +207,6 @@ class Event(object):
     def __repr__(self):
         return self.__str__()
 
-
 class Market(object):
     def __init__(self, marketId, marketName, marketTypeId, marketParentEventId, startDateTime):
         self.marketId = marketId
@@ -217,6 +214,11 @@ class Market(object):
         self.marketTypeId = marketTypeId
         self.marketParentEventId = marketParentEventId
         self.startTime = startDateTime
+
+class Contract(object):
+    def __init__(self, contractId, contractName):
+        self.contractId = contractId
+        self.contractName = contractName
 
 def uuidToInteger(uuid):
     uu = Uuid.from_int((uuid.high, uuid.low), 'Account')
@@ -278,16 +280,12 @@ class EventsParser(object):
             self._events.putEvent(FOOTBALL_EVENT_TYPE_ID, self.footballEvent(parentIdInt, parent.name, eventStartTime))
 
     def addContract(self, contract, marketIdInt, eventStartTime):
-        smkContract = Market(uuidToInteger(contract.contract),
-                             contract.name,
-                             FOOTBALL_EVENT_TYPE_ID,
-                             marketIdInt, eventStartTime)
+        smkContract = Contract(uuidToInteger(contract.contract), contract.name)
         self._events.putContract(marketIdInt, smkContract)
 
     def addMarket(self, marketItem, eventIdInt, eventStartTime):
         marketIdInt = uuidToInteger(marketItem.market)
-        self._events.putMarket(marketIdInt, self.footballEvent(marketIdInt, marketItem.name, eventStartTime))
-        self._events.putEvent(eventIdInt, self.footballEvent(marketIdInt, marketItem.name, eventStartTime))
+        self._events.putMarket(marketIdInt, Market(marketIdInt, marketItem.name, FOOTBALL_EVENT_TYPE_ID, eventIdInt, eventStartTime))
         for contract in marketItem.contracts :
             self.addContract(contract, marketIdInt, eventStartTime)
 

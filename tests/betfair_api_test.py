@@ -217,10 +217,11 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         
     def should_get_all_markets(self, bfClient, businessUnitMock):
         events = smk_api.Events()
-        eventId=12
-        eventName="someEvent"
+        marketId=12
+        marketName="someEvent"
         eventTypeId = 1
-        events.putMarket(233, smk_api.Event(eventId, eventName, eventTypeId, datetime.datetime(2012, 12, 22)))
+        parentEventId = 2
+        events.putMarket(233, smk_api.Market(marketId, marketName, eventTypeId, parentEventId, datetime.datetime(2012, 12, 22)))
         businessUnitMock.getTodaysFootballEvents.return_value = events
         adapterResponse = str(bfClient.getAllMarkets(bfpy.ExchangeUK))
         LOG.debug(adapterResponse)
@@ -228,11 +229,12 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         
     def should_get_market_data(self, bfClient, businessUnitMock):
         events = smk_api.Events()
-        eventId=12
-        eventName="someEvent"
+        marketId=12
+        marketName="someEvent"
         eventTypeId = 1
-        events.putMarket(233, smk_api.Event(eventId, eventName, eventTypeId, datetime.datetime(2012, 12, 22)))
-        events.putContract(233, smk_api.Market(333, "contractN", eventTypeId, 233, datetime.datetime(2012, 12, 22)))
+        parentEventId = 2
+        events.putMarket(233, smk_api.Market(marketId, marketName, eventTypeId, parentEventId, datetime.datetime(2012, 12, 22)))
+        events.putContract(233, smk_api.Contract(333, "contractN"))
         businessUnitMock.getTodaysFootballEvents.return_value = events
         marketData = bfClient.getMarket(bfpy.ExchangeUK, marketId=233)
         adapterResponse = str(marketData)

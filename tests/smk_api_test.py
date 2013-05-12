@@ -79,13 +79,13 @@ class SmkApiUnitTest(unittest.TestCase):
         incoming_payload.ParseFromString(data)
         return incoming_payload
 
-    PARENTS_IN_FILE_1 = 90
-    EVENTS_AND_MARKETS_IN_FILE_1 = 3702
+    PARENTS_IN_FILE_1 = 19
+    EVENTS_AND_MARKETS_IN_FILE_1 = 89
     MARKETS_IN_FILE_1 = 3613
     CONTRACTS_IN_FILE_1 = 7478
 
-    PARENTS_IN_FILE_2 = 43
-    EVENTS_AND_MARKETS_IN_FILE_2 = 1564
+    PARENTS_IN_FILE_2 = 13
+    EVENTS_AND_MARKETS_IN_FILE_2 = 42
     MARKETS_IN_FILE_2 = 1522
     CONTRACTS_IN_FILE_2 = 3132
 

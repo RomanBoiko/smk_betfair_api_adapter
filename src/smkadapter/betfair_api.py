@@ -142,15 +142,15 @@ def getAllMarkets(request):
     events = businessUnit().getTodaysFootballEvents(sessionId)
     resultsTildaSeparated = []
     for market in events.marketIdToMarket.values():
-        marketData = [market.eventId, market.eventName, market.eventTypeId,# or 'A', type?
+        marketData = [market.marketId, market.marketName, market.marketTypeId,# or 'A', type?
             'ACTIVE', (int(market.startTime.strftime("%s")) * 1000),
-            'Football\\%s'%market.eventName, 'eventHierarchy',
+            'Football\\%s'%market.marketName, 'eventHierarchy',
             0,#betDelay
             1,#exchangeId
             '',#ISO of country to host event, empty for international
             (int(datetime.datetime.now().strftime("%s")) * 1000),
-            2,#numberOfRunners
-            1,#numberOfPossibleWinners in the market
+            0,#numberOfRunners
+            0,#numberOfPossibleWinners in the market
             0.0,#TotalAmountMatched
             'N',#Non-BSP market(BetfairStartingPrice)
             'Y'#Scheduled to be turned in-play
