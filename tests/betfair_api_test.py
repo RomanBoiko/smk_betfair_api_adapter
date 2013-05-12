@@ -78,8 +78,8 @@ class MarketPricesCompressionUnitTest(unittest.TestCase):
     def test_that_market_prices_are_compressed_fine_with_contracts_data(self):
         marketId = 123
         contractId = 333
-        bids = [smk_api.MarketPrice(544, 2.34), smk_api.MarketPrice(541, 2.33)]
-        offers = [smk_api.MarketPrice(12, 1.34)]
+        bids = [smk_api.ContractPrice(544, 2.34), smk_api.ContractPrice(541, 2.33)]
+        offers = [smk_api.ContractPrice(12, 1.34)]
         contracts = [smk_api.ContractPrices(contractId, bids, offers),smk_api.ContractPrices(contractId+1, bids, offers)]
         smkMarketPrices = SmkMarketPricesMock(marketId, contracts)
         compressionResult = betfair_api.MarketPrices(smkMarketPrices).compress()

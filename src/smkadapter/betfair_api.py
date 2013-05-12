@@ -216,35 +216,9 @@ def getBet(request):
             betToReturn = betDetails
     return Template(readFile("templates/getBet.response.xml")).render(sessionId=sessionId, bet=betToReturn)
 
-class MarketPrice(object):
-    def __init__(self, price, amount, oposingTypeToBeMatchedAgainst):
-        self.price = price
-        self.amount = amount
-        self.oposingTypeToBeMatchedAgainst = oposingTypeToBeMatchedAgainst
-        self.depth = 1#to implement ordering by price!
-
-class BackPrice(MarketPrice):
-    def __init__(self, price, amount):
-        super(BackPrice, self).__init__(price, amount, 'B')
-
-class LayPrice(MarketPrice):
-    def __init__(self, price, amount):
-        super(LayPrice, self).__init__(price, amount, 'L')
-    
-class Contract(object):
-    def __init__(self, smkContract):
-        self.contractId = smkContract.contractId
-        self.backPrices = []
-        for smkBid in smkContract.bids:
-            self.backPrices.append(BackPrice(smkBid.price, smkBid.quantity))
-        self.layPrices = []
-        for smkOffer in smkContract.offers:
-            self.layPrices.append(LayPrice(smkOffer.price, smkOffer.quantity))
-        
-    
 class MarketPrices(object):
     def __init__(self, smkMarketPrices):
-        self.marketId = smkMarketPrices.marketId
+        self.smkMarketPrices = smkMarketPrices
         self.currency = "GBP"
         self.marketStatus = "ACTIVE"
         self.inPlayDelay = 0
@@ -255,27 +229,25 @@ class MarketPrices(object):
         self.refreshTimeInMilliseconds = 0#deprecated
         self.removedRunnersInformationComposed = ""#should be three fields per each removed runner
         self.bspMarket="N"
-        self.contracts = []
-        for smkContract in smkMarketPrices.contracts:
-            self.contracts.append(Contract(smkContract))
 
     def compress(self):
+        priceDepth=1#Hardcoded, to implement ordering by price!
         contractsOrRunners = []
-        for contract in self.contracts:
+        for contract in self.smkMarketPrices.contracts:
             contractDetails = str(contract.contractId)+"~0~0.0~0.0~~0.0~false~0.0~0.0~0.0"
             backPricesStrings = []
-            for price in contract.backPrices:
-                backPricesStrings.append("~".join([str(price.price),str(price.amount), price.oposingTypeToBeMatchedAgainst, str(price.depth) ]))
+            for price in contract.bids:
+                backPricesStrings.append("~".join([str(price.price),str(price.quantity), "B", str(priceDepth) ]))
             backPricesCompressed = "~".join(backPricesStrings)
     
             layPricesStrings = []
-            for price in contract.layPrices:
-                layPricesStrings.append("~".join([str(price.price),str(price.amount), price.oposingTypeToBeMatchedAgainst, str(price.depth) ]))
+            for price in contract.offers:
+                layPricesStrings.append("~".join([str(price.price),str(price.quantity), "L", str(priceDepth) ]))
             layPricesCompressed = "~".join(layPricesStrings)
             
             contractsOrRunners.append("|".join([contractDetails, layPricesCompressed, backPricesCompressed]))
 
-        marketDetailsCompressed = "~".join(map(str, [self.marketId, self.currency, self.marketStatus,self.inPlayDelay, self.numberOfWinners, self.marketInformation,
+        marketDetailsCompressed = "~".join(map(str, [self.smkMarketPrices.marketId, self.currency, self.marketStatus,self.inPlayDelay, self.numberOfWinners, self.marketInformation,
             self.isDiscountAllowed, self.marketBaseRate, self.refreshTimeInMilliseconds, self.removedRunnersInformationComposed, self.bspMarket]))
         if len(contractsOrRunners) == 0:
             return marketDetailsCompressed

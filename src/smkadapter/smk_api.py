@@ -231,7 +231,7 @@ def integerToUuid(sourceInt):
     resultedUuid.high = sourceUuid.high
     return resultedUuid
 
-class MarketPrice(object):
+class ContractPrice(object):
     def __init__(self, price, quantity):
         self.price = price
         self.quantity = quantity
@@ -252,9 +252,9 @@ class MarketPrices(object):
             offers = []
             contractId = uuidToInteger(contractQuotes.contract)
             for bid in contractQuotes.bids:
-                bids.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(bid.price), smkCashAmountToReal(bid.quantity)))
+                bids.append(ContractPrice(smkPriceToBetfairPriceInFormatBetween1and1000(bid.price), smkCashAmountToReal(bid.quantity)))
             for offer in contractQuotes.offers:
-                offers.append(MarketPrice(smkPriceToBetfairPriceInFormatBetween1and1000(offer.price), smkCashAmountToReal(offer.quantity)))
+                offers.append(ContractPrice(smkPriceToBetfairPriceInFormatBetween1and1000(offer.price), smkCashAmountToReal(offer.quantity)))
             self.contracts.append(ContractPrices(contractId, bids, offers))
 
     def __str__(self):
