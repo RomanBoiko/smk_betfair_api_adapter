@@ -36,6 +36,5 @@
 -fix path to market in menu and eventId hierarchy in getAllMarkets
 -fix performance(make single markets cache for all clients, ...)
 -test for updateBets
--getEventTypes - replace hardcoded Football with one from getEvents
 -add matches to getMarketPricesCompressed - use executions 
 -add real market date to getMarket response

@@ -144,9 +144,12 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         
 
     def should_access_event_types(self, bfClient, businessUnitMock):
+        events = smk_api.Events()
+        events.footballEventTypeId=12
+        businessUnitMock.getTodaysFootballEvents.return_value = events
         adapterResponse = str(bfClient.getAllEventTypes())
         LOG.debug(adapterResponse)
-        self.assertTrue('id = 125062' in adapterResponse)
+        self.assertTrue('id = 12' in adapterResponse)
         self.assertTrue('name = "Football"' in adapterResponse)
         
     def should_access_current_accounts_bets(self, bfClient, businessUnitMock):

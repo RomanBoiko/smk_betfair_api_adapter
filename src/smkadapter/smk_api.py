@@ -14,7 +14,6 @@ from smarkets.exceptions import SocketDisconnected
 import adapter_context
 
 LOG = logging.getLogger('[smk.api]')
-FOOTBALL_EVENT_TYPE_ID = 125062
 SMK_CASH_MULTIPLIER = 10000
 SMK_STATUS_TO_BETFAIR_STATUS_MAP = {
     "LIVE":"U",
@@ -162,6 +161,7 @@ class HttpUrl(object):
 
 class Events(object):
     def __init__(self):
+        self.footballEventTypeId=None
         self.parentToEvent={}
         self.marketIdToMarket={}
         self.marketToContract={}
@@ -268,7 +268,7 @@ class EventsParser(object):
         self._events = None
 
     def footballEvent(self, eventId, eventName, startDateTime):
-        return Event(eventId, eventName, FOOTBALL_EVENT_TYPE_ID, startDateTime)
+        return Event(eventId, eventName, self._events.footballEventTypeId, startDateTime)
 
     def dateTime(self, year=1970, month=1, day=1, hour=0, minute=0):
         return datetime.datetime(year, month, day, hour, minute)
@@ -277,7 +277,7 @@ class EventsParser(object):
         parentIdInt = uuidToInteger(parent.event)
         if parent.name!="Football" :
             eventStartTime = self.dateTime(parent.start_date.year, parent.start_date.month, parent.start_date.day)
-            self._events.putEvent(FOOTBALL_EVENT_TYPE_ID, self.footballEvent(parentIdInt, parent.name, eventStartTime))
+            self._events.putEvent(self._events.footballEventTypeId, self.footballEvent(parentIdInt, parent.name, eventStartTime))
 
     def addContract(self, contract, marketIdInt, eventStartTime):
         smkContract = Contract(uuidToInteger(contract.contract), contract.name)
@@ -285,7 +285,7 @@ class EventsParser(object):
 
     def addMarket(self, marketItem, eventIdInt, eventStartTime):
         marketIdInt = uuidToInteger(marketItem.market)
-        self._events.putMarket(marketIdInt, Market(marketIdInt, marketItem.name, FOOTBALL_EVENT_TYPE_ID, eventIdInt, eventStartTime))
+        self._events.putMarket(marketIdInt, Market(marketIdInt, marketItem.name, self._events.footballEventTypeId, eventIdInt, eventStartTime))
         for contract in marketItem.contracts :
             self.addContract(contract, marketIdInt, eventStartTime)
 
@@ -302,6 +302,10 @@ class EventsParser(object):
         self._events = Events()
         for eventsMessage in eventsMessages:
             if eventsMessage is not None:
+                for parent in eventsMessage.parents:
+                    if parent.name=="Football" :
+                        self._events.footballEventTypeId = uuidToInteger(parent.event)
+                        break
                 for parent in eventsMessage.parents:
                     self.addParentEvent(parent)
                 for sportEvent in eventsMessage.with_markets:

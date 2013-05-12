@@ -91,8 +91,9 @@ def keepAlive(request):
 
 def getAllEventTypes(request):
     sessionId = request.sessionId()
+    events = businessUnit().getTodaysFootballEvents(sessionId)
     template = Template(readFile("templates/getAllEventTypes.response.xml"))
-    return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(smk_api.FOOTBALL_EVENT_TYPE_ID))
+    return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(events.footballEventTypeId))
 
 def logout(request):
     sessionId = request.sessionId()
