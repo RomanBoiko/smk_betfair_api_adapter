@@ -109,6 +109,7 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         
         bfClient = self.should_login_and_return_bfpy_BfClient(businessUnitMock)
         self.should_handle_keepAlive_call(bfClient)
+        self.should_get_events(bfClient, businessUnitMock)
         self.should_access_account_funds(bfClient, businessUnitMock)
         self.should_access_event_types(bfClient, businessUnitMock)
         self.should_access_current_accounts_bets(bfClient, businessUnitMock)
@@ -135,7 +136,26 @@ class BetfairApiIntegrationTest(unittest.TestCase):
         LOG.debug(adapterResponse)
         self.assertTrue('sessionToken = "someSessionToken"' in adapterResponse)
         self.assertTrue('minorErrorCode = "session is alive"' in adapterResponse)
-    
+
+    def should_get_events(self, bfClient, businessUnitMock):
+        events = smk_api.Events()
+        events.footballEventTypeId=12
+        events.putEvent(events.footballEventTypeId, smk_api.Event(123, "eventName", events.footballEventTypeId, datetime.datetime(2012, 11, 2)))
+        events.putMarket(123, smk_api.Market(233, "marketName", 12, 123, datetime.datetime(2012, 12, 22)))
+
+        businessUnitMock.getTodaysFootballEvents.return_value = events
+        adapterResponse = str(bfClient.getEvents(eventParentId=12))
+        LOG.debug(adapterResponse)
+        self.assertTrue('eventId = 123' in adapterResponse)
+        self.assertTrue('eventName = "eventName"' in adapterResponse)
+        self.assertTrue('eventTypeId = 12' in adapterResponse)
+        adapterResponse = str(bfClient.getEvents(eventParentId=123))
+        LOG.debug(adapterResponse)
+        self.assertTrue('marketId = 233' in adapterResponse)
+        self.assertTrue('marketName = "marketName"' in adapterResponse)
+        self.assertTrue('eventTypeId = 12' in adapterResponse)
+        self.assertTrue('eventParentId = 123' in adapterResponse)
+
     def should_access_account_funds(self, bfClient, businessUnitMock):
         adapterResponse = str(bfClient.getAccountFunds(bfpy.ExchangeUK))
         LOG.debug(adapterResponse)

@@ -7,7 +7,7 @@
 |4  |GetTradedVolume           | Yes | No  | Yes |          |
 |5  |GetTradedVolumeCompressed | Yes | No  | No  |          |
 |6  |GetMarket                 | Yes | No  | Yes |   YES    |
-|7  |GetEvents                 | Yes | No  | No  |          |
+|7  |GetEvents                 | Yes | No  | No  |   YES    |
 |8  |PlaceBets                 | Yes | Yes | Yes |   YES    |
 |9  |CancelBets                | Yes | Yes | Yes |   YES    |
 |10 |UpdateBet                 | Yes | Yes | Yes |          |

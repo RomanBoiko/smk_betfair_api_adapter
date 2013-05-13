@@ -29,7 +29,23 @@ class BetfairAdapterAcceptanceTest(unittest.TestCase):
             adapterResponse = str(bfClient.getAccountFunds(bfpy.ExchangeUK))
             LOG.debug(adapterResponse)
 
-            adapterResponse = str(bfClient.getAllEventTypes())
+            eventTypes = bfClient.getAllEventTypes()
+            adapterResponse = str(eventTypes)
+            LOG.debug(adapterResponse)
+
+            footballEventId = eventTypes.eventTypeItems[0].id
+            parentEvents = bfClient.getEvents(eventParentId=footballEventId)
+            adapterResponse = str(parentEvents)
+            LOG.debug(adapterResponse)
+
+            parentEventId = parentEvents.eventItems[0].eventId
+            events = bfClient.getEvents(eventParentId=parentEventId)
+            adapterResponse = str(events)
+            LOG.debug(adapterResponse)
+
+            eventId = events.eventItems[0].eventId
+            markets = bfClient.getEvents(eventParentId=eventId)
+            adapterResponse = str(markets)
             LOG.debug(adapterResponse)
 
             adapterResponse = str(bfClient.getCurrentBets(bfpy.ExchangeUK))

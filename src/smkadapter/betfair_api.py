@@ -34,6 +34,7 @@ def readFile(path):
 actions = {"login": lambda x:login(x),
            "keepAlive": lambda x:keepAlive(x),
            "getAllEventTypes": lambda x:getAllEventTypes(x),
+           "getEvents": lambda x:getEvents(x),
            "logout": lambda x:logout(x),
            "getAccountFunds": lambda x:getAccountFunds(x),
            "getCurrentBets": lambda x: getCurrentBets(x),
@@ -94,6 +95,18 @@ def getAllEventTypes(request):
     events = businessUnit().getTodaysFootballEvents(sessionId)
     template = Template(readFile("templates/getAllEventTypes.response.xml"))
     return template.render(sessionId=sessionId, eventTypeName="Football", eventTypeId=str(events.footballEventTypeId))
+
+def getEvents(request):
+    sessionId = request.sessionId()
+    parentId = request.xpath("//*[local-name()='eventParentId']/text()")[0]
+    events = businessUnit().getTodaysFootballEvents(sessionId)
+    template = Template(readFile("templates/getEvents.response.xml"))
+    if str(parentId) in events.parentToEvent:
+        return template.render(sessionId=sessionId, events=events.parentToEvent[str(parentId)], markets=[], parentId=parentId)
+    elif str(parentId) in events.eventToMarket:
+        return template.render(sessionId=sessionId, events=[], markets=events.eventToMarket[str(parentId)], parentId=parentId)
+    else:
+        return template.render(sessionId=sessionId, events=[], markets=[], parentId=parentId)
 
 def logout(request):
     sessionId = request.sessionId()

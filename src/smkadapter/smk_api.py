@@ -163,6 +163,7 @@ class Events(object):
     def __init__(self):
         self.footballEventTypeId=None
         self.parentToEvent={}
+        self.eventToMarket={}
         self.marketIdToMarket={}
         self.marketToContract={}
         self.contractIdToContract={}
@@ -171,8 +172,13 @@ class Events(object):
             self.parentToEvent[str(parentIdInt)] = []
         self.parentToEvent[str(parentIdInt)].append(event)
     def putMarket(self, marketId, market):
+        parentEventId = str(market.marketParentEventId)
         if str(marketId) not in self.marketIdToMarket:
             self.marketIdToMarket[str(marketId)] = market
+        if parentEventId not in self.eventToMarket:
+            self.eventToMarket[parentEventId] = []
+        self.eventToMarket[parentEventId].append(market)
+        
     def putContract(self, parentMarketIdInt, contract):
         if str(parentMarketIdInt) not in self.marketToContract:
             self.marketToContract[str(parentMarketIdInt)] = []
